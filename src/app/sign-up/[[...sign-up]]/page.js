@@ -6,7 +6,7 @@ export const metadata = {
 
 export default function SignUpPage() {
   return (
-    <div className='flex flex-col items-center py-6'>
+    <div className='flex h-full flex-col items-center justify-center py-6'>
       <SignUp />
     </div>
   );

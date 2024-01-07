@@ -1,5 +1,5 @@
 export const metadata = {
-  title: "Chat",
+  title: 'Chat',
 };
 
 export default function ChatPage() {

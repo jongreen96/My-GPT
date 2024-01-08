@@ -12,6 +12,7 @@ datasource db {
 
 model Conversations {
   id        String     @id @default(uuid())
+  userId    String
   subject   String
   model     String
   createdAt DateTime   @default(now())

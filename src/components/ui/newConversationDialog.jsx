@@ -24,9 +24,11 @@ import {
 } from '@/components/ui/select';
 import { conversationSchema } from '@/lib/validation/conversation';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 
 export default function NewConversation({ open, setOpen }) {
+  const router = useRouter();
   const form = useForm({
     resolver: zodResolver(conversationSchema),
     defaultValues: {
@@ -36,7 +38,20 @@ export default function NewConversation({ open, setOpen }) {
   });
 
   async function onSubmit(input) {
-    alert(JSON.stringify(input, null, 2));
+    try {
+      const res = await fetch('/api/conversations', {
+        method: 'POST',
+        body: JSON.stringify(input),
+      });
+
+      if (!res.ok) throw new Error('Status code ', res.status);
+      form.reset();
+      router.refresh();
+      setOpen(false);
+    } catch (error) {
+      console.log(error);
+      alert('Something went wrong, please try again.');
+    }
   }
 
   return (

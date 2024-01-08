@@ -47,6 +47,12 @@
     --input: 217.2 32.6% 17.5%;
     --ring: 224.3 76.3% 48%;
   }
+
+  .no-scrollbar::-webkit-scrollbar {
+    width: 0px;
+    height: 0px;
+    background-color: transparent;
+  }
 }
 
 @layer base {

@@ -11,7 +11,7 @@ datasource db {
 }
 
 model Conversations {
-  id        String     @id @default(uuid())
+  id        String     @id
   userId    String
   subject   String
   model     String
@@ -24,6 +24,7 @@ model Messages {
   id             Int           @id @default(autoincrement())
   conversationId String
   conversation   Conversations @relation(fields: [conversationId], references: [id])
-  message        String
+  role           String
+  content        String
   createdAt      DateTime      @default(now())
 }

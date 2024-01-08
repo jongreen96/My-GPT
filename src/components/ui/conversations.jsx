@@ -1,8 +1,7 @@
 import { Button } from '@/components/ui/button';
-import CreateNewConversation from '@/components/ui/createNewConversation';
 import prisma from '@/lib/db/prisma';
 import { auth } from '@clerk/nextjs';
-import { MessageSquare } from 'lucide-react';
+import { MessageSquare, Plus } from 'lucide-react';
 import Link from 'next/link';
 
 export default async function Conversations() {
@@ -15,7 +14,20 @@ export default async function Conversations() {
 
   return (
     <div className='flex flex-col gap-2'>
-      <CreateNewConversation />
+      <Button size='icon' className='group-hover:hidden' asChild>
+        <Link href='/chat'>
+          <Plus size={20} className='group-hover:mr-2' />
+          <p className='hidden group-hover:block'>New Conversation</p>
+        </Link>
+      </Button>
+
+      <Button asChild className='hidden group-hover:flex'>
+        <Link href='/chat'>
+          <Plus size={20} className='group-hover:mr-2' />
+          <p className='hidden group-hover:block'>New Conversation</p>
+        </Link>
+      </Button>
+
       {allConversations.map((conversation) => (
         <>
           <Button

@@ -17,7 +17,7 @@ export default function Navbar() {
         <Link href='/' className='flex items-center gap-2'>
           <Image src={logo} alt='my-gpt logo' width={38} height={38} />
 
-          <span className='text-lg font-bold tracking-tight text-[#3D3D3D] sm:hidden sm:group-hover:block'>
+          <span className='text-brand text-lg font-bold tracking-tight sm:hidden sm:group-hover:block'>
             MY-GPT
           </span>
         </Link>

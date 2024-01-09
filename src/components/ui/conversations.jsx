@@ -3,6 +3,7 @@ import prisma from '@/lib/db/prisma';
 import { auth } from '@clerk/nextjs';
 import { MessageSquare, Plus } from 'lucide-react';
 import Link from 'next/link';
+import ConversationsSettings from './conversationsSettings';
 
 export default async function Conversations() {
   const { userId } = auth();
@@ -37,14 +38,20 @@ export default async function Conversations() {
               asChild
               className='hidden justify-start group-hover:flex'
             >
-              <Link href={`/chat/${conversation.id}`}>
-                <MessageSquare size={20} className='mr-2' />
-                <p
-                  title={conversation.subject}
-                  className='max-w-48 overflow-hidden text-ellipsis'
-                >
-                  {conversation.subject}
-                </p>
+              <Link
+                href={`/chat/${conversation.id}`}
+                className='flex items-center justify-between'
+              >
+                <div className='flex'>
+                  <MessageSquare size={20} className='mr-2' />
+                  <p
+                    title={conversation.subject}
+                    className='max-w-48 overflow-hidden text-ellipsis'
+                  >
+                    {conversation.subject}
+                  </p>
+                </div>
+                <ConversationsSettings conversation={conversation} />
               </Link>
             </Button>
 

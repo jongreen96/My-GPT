@@ -33,9 +33,9 @@ export default async function Conversations() {
         <>
           <Button
             key={conversation.id}
-            variant='outline'
+            variant='secondary'
             asChild
-            className='hidden justify-start group-hover:flex'
+            className='hidden justify-start text-white group-hover:flex'
           >
             <Link href={`/chat/${conversation.id}`}>
               <MessageSquare size={20} className='mr-2' />
@@ -50,10 +50,10 @@ export default async function Conversations() {
 
           <Button
             key={conversation.id}
-            variant='outline'
+            variant='secondary'
             size='icon'
             asChild
-            className='group-hover:hidden'
+            className='text-white group-hover:hidden'
           >
             <Link href={`/chat/${conversation.id}`}>
               <MessageSquare size={20} />

@@ -24,7 +24,7 @@ export default function Chat({ initialMessages, userId, id }) {
 
   return (
     <>
-      <section className='no-scrollbar flex w-full flex-grow flex-col gap-2 overflow-scroll p-2'>
+      <section className='no-scrollbar flex w-full flex-grow flex-col gap-2 p-2 pb-14'>
         {messages.map((message) =>
           message.role === 'user' ? (
             <UserChatBubble message={message} key={message.id} />

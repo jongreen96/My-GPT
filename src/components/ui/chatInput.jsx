@@ -6,7 +6,10 @@ import TextAreaAuto from 'react-textarea-autosize';
 
 export default function ChatInput({ input, handleInputChange, handleSubmit }) {
   return (
-    <form onSubmit={handleSubmit} className='flex gap-2 p-2 backdrop-blur'>
+    <form
+      onSubmit={handleSubmit}
+      className='fixed bottom-0 flex w-full gap-2 p-2 backdrop-blur sm:w-[calc(100%-56px)]'
+    >
       <TextAreaAuto
         autoFocus
         maxRows={15}
@@ -18,7 +21,7 @@ export default function ChatInput({ input, handleInputChange, handleSubmit }) {
             handleSubmit(e);
           }
         }}
-        className='flex w-full resize-none self-end rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50'
+        className='flex w-full resize-none self-end rounded-md border border-input bg-background px-3 py-2 text-sm shadow focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50'
       />
       <Button size='icon' type='submit' className='self-end'>
         <SendHorizonal />

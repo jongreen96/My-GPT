@@ -10,7 +10,7 @@ export default function Navbar() {
   const { userId } = auth();
 
   return (
-    <nav className='group fixed left-0 z-50 flex max-h-[75svh] w-full flex-col gap-4 border-b-2 border-neutral-400 bg-neutral-300 p-2 sm:h-full sm:max-h-none sm:w-14 sm:justify-between sm:border-b-0 sm:border-r-2 sm:hover:h-full sm:hover:w-fit'>
+    <nav className='group fixed left-0 z-50 flex max-h-[75svh] w-full flex-col gap-4 border-b-2 border-secondary bg-muted p-2 sm:h-full sm:max-h-none sm:w-14 sm:justify-between sm:border-b-0 sm:border-r-2 sm:hover:h-full sm:hover:w-fit'>
       <div className='flex flex-col gap-2'>
         <div className='flex items-center justify-between'>
           <Link href='/' className='flex items-center gap-2'>

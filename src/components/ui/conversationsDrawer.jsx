@@ -3,6 +3,7 @@ import prisma from '@/lib/db/prisma';
 import { auth } from '@clerk/nextjs';
 import { Plus } from 'lucide-react';
 import Link from 'next/link';
+import ConversationsSettings from './conversationsSettings';
 
 export default async function ConversationsDrawer() {
   const { userId } = auth();
@@ -40,6 +41,7 @@ export default async function ConversationsDrawer() {
                 >
                   {conversation.subject}
                 </p>
+                <ConversationsSettings conversation={conversation} />
               </Link>
             </Button>
           </div>

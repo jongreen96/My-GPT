@@ -15,7 +15,7 @@ import { useRouter } from 'next/navigation';
 export default function ConversationsSettings({ conversation }) {
   const router = useRouter();
   return (
-    <div className='self-start'>
+    <div className='absolute right-4 self-start sm:static'>
       <Dialog>
         <DialogTrigger>
           <MoreVertical size={20} className='text-brand' />

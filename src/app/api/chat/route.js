@@ -16,36 +16,39 @@ export async function POST(req) {
 
     const stream = new OpenAIStream(response, {
       onStart: async () => {
-        await prisma.conversations.upsert({
-          where: { id },
-          create: {
-            id,
-            model: 'gpt-3.5-turbo',
-            userId,
-            subject: 'chat',
-          },
-          update: {},
-        });
-        await prisma.messages.create({
-          data: {
-            conversationId: id,
-            content: messages[messages.length - 1].content,
-            role: 'user',
-          },
-        });
+        createConversation(id, userId);
+        createMessage(id, messages, 'user');
       },
       onCompletion: async (completion) => {
-        await prisma.messages.create({
-          data: {
-            conversationId: id,
-            content: completion,
-            role: 'assistant',
-          },
-        });
+        createMessage(id, messages, 'assistant', completion);
       },
     });
     return new StreamingTextResponse(stream);
   } catch (error) {
     console.log(error);
   }
+}
+
+async function createConversation(id, userId) {
+  await prisma.conversations.upsert({
+    where: { id },
+    create: {
+      id,
+      model: 'gpt-3.5-turbo',
+      userId,
+      subject: 'chat',
+    },
+    update: {},
+  });
+}
+
+async function createMessage(id, messages, role, completion) {
+  await prisma.messages.create({
+    data: {
+      conversationId: id,
+      content:
+        role === 'user' ? messages[messages.length - 1].content : completion,
+      role,
+    },
+  });
 }

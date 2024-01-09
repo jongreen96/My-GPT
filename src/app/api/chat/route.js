@@ -11,7 +11,7 @@ export async function POST(req) {
     const conversation = await getConversation(id);
     if (!conversation) {
       await createConversation(id, userId, messages);
-      createConversationSubject(id, messages);
+      await createConversationSubject(id, messages);
     }
 
     const response = await openai.chat.completions.create({
@@ -67,7 +67,7 @@ async function createConversationSubject(id, messages) {
     {
       role: 'system',
       content:
-        'create a subject for this conversation. The subject should be a short sentence describing the topic of the conversation. MAXIMUM of 5 words',
+        'Create a subject for this conversation. The subject should be a short sentence describing the topic of the conversation. MAXIMUM of 5 words',
     },
     ...messages,
   ];

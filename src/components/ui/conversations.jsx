@@ -39,7 +39,12 @@ export default async function Conversations() {
           >
             <Link href={`/chat/${conversation.id}`}>
               <MessageSquare size={20} className='mr-2' />
-              {conversation.subject}
+              <p
+                title={conversation.subject}
+                className='max-w-48 overflow-hidden text-ellipsis'
+              >
+                {conversation.subject}
+              </p>
             </Link>
           </Button>
 

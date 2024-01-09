@@ -8,6 +8,9 @@ export async function POST(req) {
   try {
     let { messages, id, userId } = await req.json();
 
+    const conversation = await getConversation(id);
+    if (!conversation) await createConversation(id, userId);
+
     const response = await openai.chat.completions.create({
       model: 'gpt-3.5-turbo',
       messages,
@@ -16,7 +19,6 @@ export async function POST(req) {
 
     const stream = new OpenAIStream(response, {
       onStart: async () => {
-        createConversation(id, userId);
         createMessage(id, messages, 'user');
       },
       onCompletion: async (completion) => {
@@ -29,16 +31,20 @@ export async function POST(req) {
   }
 }
 
-async function createConversation(id, userId) {
-  await prisma.conversations.upsert({
+async function getConversation(id) {
+  return await prisma.conversations.findUnique({
     where: { id },
-    create: {
+  });
+}
+
+async function createConversation(id, userId) {
+  await prisma.conversations.create({
+    data: {
       id,
       model: 'gpt-3.5-turbo',
       userId,
       subject: 'chat',
     },
-    update: {},
   });
 }
 

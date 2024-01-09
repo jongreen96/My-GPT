@@ -29,36 +29,38 @@ export default async function Conversations() {
         </Link>
       </Button>
 
-      {allConversations.map((conversation) => (
-        <div key={conversation.id}>
-          <Button
-            variant='outline'
-            asChild
-            className='hidden justify-start group-hover:flex'
-          >
-            <Link href={`/chat/${conversation.id}`}>
-              <MessageSquare size={20} className='mr-2' />
-              <p
-                title={conversation.subject}
-                className='max-w-48 overflow-hidden text-ellipsis'
-              >
-                {conversation.subject}
-              </p>
-            </Link>
-          </Button>
+      <div className='no-scrollbar flex flex-col gap-2 overflow-hidden'>
+        {allConversations.map((conversation) => (
+          <div key={conversation.id}>
+            <Button
+              variant='outline'
+              asChild
+              className='hidden justify-start group-hover:flex'
+            >
+              <Link href={`/chat/${conversation.id}`}>
+                <MessageSquare size={20} className='mr-2' />
+                <p
+                  title={conversation.subject}
+                  className='max-w-48 overflow-hidden text-ellipsis'
+                >
+                  {conversation.subject}
+                </p>
+              </Link>
+            </Button>
 
-          <Button
-            variant='outline'
-            size='icon'
-            asChild
-            className='group-hover:hidden'
-          >
-            <Link href={`/chat/${conversation.id}`}>
-              <MessageSquare size={20} />
-            </Link>
-          </Button>
-        </div>
-      ))}
+            <Button
+              variant='outline'
+              size='icon'
+              asChild
+              className='group-hover:hidden'
+            >
+              <Link href={`/chat/${conversation.id}`}>
+                <MessageSquare size={20} />
+              </Link>
+            </Button>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

@@ -1,7 +1,7 @@
 import { Button } from '@/components/ui/button';
 import prisma from '@/lib/db/prisma';
 import { auth } from '@clerk/nextjs';
-import { MessageSquare, Plus } from 'lucide-react';
+import { Plus } from 'lucide-react';
 import Link from 'next/link';
 
 export default async function ConversationsDrawer() {
@@ -14,7 +14,7 @@ export default async function ConversationsDrawer() {
   });
 
   return (
-    <div className='flex flex-col gap-2 px-2 pb-5'>
+    <div className='flex max-h-[75svh] flex-col gap-2 px-2 pb-5'>
       <Button asChild className='group-hover:flex'>
         <Link href='/chat'>
           <Plus size={20} className='group-hover:mr-2' />
@@ -22,28 +22,29 @@ export default async function ConversationsDrawer() {
         </Link>
       </Button>
 
-      {allConversations.map((conversation) => (
-        <div key={conversation.id}>
-          <Button
-            variant='outline'
-            asChild
-            className='justify-start group-hover:flex'
-          >
-            <Link
-              href={`/chat/${conversation.id}`}
-              className='w-full justify-center'
+      <div className='no-scrollbar flex flex-col gap-2 overflow-scroll'>
+        {allConversations.map((conversation) => (
+          <div key={conversation.id}>
+            <Button
+              variant='outline'
+              asChild
+              className='justify-start group-hover:flex'
             >
-              <MessageSquare size={20} className='mr-2' />
-              <p
-                title={conversation.subject}
-                className='max-w-full overflow-hidden text-ellipsis'
+              <Link
+                href={`/chat/${conversation.id}`}
+                className='w-full justify-center'
               >
-                {conversation.subject}
-              </p>
-            </Link>
-          </Button>
-        </div>
-      ))}
+                <p
+                  title={conversation.subject}
+                  className='max-w-full overflow-hidden text-ellipsis'
+                >
+                  {conversation.subject}
+                </p>
+              </Link>
+            </Button>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

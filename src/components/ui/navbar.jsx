@@ -12,28 +12,27 @@ export default function Navbar() {
   const { userId } = auth();
 
   return (
-    <nav className='group fixed left-0 z-50 flex max-h-[75svh] w-full flex-col gap-4 border-b-2 border-secondary bg-muted p-2 sm:h-full sm:max-h-none sm:w-14 sm:justify-between sm:border-b-0 sm:border-r-2 sm:hover:h-full sm:hover:w-fit'>
-      <div className='flex flex-col gap-2'>
-        <div className='flex items-center justify-between'>
-          <Link href='/' className='flex items-center gap-2'>
-            <Image src={logo} alt='my-gpt logo' width={38} height={38} />
+    <nav className='sm:max-100svh group fixed left-0 z-50 flex max-h-[75svh] w-full flex-col gap-4 border-b-2 border-secondary bg-muted p-[7px] sm:h-full sm:max-h-full sm:w-14 sm:items-center sm:justify-between sm:border-b-0 sm:border-r-2 sm:hover:h-full sm:hover:w-fit'>
+      <div className='flex items-center justify-between sm:self-start'>
+        <Link href='/' className='flex items-center gap-2'>
+          <Image src={logo} alt='my-gpt logo' width={38} height={38} />
 
-            <span className='text-lg font-bold tracking-tight text-[#3D3D3D] sm:hidden sm:group-hover:block'>
-              MY-GPT
-            </span>
-          </Link>
+          <span className='text-lg font-bold tracking-tight text-[#3D3D3D] sm:hidden sm:group-hover:block'>
+            MY-GPT
+          </span>
+        </Link>
 
-          <AuthUIMobile userId={userId} />
-        </div>
-
+        <AuthUIMobile userId={userId} />
+      </div>
+      <div className='hidden h-[calc(100%-46px)] flex-col justify-between gap-2 pb-2 sm:flex'>
         {userId && (
-          <div className='hidden sm:block'>
+          <div className='no-scrollbar hidden overflow-scroll sm:block'>
             <Conversations />
           </div>
         )}
-      </div>
 
-      <AuthUI userId={userId} />
+        <AuthUI userId={userId} />
+      </div>
     </nav>
   );
 }
@@ -81,7 +80,7 @@ function AuthUI({ userId }) {
     );
 
   return (
-    <div className='hidden sm:flex'>
+    <div className='hidden self-start sm:flex'>
       <UserButton afterSignOutUrl='/' appearance={userButtonAppearance} />
     </div>
   );

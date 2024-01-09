@@ -9,7 +9,7 @@ export function UserChatBubble({ message }) {
 export function AssistantChatBubble({ message }) {
   return (
     <div className='flex max-w-[90%] flex-col rounded-lg rounded-bl-none bg-secondary p-2'>
-      <span className='whitespace-pre-wrap text-white'>{message.content}</span>
+      <span className='whitespace-pre-wrap'>{message.content}</span>
     </div>
   );
 }

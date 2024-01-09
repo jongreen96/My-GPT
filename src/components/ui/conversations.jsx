@@ -30,12 +30,11 @@ export default async function Conversations() {
       </Button>
 
       {allConversations.map((conversation) => (
-        <>
+        <div key={conversation.id}>
           <Button
-            key={conversation.id}
-            variant='secondary'
+            variant='outline'
             asChild
-            className='hidden justify-start text-white group-hover:flex'
+            className='hidden justify-start group-hover:flex'
           >
             <Link href={`/chat/${conversation.id}`}>
               <MessageSquare size={20} className='mr-2' />
@@ -49,17 +48,16 @@ export default async function Conversations() {
           </Button>
 
           <Button
-            key={conversation.id}
-            variant='secondary'
+            variant='outline'
             size='icon'
             asChild
-            className='text-white group-hover:hidden'
+            className='group-hover:hidden'
           >
             <Link href={`/chat/${conversation.id}`}>
               <MessageSquare size={20} />
             </Link>
           </Button>
-        </>
+        </div>
       ))}
     </div>
   );

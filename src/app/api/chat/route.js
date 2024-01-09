@@ -9,8 +9,10 @@ export async function POST(req) {
     let { messages, id, userId } = await req.json();
 
     const conversation = await getConversation(id);
-    if (!conversation) await createConversation(id, userId, messages);
-    createConversationSubject(id, messages);
+    if (!conversation) {
+      await createConversation(id, userId, messages);
+      createConversationSubject(id, messages);
+    }
 
     const response = await openai.chat.completions.create({
       model: 'gpt-3.5-turbo',

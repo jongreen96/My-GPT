@@ -21,7 +21,7 @@ export default function ChatInput({ input, handleInputChange, handleSubmit }) {
             handleSubmit(e);
           }
         }}
-        className='flex w-full resize-none self-end rounded-md border border-input bg-background px-3 py-2 text-sm shadow focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50'
+        className='flex w-full resize-none self-end rounded-md border border-input bg-background px-3 py-2 shadow focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50'
       />
       <Button size='icon' type='submit' className='self-end'>
         <SendHorizonal />

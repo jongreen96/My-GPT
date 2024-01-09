@@ -10,6 +10,7 @@ export default async function Conversations() {
 
   const allConversations = await prisma.conversations.findMany({
     where: { userId },
+    orderBy: { updatedAt: 'desc' },
   });
 
   return (

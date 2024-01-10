@@ -1,18 +1,9 @@
 import prisma from '@/lib/db/prisma';
-import { conversationSchema } from '@/lib/validation/conversation';
 import { auth } from '@clerk/nextjs';
 
 export async function POST(req) {
   try {
-    const body = await req.json();
-
-    const parseResult = conversationSchema.safeParse(body);
-    if (!parseResult.success) {
-      console.log(parseResult.error);
-      return Response.json({ error: 'Invalid Conversation' }, { status: 400 });
-    }
-
-    const { subject, model } = parseResult.data;
+    const { subject, model } = await req.json();
 
     const { userId } = auth();
     if (!userId)

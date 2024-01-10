@@ -1,4 +1,5 @@
 import Navbar from '@/components/navbar';
+import { ThemeProvider } from '@/components/themeProvider';
 import { ClerkProvider } from '@clerk/nextjs';
 import { Inter } from 'next/font/google';
 import './globals.css';
@@ -18,10 +19,17 @@ export default function RootLayout({ children }) {
     <ClerkProvider>
       <html lang='en'>
         <body className={inter.className}>
-          <Navbar />
-          <div className='m-auto h-svh w-full max-w-7xl pt-14 sm:pl-14 sm:pt-0'>
-            {children}
-          </div>
+          <ThemeProvider
+            attribute='class'
+            defaultTheme='system'
+            enableSystem
+            disableTransitionOnChange
+          >
+            <Navbar />
+            <div className='m-auto h-svh w-full max-w-7xl pt-14 sm:pl-14 sm:pt-0'>
+              {children}
+            </div>
+          </ThemeProvider>
         </body>
       </html>
     </ClerkProvider>

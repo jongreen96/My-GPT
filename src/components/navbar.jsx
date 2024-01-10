@@ -3,6 +3,7 @@ import Conversations from '@/components/conversationsDesktop';
 import ConversationsDrawer from '@/components/conversationsDrawer';
 import ConversationsMobile from '@/components/conversationsMobile';
 import { Button } from '@/components/ui/button';
+import ThemeToggleButton from '@/components/ui/themeToggle';
 import { UserButton, auth } from '@clerk/nextjs';
 import { User } from 'lucide-react';
 import Image from 'next/image';
@@ -80,8 +81,9 @@ function AuthUI({ userId }) {
     );
 
   return (
-    <div className='hidden self-start sm:flex'>
+    <div className='hidden w-full self-start sm:flex sm:justify-between'>
       <UserButton afterSignOutUrl='/' appearance={userButtonAppearance} />
+      <ThemeToggleButton className='hidden items-center justify-center group-hover:flex' />
     </div>
   );
 }
@@ -101,6 +103,7 @@ function AuthUIMobile({ userId }) {
 
   return (
     <div className='flex items-center gap-2 sm:hidden'>
+      <ThemeToggleButton />
       <ConversationsDrawer conversations={<ConversationsMobile />} />
       <UserButton afterSignOutUrl='/' appearance={userButtonAppearance} />
     </div>

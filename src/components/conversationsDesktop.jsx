@@ -34,7 +34,7 @@ export default async function Conversations() {
         {allConversations.map((conversation) => (
           <div key={conversation.id}>
             <Button
-              variant='outline'
+              variant='secondary'
               asChild
               className='hidden justify-start group-hover:flex'
             >
@@ -56,7 +56,7 @@ export default async function Conversations() {
             </Button>
 
             <Button
-              variant='outline'
+              variant='secondary'
               size='icon'
               asChild
               className='group-hover:hidden'

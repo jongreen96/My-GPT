@@ -27,7 +27,7 @@ export default async function ConversationsMobile() {
         {allConversations.map((conversation) => (
           <div key={conversation.id}>
             <Button
-              variant='outline'
+              variant='secondary'
               asChild
               className='justify-start group-hover:flex'
             >

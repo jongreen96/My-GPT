@@ -8,7 +8,7 @@ export default function ChatInput({ input, handleInputChange, handleSubmit }) {
   return (
     <form
       onSubmit={handleSubmit}
-      className='fixed bottom-0 flex w-full gap-2 p-2 backdrop-blur sm:w-[calc(100%-56px)]'
+      className='sticky bottom-0 flex w-full gap-2 p-2 backdrop-blur'
     >
       <TextAreaAuto
         autoFocus

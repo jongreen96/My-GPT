@@ -12,7 +12,7 @@ export default function Navbar() {
   const { userId } = auth();
 
   return (
-    <nav className='sm:max-100svh group fixed left-0 z-50 flex max-h-[75svh] w-full flex-col gap-4 border-b-2 border-secondary bg-muted p-[7px] sm:h-full sm:max-h-full sm:w-14 sm:items-center sm:justify-between sm:border-b-0 sm:border-r-2 sm:hover:h-full sm:hover:w-fit'>
+    <nav className='sm:max-100svh group fixed left-0 z-50 flex max-h-[75svh] w-full flex-col gap-4 border-b-2 border-secondary bg-muted p-[7px] sm:h-full sm:max-h-full sm:w-14 sm:justify-between sm:border-b-0 sm:border-r-2 sm:hover:h-full sm:hover:w-fit'>
       <div className='flex items-center justify-between sm:self-start'>
         <Link href='/' className='flex items-center gap-2'>
           <Image src={logo} alt='my-gpt logo' width={38} height={38} />

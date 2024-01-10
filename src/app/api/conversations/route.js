@@ -32,7 +32,13 @@ export async function DELETE(req) {
     if (!userId)
       return Response.json({ error: 'Unauthorized' }, { status: 401 });
 
-    const messages = await prisma.messages.deleteMany({
+    const authenticated = await prisma.conversations.findUnique({
+      where: { id: conversationId, userId },
+    });
+    if (!authenticated)
+      return Response.json({ error: 'Unauthorized' }, { status: 401 });
+
+    await prisma.messages.deleteMany({
       where: {
         conversationId,
       },
@@ -57,6 +63,12 @@ export async function PUT(req) {
 
     const { userId } = auth();
     if (!userId)
+      return Response.json({ error: 'Unauthorized' }, { status: 401 });
+
+    const authenticated = await prisma.conversations.findUnique({
+      where: { id: conversationId, userId },
+    });
+    if (!authenticated)
       return Response.json({ error: 'Unauthorized' }, { status: 401 });
 
     const conversation = await prisma.conversations.update({

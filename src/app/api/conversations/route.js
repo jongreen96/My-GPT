@@ -59,3 +59,27 @@ export async function DELETE(req) {
     return Response.json({ error: 'Internal Server Error' }, { status: 500 });
   }
 }
+
+export async function PUT(req) {
+  try {
+    const { conversationId, newSubject } = await req.json();
+
+    const { userId } = auth();
+    if (!userId)
+      return Response.json({ error: 'Unauthorized' }, { status: 401 });
+
+    const conversation = await prisma.conversations.update({
+      where: {
+        id: conversationId,
+      },
+      data: {
+        subject: newSubject,
+      },
+    });
+
+    return Response.json({ conversation }, { status: 200 });
+  } catch (error) {
+    console.log(error);
+    return Response.json({ error: 'Internal Server Error' }, { status: 500 });
+  }
+}

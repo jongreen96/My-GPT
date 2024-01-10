@@ -1,8 +1,8 @@
 import logo from '@/app/assets/logo.png';
+import Conversations from '@/components/conversationsDesktop';
+import ConversationsDrawer from '@/components/conversationsDrawer';
+import ConversationsMobile from '@/components/conversationsMobile';
 import { Button } from '@/components/ui/button';
-import Conversations from '@/components/ui/conversations';
-import ConversationsDrawer from '@/components/ui/conversationsDrawer';
-import OpenConversations from '@/components/ui/openConversations';
 import { UserButton, auth } from '@clerk/nextjs';
 import { User } from 'lucide-react';
 import Image from 'next/image';
@@ -17,7 +17,7 @@ export default function Navbar() {
         <Link href='/' className='flex items-center gap-2'>
           <Image src={logo} alt='my-gpt logo' width={38} height={38} />
 
-          <span className='text-brand text-lg font-bold tracking-tight sm:hidden sm:group-hover:block'>
+          <span className='text-lg font-bold tracking-tight text-brand sm:hidden sm:group-hover:block'>
             MY-GPT
           </span>
         </Link>
@@ -101,7 +101,7 @@ function AuthUIMobile({ userId }) {
 
   return (
     <div className='flex items-center gap-2 sm:hidden'>
-      <OpenConversations conversations={<ConversationsDrawer />} />
+      <ConversationsDrawer conversations={<ConversationsMobile />} />
       <UserButton afterSignOutUrl='/' appearance={userButtonAppearance} />
     </div>
   );

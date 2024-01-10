@@ -9,7 +9,7 @@ import {
   DrawerTrigger,
 } from '@/components/ui/drawer';
 
-export default function OpenConversations({ conversations }) {
+export default function ConversationsDrawer({ conversations }) {
   return (
     <Drawer>
       <DrawerTrigger asChild>

@@ -1,6 +1,5 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
 import {
   Dialog,
   DialogContent,
@@ -11,8 +10,11 @@ import {
 } from '@/components/ui/dialog';
 import { MoreVertical } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import LoadingButton from './loadingButton';
 
 export default function ConversationsSettings({ conversation }) {
+  const [deleting, setDeleting] = useState(false);
   const router = useRouter();
   return (
     <div className='absolute right-4 self-start sm:static'>
@@ -27,12 +29,16 @@ export default function ConversationsSettings({ conversation }) {
               <p>{conversation.subject}</p>
             </DialogDescription>
 
-            <Button
+            <LoadingButton
               variant='destructive'
-              onClick={() => deleteConversation(conversation, router)}
+              loading={deleting}
+              onClick={() => {
+                setDeleting(true);
+                deleteConversation(conversation, router);
+              }}
             >
               Delete
-            </Button>
+            </LoadingButton>
           </DialogHeader>
         </DialogContent>
       </Dialog>

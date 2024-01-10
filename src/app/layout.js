@@ -19,12 +19,7 @@ export default function RootLayout({ children }) {
     <ClerkProvider>
       <html lang='en'>
         <body className={inter.className}>
-          <ThemeProvider
-            attribute='class'
-            defaultTheme='system'
-            enableSystem
-            disableTransitionOnChange
-          >
+          <ThemeProvider attribute='class' defaultTheme='light'>
             <Navbar />
             <div className='m-auto h-svh w-full max-w-7xl pt-14 sm:pl-14 sm:pt-0'>
               {children}

@@ -1,4 +1,3 @@
-import logo from '@/app/assets/logo.png';
 import Conversations from '@/components/conversationsDesktop';
 import ConversationsDrawer from '@/components/conversationsDrawer';
 import ConversationsMobile from '@/components/conversationsMobile';
@@ -6,8 +5,8 @@ import { Button } from '@/components/ui/button';
 import ThemeToggleButton from '@/components/ui/themeToggle';
 import { UserButton, auth } from '@clerk/nextjs';
 import { User } from 'lucide-react';
-import Image from 'next/image';
 import Link from 'next/link';
+import Logo from './ui/logo';
 
 export default function Navbar() {
   const { userId } = auth();
@@ -16,7 +15,7 @@ export default function Navbar() {
     <nav className='sm:max-100svh group fixed left-0 z-50 flex max-h-[75svh] w-full flex-col gap-4 border-b-2 border-secondary bg-muted p-[7px] sm:h-full sm:max-h-full sm:w-14 sm:justify-between sm:border-b-0 sm:border-r-2 sm:hover:h-full sm:hover:w-fit'>
       <div className='flex items-center justify-between sm:self-start'>
         <Link href='/' className='flex items-center gap-2'>
-          <Image src={logo} alt='my-gpt logo' width={38} height={38} />
+          <Logo />
 
           <span className='text-lg font-bold tracking-tight text-brand sm:hidden sm:group-hover:block'>
             MY-GPT

@@ -33,7 +33,7 @@ export default async function ConversationsMobile() {
             >
               <Link
                 href={`/chat/${conversation.id}`}
-                className='w-full justify-center'
+                className=' w-full justify-center'
               >
                 <p
                   title={conversation.subject}

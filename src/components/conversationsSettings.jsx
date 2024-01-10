@@ -9,11 +9,11 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import LoadingButton from '@/components/ui/loadingButton';
 import { MoreVertical } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { Label } from './ui/label';
 
 export default function ConversationsSettings({ conversation }) {
   const [deleting, setDeleting] = useState(false);
@@ -22,7 +22,7 @@ export default function ConversationsSettings({ conversation }) {
   const router = useRouter();
 
   return (
-    <div className='absolute right-4 self-start sm:static'>
+    <div className='absolute right-3 mt-1'>
       <Dialog>
         <DialogTrigger>
           <MoreVertical size={20} className='text-brand' />

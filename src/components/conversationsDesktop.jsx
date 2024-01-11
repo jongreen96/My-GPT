@@ -38,11 +38,8 @@ export default async function Conversations() {
               asChild
               className='hidden justify-start group-hover:flex'
             >
-              <Link
-                href={`/chat/${conversation.id}`}
-                className='flex items-center justify-between'
-              >
-                <div className='flex'>
+              <div className='flex'>
+                <Link href={`/chat/${conversation.id}`} className='flex grow'>
                   <MessageSquare size={20} className='mr-2' />
                   <p
                     title={conversation.subject}
@@ -50,9 +47,9 @@ export default async function Conversations() {
                   >
                     {conversation.subject}
                   </p>
-                </div>
+                </Link>
                 <ConversationsSettings conversation={conversation} />
-              </Link>
+              </div>
             </Button>
 
             <Button

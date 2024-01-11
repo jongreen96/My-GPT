@@ -31,18 +31,17 @@ export default async function ConversationsMobile() {
               asChild
               className='justify-start group-hover:flex'
             >
-              <Link
-                href={`/chat/${conversation.id}`}
-                className=' w-full justify-center'
-              >
-                <p
-                  title={conversation.subject}
-                  className='max-w-full overflow-hidden text-ellipsis'
-                >
-                  {conversation.subject}
-                </p>
+              <div className='w-full'>
+                <Link href={`/chat/${conversation.id}`} className='grow'>
+                  <p
+                    title={conversation.subject}
+                    className='max-w-full overflow-hidden text-ellipsis'
+                  >
+                    {conversation.subject}
+                  </p>
+                </Link>
                 <ConversationsSettings conversation={conversation} />
-              </Link>
+              </div>
             </Button>
           </div>
         ))}

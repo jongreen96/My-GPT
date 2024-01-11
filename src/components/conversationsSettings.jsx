@@ -22,7 +22,7 @@ export default function ConversationsSettings({ conversation }) {
   const router = useRouter();
 
   return (
-    <div className='absolute right-3 mt-1'>
+    <div className='mt-[5px]'>
       <Dialog>
         <DialogTrigger>
           <MoreVertical size={20} className='text-brand' />

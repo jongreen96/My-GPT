@@ -12,7 +12,14 @@ export async function createConversation(id, userId) {
   return result;
 }
 
-export async function createMessage({ id, messages, role, completion, time }) {
+export async function createMessage({
+  id,
+  messages,
+  role,
+  completion,
+  time,
+  tokens,
+}) {
   const result = await prisma.messages.create({
     data: {
       conversationId: id,
@@ -20,6 +27,7 @@ export async function createMessage({ id, messages, role, completion, time }) {
         role === 'user' ? messages[messages.length - 1].content : completion,
       role,
       createdAt: time,
+      tokens: tokens || 0,
     },
   });
   return result;

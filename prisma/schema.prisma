@@ -26,5 +26,6 @@ model Messages {
   conversation   Conversations @relation(fields: [conversationId], references: [id])
   role           String
   content        String
+  tokens         Int
   createdAt      DateTime      @default(now())
 }

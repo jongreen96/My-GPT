@@ -1,12 +1,14 @@
 import { OpenAIStream } from 'ai';
+import { getEncoding } from 'js-tiktoken';
 import OpenAI from 'openai';
 import { createConversation, createMessage, getMessages } from './db/queries';
 
 const openai = new OpenAI();
 
 export async function streamConversation(req) {
-  const reqTime = new Date().toISOString();
   let { messages, id, userId, newChat } = await req.json();
+  const reqTime = new Date().toISOString();
+  let resTokens = 0;
 
   const response = await openai.chat.completions.create({
     model: 'gpt-3.5-turbo',
@@ -14,7 +16,15 @@ export async function streamConversation(req) {
     stream: true,
   });
 
+  const enc = getEncoding('cl100k_base');
+  let reqTokens = messages.reduce((acc, message) => {
+    return acc + enc.encode(message.content).length;
+  }, 0);
+
   const stream = new OpenAIStream(response, {
+    onToken: () => {
+      resTokens++;
+    },
     onCompletion: async (completion) => {
       if (newChat) {
         await createConversation(id, userId);
@@ -24,6 +34,7 @@ export async function streamConversation(req) {
         messages,
         role: 'user',
         time: reqTime,
+        tokens: reqTokens,
       });
       createMessage({
         id,
@@ -31,6 +42,7 @@ export async function streamConversation(req) {
         role: 'assistant',
         completion,
         time: new Date().toISOString(),
+        tokens: resTokens,
       });
     },
   });

@@ -1,3 +1,5 @@
+import prisma from '@/lib/db/prisma';
+
 export async function createConversation(id, userId) {
   const result = await prisma.conversations.create({
     data: {

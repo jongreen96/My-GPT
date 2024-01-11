@@ -16,16 +16,16 @@ export async function streamConversation(req) {
     stream: true,
   });
 
-  const enc = getEncoding('cl100k_base');
-  let reqTokens = messages.reduce((acc, message) => {
-    return acc + enc.encode(message.content).length;
-  }, 0);
-
   const stream = new OpenAIStream(response, {
     onToken: () => {
       resTokens++;
     },
     onCompletion: async (completion) => {
+      const enc = getEncoding('cl100k_base');
+      let reqTokens = messages.reduce((acc, message) => {
+        return acc + enc.encode(message.content).length;
+      }, 0);
+
       if (newChat) {
         await createConversation(id, userId);
       }

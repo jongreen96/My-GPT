@@ -88,12 +88,18 @@ export default function ConversationsSettings({ conversation }) {
 }
 
 async function deleteConversation(conversation, router) {
-  const res = await fetch(`/api/conversations`, {
-    method: 'DELETE',
-    body: JSON.stringify({ conversationId: conversation.id }),
-  });
-  if (!res.ok) throw Error('Failed to delete conversation');
-  router.refresh();
+  try {
+    const res = await fetch(`/api/conversations`, {
+      method: 'DELETE',
+      body: JSON.stringify({ conversationId: conversation.id }),
+    });
+    if (!res.ok) throw Error('Failed to delete conversation');
+    console.log('Conversation deleted');
+    router.refresh();
+    console.log('Router refreshed');
+  } catch (error) {
+    console.error(error);
+  }
 }
 
 async function updateConversationSubject(conversation, newSubject, router) {

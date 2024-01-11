@@ -44,13 +44,13 @@ export async function DELETE(req) {
       },
     });
 
-    const conversation = await prisma.conversations.delete({
+    await prisma.conversations.delete({
       where: {
         id: conversationId,
       },
     });
 
-    return Response.json({ conversation }, { status: 200 });
+    return Response.json({ conversationId }, { status: 200 });
   } catch (error) {
     console.log(error);
     return Response.json({ error: 'Internal Server Error' }, { status: 500 });

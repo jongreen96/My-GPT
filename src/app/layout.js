@@ -21,7 +21,7 @@ export default function RootLayout({ children }) {
         <body className={inter.className}>
           <ThemeProvider attribute='class' defaultTheme='light'>
             <Navbar />
-            <div className='m-auto h-svh w-full max-w-7xl pt-14 sm:pl-14 sm:pt-0'>
+            <div className='m-auto h-svh w-full pt-14 sm:pl-14 sm:pt-0'>
               {children}
             </div>
           </ThemeProvider>

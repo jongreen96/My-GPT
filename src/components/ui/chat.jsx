@@ -47,25 +47,27 @@ export default function Chat({ initialMessages, userId, id }) {
   return (
     <>
       <section
-        className='no-scrollbar flex w-full flex-grow flex-col gap-2 overflow-y-auto p-2'
+        className='no-scrollbar flex w-full flex-grow flex-col items-center gap-2 overflow-y-auto'
         ref={scrollRef}
       >
-        {messages.map((message) =>
-          message.role === 'user' ? (
-            <UserChatBubble message={message} key={message.id} />
-          ) : (
-            <AssistantChatBubble message={message} key={message.id} />
-          ),
-        )}
-        {error && (
-          <AssistantChatBubble
-            message={{
-              role: 'assistant',
-              content:
-                'Sorry, something went wrong. Please refresh the page and try again.',
-            }}
-          />
-        )}
+        <div className='flex w-full max-w-7xl flex-col gap-2 p-2'>
+          {messages.map((message) =>
+            message.role === 'user' ? (
+              <UserChatBubble message={message} key={message.id} />
+            ) : (
+              <AssistantChatBubble message={message} key={message.id} />
+            ),
+          )}
+          {error && (
+            <AssistantChatBubble
+              message={{
+                role: 'assistant',
+                content:
+                  'Sorry, something went wrong. Please refresh the page and try again.',
+              }}
+            />
+          )}
+        </div>
       </section>
       <ChatInput
         input={input}

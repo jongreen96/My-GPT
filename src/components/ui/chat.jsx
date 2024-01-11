@@ -1,9 +1,12 @@
 'use client';
 
 import ChatInput from '@/components/ui/chatInput';
+import {
+  AssistantChatBubble,
+  UserChatBubble,
+} from '@/components/ui/messageBubble';
 import { useChat } from 'ai/react';
 import { usePathname, useRouter } from 'next/navigation';
-import { AssistantChatBubble, UserChatBubble } from './messageBubble';
 
 export default function Chat({ initialMessages, userId, id }) {
   const router = useRouter();
@@ -13,6 +16,7 @@ export default function Chat({ initialMessages, userId, id }) {
     body: {
       id,
       userId,
+      newChat: pathname === '/chat',
     },
     onFinish: () => {
       if (pathname !== `/chat/${id}`) {

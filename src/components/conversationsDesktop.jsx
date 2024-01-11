@@ -1,7 +1,7 @@
 import { Button } from '@/components/ui/button';
 import prisma from '@/lib/db/prisma';
 import { auth } from '@clerk/nextjs';
-import { MessageSquare, Plus } from 'lucide-react';
+import { Loader2, MessageSquare, Plus } from 'lucide-react';
 import Link from 'next/link';
 import ConversationsSettings from './conversationsSettings';
 
@@ -45,7 +45,9 @@ export default async function Conversations() {
                     title={conversation.subject}
                     className='max-w-48 overflow-hidden text-ellipsis'
                   >
-                    {conversation.subject}
+                    {conversation.subject || (
+                      <Loader2 size={20} className='animate-spin' />
+                    )}
                   </p>
                 </Link>
                 <ConversationsSettings conversation={conversation} />

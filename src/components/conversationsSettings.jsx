@@ -11,15 +11,20 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import LoadingButton from '@/components/ui/loadingButton';
-import { MoreVertical } from 'lucide-react';
+import { MoreVertical, Sparkles } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 export default function ConversationsSettings({ conversation }) {
   const [deleting, setDeleting] = useState(false);
   const [updating, setUpdating] = useState(false);
+  const [generating, setGenerating] = useState(false);
   const [newSubject, setNewSubject] = useState('');
   const router = useRouter();
+
+  if (conversation.subject === '') {
+    updateConversationSubject(conversation, '', router, true);
+  }
 
   return (
     <div className='mt-[5px]'>
@@ -44,9 +49,31 @@ export default function ConversationsSettings({ conversation }) {
                     label='Subject'
                     id='subject'
                     value={newSubject}
+                    autoFocus={false}
                     onChange={(e) => setNewSubject(e.target.value)}
                     placeholder={conversation.subject}
                   />
+
+                  <LoadingButton
+                    variant='shadow'
+                    size='icon'
+                    loading={generating}
+                    autoFocus
+                    onClick={async () => {
+                      setGenerating(true);
+                      await updateConversationSubject(
+                        conversation,
+                        newSubject,
+                        router,
+                        true,
+                      )
+                        .then(() => setGenerating(false))
+                        .catch(() => setGenerating(false));
+                    }}
+                    className='absolute right-[85px]'
+                  >
+                    <Sparkles size={20} className='text-brand' />
+                  </LoadingButton>
                   <LoadingButton
                     loading={updating}
                     onClick={async () => {
@@ -102,10 +129,19 @@ async function deleteConversation(conversation, router) {
   }
 }
 
-async function updateConversationSubject(conversation, newSubject, router) {
+async function updateConversationSubject(
+  conversation,
+  newSubject,
+  router,
+  generate,
+) {
   const res = await fetch('/api/conversations', {
     method: 'PUT',
-    body: JSON.stringify({ conversationId: conversation.id, newSubject }),
+    body: JSON.stringify({
+      conversationId: conversation.id,
+      newSubject,
+      generate,
+    }),
   });
   if (!res.ok) throw Error('Failed to update subject');
   router.refresh();

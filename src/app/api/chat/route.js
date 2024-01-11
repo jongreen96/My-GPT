@@ -6,13 +6,8 @@ const openai = new OpenAI();
 
 export async function POST(req) {
   try {
-    let { messages, id, userId } = await req.json();
-
-    const conversation = await getConversation(id);
-    if (!conversation) {
-      await createConversation(id, userId, messages);
-      await createConversationSubject(id, messages);
-    }
+    const reqTime = new Date().toISOString();
+    let { messages, id, userId, newChat } = await req.json();
 
     const response = await openai.chat.completions.create({
       model: 'gpt-3.5-turbo',
@@ -21,11 +16,23 @@ export async function POST(req) {
     });
 
     const stream = new OpenAIStream(response, {
-      onStart: async () => {
-        createMessage(id, messages, 'user');
-      },
       onCompletion: async (completion) => {
-        createMessage(id, messages, 'assistant', completion, conversation);
+        if (newChat) {
+          await createConversation(id, userId);
+        }
+        await createMessage({
+          id,
+          messages,
+          role: 'user',
+          time: reqTime,
+        });
+        createMessage({
+          id,
+          messages,
+          role: 'assistant',
+          completion,
+          time: new Date().toISOString(),
+        });
       },
     });
     return new StreamingTextResponse(stream);
@@ -34,54 +41,25 @@ export async function POST(req) {
   }
 }
 
-async function getConversation(id) {
-  return await prisma.conversations.findUnique({
-    where: { id },
-  });
-}
-
 async function createConversation(id, userId) {
   await prisma.conversations.create({
     data: {
       id,
       model: 'gpt-3.5-turbo',
       userId,
-      subject: 'chat',
+      subject: '',
     },
   });
 }
 
-async function createMessage(id, messages, role, completion, conversation) {
+async function createMessage({ id, messages, role, completion, time }) {
   await prisma.messages.create({
     data: {
       conversationId: id,
       content:
         role === 'user' ? messages[messages.length - 1].content : completion,
       role,
-    },
-  });
-}
-
-async function createConversationSubject(id, messages) {
-  const prompt = [
-    {
-      role: 'system',
-      content:
-        'Create a subject for this conversation. The subject should be a short sentence describing the topic of the conversation. MAXIMUM of 5 words',
-    },
-    ...messages,
-  ];
-
-  const response = await openai.chat.completions.create({
-    model: 'gpt-3.5-turbo',
-    messages: prompt,
-    temperature: 0.2,
-  });
-
-  await prisma.conversations.update({
-    where: { id },
-    data: {
-      subject: response.choices[0].message.content,
+      createdAt: time,
     },
   });
 }

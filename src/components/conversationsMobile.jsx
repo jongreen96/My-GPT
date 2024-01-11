@@ -2,7 +2,7 @@ import ConversationsSettings from '@/components/conversationsSettings';
 import { Button } from '@/components/ui/button';
 import prisma from '@/lib/db/prisma';
 import { auth } from '@clerk/nextjs';
-import { Plus } from 'lucide-react';
+import { Loader2, Plus } from 'lucide-react';
 import Link from 'next/link';
 
 export default async function ConversationsMobile() {
@@ -32,12 +32,17 @@ export default async function ConversationsMobile() {
               className='justify-start group-hover:flex'
             >
               <div className='w-full'>
-                <Link href={`/chat/${conversation.id}`} className='grow'>
+                <Link
+                  href={`/chat/${conversation.id}`}
+                  className='grow overflow-hidden'
+                >
                   <p
                     title={conversation.subject}
                     className='max-w-full overflow-hidden text-ellipsis'
                   >
-                    {conversation.subject}
+                    {conversation.subject || (
+                      <Loader2 size={20} className='animate-spin' />
+                    )}
                   </p>
                 </Link>
                 <ConversationsSettings conversation={conversation} />

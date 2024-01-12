@@ -29,3 +29,7 @@ model Messages {
   tokens         Int
   createdAt      DateTime      @default(now())
 }
+
+model Users {
+  id String @id
+}

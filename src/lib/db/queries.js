@@ -45,3 +45,21 @@ export async function getMessages(conversationId) {
   });
   return result;
 }
+
+export async function deleteUser(id) {
+  const result = await prisma.users.delete({
+    where: {
+      id,
+    },
+  });
+  return result;
+}
+
+export async function createUser(id) {
+  const result = await prisma.users.create({
+    data: {
+      id,
+    },
+  });
+  return result;
+}

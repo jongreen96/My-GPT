@@ -31,5 +31,6 @@ model Messages {
 }
 
 model Users {
-  id String @id
+  id      String @id
+  credits Int
 }

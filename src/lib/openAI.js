@@ -1,7 +1,11 @@
+import {
+  createConversation,
+  createMessage,
+  getMessages,
+} from '@/lib/db/queries';
 import { OpenAIStream } from 'ai';
 import { getEncoding } from 'js-tiktoken';
 import OpenAI from 'openai';
-import { createConversation, createMessage, getMessages } from './db/queries';
 
 const openai = new OpenAI();
 
@@ -25,6 +29,20 @@ export async function streamConversation(req) {
       let reqTokens = messages.reduce((acc, message) => {
         return acc + enc.encode(message.content).length;
       }, 0);
+
+      const model = 'gpt-3.5-turbo'; // TODO: get model from req
+      const cost = calculateCost(reqTokens, resTokens, model);
+
+      await prisma.users.update({
+        where: {
+          id: userId,
+        },
+        data: {
+          credits: {
+            decrement: cost,
+          },
+        },
+      });
 
       if (newChat) {
         await createConversation(id, userId);
@@ -75,4 +93,23 @@ export async function generateSubject(conversationId) {
   });
 
   return response.choices[0].message.content;
+}
+
+function calculateCost(reqTokens, resTokens, model) {
+  // TODO: Seperate this into a seperate file
+  const apiPrices = {
+    'gpt-3.5-turbo': {
+      reqTokens: 1,
+      resTokens: 2,
+    },
+  };
+
+  const reqCost = Math.ceil(
+    reqTokens * apiPrices[model].reqTokens * process.env.PM,
+  );
+  const resCost = Math.ceil(
+    resTokens * apiPrices[model].resTokens * process.env.PM,
+  );
+
+  return reqCost + resCost;
 }

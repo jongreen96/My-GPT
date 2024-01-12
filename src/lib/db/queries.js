@@ -47,12 +47,37 @@ export async function getMessages(conversationId) {
 }
 
 export async function deleteUser(id) {
-  const result = await prisma.users.delete({
+  const deletedUser = await prisma.users.delete({
     where: {
       id,
     },
   });
-  return result;
+
+  const conversation = await prisma.conversations.findFirst({
+    where: {
+      userId: user.id,
+    },
+  });
+
+  if (!conversation) return;
+
+  const deletedMessages = await prisma.messages.deleteMany({
+    where: {
+      conversationId: conversation.id,
+    },
+  });
+
+  const deletedConversations = await prisma.conversations.deleteMany({
+    where: {
+      userId: user.id,
+    },
+  });
+
+  return {
+    deletedUser,
+    deletedMessages,
+    deletedConversations,
+  };
 }
 
 export async function createUser(id) {

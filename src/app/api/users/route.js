@@ -1,26 +1,41 @@
 import { createUser, deleteUser } from '@/lib/db/queries';
+import { headers } from 'next/headers';
+import { Webhook } from 'svix';
 
 export async function POST(req) {
-  const {
-    data: { id },
-    type,
-  } = await req.json();
+  const headerPayload = headers();
+  const svix_id = headerPayload.get('svix-id');
+  const svix_timestamp = headerPayload.get('svix-timestamp');
+  const svix_signature = headerPayload.get('svix-signature');
 
-  if (type === 'user.deleted') {
-    const user = await deleteUser(id);
+  if (!svix_id || !svix_timestamp || !svix_signature)
+    return new Response('Error: Missing svix headers', { status: 400 });
 
-    user
-      ? Response.json({ user }, { status: 200 })
-      : Response.json({ error: 'User not found' }, { status: 404 });
+  const payload = await req.json();
+  const body = JSON.stringify(payload);
+
+  const wh = new Webhook(process.env.WEBHOOK_SECRET);
+  let evt;
+
+  try {
+    evt = wh.verify(body, {
+      'svix-id': svix_id,
+      'svix-timestamp': svix_timestamp,
+      'svix-signature': svix_signature,
+    });
+  } catch (error) {
+    console.error('Error verifying webhook:', error);
+    return new Response('Error: Invalid svix signature', { status: 400 });
   }
 
-  if (type === 'user.created') {
-    const user = await createUser(id);
+  const { id } = evt.data;
+  const eventType = evt.type;
 
-    user
-      ? Response.json({ user }, { status: 201 })
-      : Response.json({ error: 'User not found' }, { status: 404 });
+  if (eventType === 'user.created') {
+    await createUser(id);
+  } else if (eventType === 'user.deleted') {
+    await deleteUser(id);
   }
 
-  return Response.json({ error: 'Unknown Request' }, { status: 400 });
+  return new Response('ok', { status: 200 });
 }

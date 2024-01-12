@@ -63,7 +63,7 @@ export async function generateSubject(conversationId) {
     {
       role: 'user',
       content:
-        'What would be a good subject for this conversation? ONLY RESPOND WITH THE SUBJECT, MAXIMUM OF 5 WORDS',
+        'Summarize the conversation in a short sentence. MAXIMUM of 5 words',
     },
   ];
 

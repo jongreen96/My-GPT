@@ -18,7 +18,7 @@ export async function createMessage({
   role,
   completion,
   time,
-  tokens,
+  credits,
 }) {
   const result = await prisma.messages.create({
     data: {
@@ -27,7 +27,7 @@ export async function createMessage({
         role === 'user' ? messages[messages.length - 1].content : completion,
       role,
       createdAt: time,
-      tokens: tokens || 0,
+      credits,
     },
   });
   return result;

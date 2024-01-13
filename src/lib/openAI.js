@@ -31,7 +31,7 @@ export async function streamConversation(req) {
       }, 0);
 
       const model = 'gpt-3.5-turbo'; // TODO: get model from req
-      const cost = calculateCost(reqTokens, resTokens, model);
+      const { reqCost, resCost } = calculateCost(reqTokens, resTokens, model);
 
       await prisma.users.update({
         where: {
@@ -39,7 +39,7 @@ export async function streamConversation(req) {
         },
         data: {
           credits: {
-            decrement: cost,
+            decrement: reqCost + resCost,
           },
         },
       });
@@ -52,7 +52,7 @@ export async function streamConversation(req) {
         messages,
         role: 'user',
         time: reqTime,
-        tokens: reqTokens,
+        credits: reqCost,
       });
       createMessage({
         id,
@@ -60,7 +60,7 @@ export async function streamConversation(req) {
         role: 'assistant',
         completion,
         time: new Date().toISOString(),
-        tokens: resTokens,
+        credits: resCost,
       });
     },
   });
@@ -111,5 +111,8 @@ function calculateCost(reqTokens, resTokens, model) {
     resTokens * apiPrices[model].resTokens * process.env.PM,
   );
 
-  return reqCost + resCost;
+  return {
+    reqCost,
+    resCost,
+  };
 }

@@ -1,17 +1,31 @@
-export function UserChatBubble({ message }) {
-  return (
-    <div className='relative flex max-w-[90%] flex-col self-end rounded-[20px] bg-primary p-2 px-3'>
-      <span className='text-white'>{message.content}</span>
-      <div className='absolute bottom-[-2px] right-[-2px] -z-10 h-0 w-0 -rotate-12 border-b-[10px] border-r-[15px] border-t-[10px] border-b-transparent border-r-primary border-t-transparent'></div>
-    </div>
-  );
-}
+import { cn } from '@/lib/utils';
 
-export function AssistantChatBubble({ message }) {
+export default function MessageBubble({ message }) {
   return (
-    <div className='relative flex w-fit max-w-[90%] flex-col rounded-[20px] bg-secondary p-2 px-3'>
-      <span className='whitespace-pre-wrap'>{message.content}</span>
-      <div className='absolute bottom-[-2px] left-[-2px] -z-10 h-0 w-0 rotate-12 border-b-[10px] border-l-[15px] border-t-[10px] border-b-transparent border-l-secondary border-t-transparent'></div>
+    <div
+      className={cn(
+        'relative flex flex-col rounded-[20px] p-2 px-3',
+        message.role === 'user' && 'self-end bg-primary',
+        message.role === 'assistant' && 'w-fit bg-secondary',
+      )}
+    >
+      <span
+        className={cn(
+          message.role === 'user' && 'text-white',
+          message.role === 'assistant' && 'whitespace-pre-wrap',
+        )}
+      >
+        {message.content}
+      </span>
+      <div
+        className={cn(
+          'absolute bottom-[-2px] -z-10 h-0 w-0 border-b-[10px] border-t-[10px] border-b-transparent border-t-transparent',
+          message.role === 'user' &&
+            'right-[-2px] -rotate-12 border-r-[15px] border-r-primary',
+          message.role === 'assistant' &&
+            'left-[-2px] rotate-12 border-l-[15px] border-l-secondary',
+        )}
+      ></div>
     </div>
   );
 }

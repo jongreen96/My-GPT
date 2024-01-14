@@ -1,10 +1,7 @@
 'use client';
 
 import ChatInput from '@/components/ui/chatInput';
-import {
-  AssistantChatBubble,
-  UserChatBubble,
-} from '@/components/ui/messageBubble';
+import MessageBubble from '@/components/ui/messageBubble';
 import { useChat } from 'ai/react';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useRef } from 'react';
@@ -51,15 +48,11 @@ export default function Chat({ initialMessages, userId, id }) {
         ref={scrollRef}
       >
         <div className='flex w-full max-w-7xl flex-col gap-2 p-2'>
-          {messages.map((message) =>
-            message.role === 'user' ? (
-              <UserChatBubble message={message} key={message.id} />
-            ) : (
-              <AssistantChatBubble message={message} key={message.id} />
-            ),
-          )}
+          {messages.map((message) => (
+            <MessageBubble key={message.id} message={message} />
+          ))}
           {error && (
-            <AssistantChatBubble
+            <MessageBubble
               message={{
                 role: 'assistant',
                 content:

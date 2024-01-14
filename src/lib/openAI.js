@@ -58,7 +58,7 @@ export async function streamConversation(req) {
         time: reqTime,
         credits: reqCost,
       });
-      createMessage({
+      await createMessage({
         id,
         messages,
         role: 'assistant',

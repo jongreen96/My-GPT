@@ -16,7 +16,7 @@ export default function ConversationsDrawer({ conversations }) {
   const pathname = usePathname();
 
   useEffect(() => {
-    if (pathname === '/chat') setOpen(false);
+    if (pathname.includes('/chat')) setOpen(false);
   }, [pathname]);
 
   return (

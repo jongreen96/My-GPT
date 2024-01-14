@@ -1,4 +1,4 @@
-import Chat from '@/components/ui/chat';
+import Chat from '@/components/chat';
 import prisma from '@/lib/db/prisma';
 import { auth } from '@clerk/nextjs';
 import { redirect } from 'next/navigation';

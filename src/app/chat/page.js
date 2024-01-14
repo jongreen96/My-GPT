@@ -1,4 +1,4 @@
-import Chat from '@/components/ui/chat';
+import Chat from '@/components/chat';
 import { auth } from '@clerk/nextjs';
 import { nanoid } from 'nanoid';
 

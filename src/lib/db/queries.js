@@ -93,6 +93,14 @@ export async function createUser(id) {
   const result = await prisma.users.create({
     data: {
       id,
+      credits: 100000,
+      defaultSettings: {
+        model: 'gpt-3.5-turbo',
+        max_tokens: null,
+        temperature: 1,
+        response_format: null,
+        frequency_penalty: 0,
+      },
     },
   });
   return result;

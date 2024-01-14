@@ -3,6 +3,7 @@ import {
   createMessage,
   getMessages,
   getUser,
+  updateUser,
 } from '@/lib/db/queries';
 import { OpenAIStream } from 'ai';
 import { getEncoding } from 'js-tiktoken';
@@ -45,17 +46,7 @@ export async function streamConversation(req) {
       const model = 'gpt-3.5-turbo'; // TODO: get model from req
       const { reqCost, resCost } = calculateCost(reqTokens, resTokens, model);
 
-      await prisma.users.update({
-        where: {
-          id: userId,
-        },
-        data: {
-          credits: {
-            decrement: reqCost + resCost,
-          },
-        },
-      });
-
+      await updateUser(userId, reqCost, resCost);
       if (newChat) {
         await createConversation(id, userId, settings);
       }

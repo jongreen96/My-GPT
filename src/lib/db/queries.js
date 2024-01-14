@@ -55,6 +55,19 @@ export async function getUser(id) {
   return user;
 }
 
+export async function updateUser(userId, reqCost, resCost) {
+  await prisma.users.update({
+    where: {
+      id: userId,
+    },
+    data: {
+      credits: {
+        decrement: reqCost + resCost,
+      },
+    },
+  });
+}
+
 export async function deleteUser(id) {
   const deletedUser = await prisma.users.delete({
     where: {

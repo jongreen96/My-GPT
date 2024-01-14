@@ -24,7 +24,7 @@ import { Switch } from './ui/switch';
 export default function ChatSettingsPopover({ settings, setSettings }) {
   return (
     <Popover>
-      <PopoverTrigger>
+      <PopoverTrigger asChild>
         <Button size='icon' variant='secondary'>
           <Settings2 className='text-brand' />
         </Button>

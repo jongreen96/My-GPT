@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button';
-import prisma from '@/lib/db/prisma';
+import { getConversations } from '@/lib/db/queries';
 import { auth } from '@clerk/nextjs';
 import { Loader2, MessageSquare, Plus } from 'lucide-react';
 import Link from 'next/link';
@@ -9,10 +9,7 @@ export default async function Conversations() {
   const { userId } = auth();
   if (!userId) throw Error('UserId Not Found');
 
-  const allConversations = await prisma.conversations.findMany({
-    where: { userId },
-    orderBy: { updatedAt: 'desc' },
-  });
+  const allConversations = await getConversations(userId);
 
   return (
     <div className='flex flex-col gap-2'>

@@ -12,6 +12,14 @@ export async function createConversation(id, userId, settings) {
   return result;
 }
 
+export async function getConversations(userId) {
+  const conversations = await prisma.conversations.findMany({
+    where: { userId },
+    orderBy: { updatedAt: 'desc' },
+  });
+  return conversations;
+}
+
 export async function getConversation(id) {
   const conversation = await prisma.conversations.findUnique({
     where: {

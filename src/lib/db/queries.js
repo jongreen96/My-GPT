@@ -46,6 +46,15 @@ export async function getMessages(conversationId) {
   return result;
 }
 
+export async function getUser(id) {
+  const user = await prisma.users.findUnique({
+    where: {
+      id,
+    },
+  });
+  return user;
+}
+
 export async function deleteUser(id) {
   const deletedUser = await prisma.users.delete({
     where: {

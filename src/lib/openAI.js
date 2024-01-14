@@ -2,6 +2,7 @@ import {
   createConversation,
   createMessage,
   getMessages,
+  getUser,
 } from '@/lib/db/queries';
 import { OpenAIStream } from 'ai';
 import { getEncoding } from 'js-tiktoken';
@@ -13,6 +14,11 @@ export async function streamConversation(req) {
   let { messages, id, userId, newChat } = await req.json();
   const reqTime = new Date().toISOString();
   let resTokens = 0;
+
+  const user = await getUser(userId);
+  if (user.credits <= 0) {
+    return 'Insufficient credits';
+  }
 
   const response = await openai.chat.completions.create({
     model: 'gpt-3.5-turbo',

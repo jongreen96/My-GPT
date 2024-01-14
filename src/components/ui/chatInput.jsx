@@ -1,8 +1,9 @@
 'use client';
 
+import ChatSettingsPopover from '@/components/chatSettingsPopover';
+import LoadingButton from '@/components/ui/loadingButton';
 import { SendHorizonal } from 'lucide-react';
 import TextAreaAuto from 'react-textarea-autosize';
-import LoadingButton from './loadingButton';
 
 export default function ChatInput({
   input,
@@ -10,12 +11,18 @@ export default function ChatInput({
   handleSubmit,
   inputRef,
   isLoading,
+  settings,
+  setSettings,
+  pathname,
 }) {
   return (
     <form
       onSubmit={handleSubmit}
       className='sticky bottom-0 mx-auto flex w-full max-w-7xl gap-2 p-2 backdrop-blur'
     >
+      {pathname === '/chat' && (
+        <ChatSettingsPopover settings={settings} setSettings={setSettings} />
+      )}
       <TextAreaAuto
         autoFocus
         maxRows={15}

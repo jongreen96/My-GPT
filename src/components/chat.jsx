@@ -4,14 +4,22 @@ import ChatInput from '@/components/ui/chatInput';
 import MessageBubble from '@/components/ui/messageBubble';
 import { useChat } from 'ai/react';
 import { usePathname, useRouter } from 'next/navigation';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
-export default function Chat({ initialMessages, userId, id }) {
+export default function Chat({
+  initialMessages,
+  userId,
+  id,
+  defaultSettings,
+  conversationSettings,
+}) {
   const router = useRouter();
   const pathname = usePathname();
 
   const inputRef = useRef(null);
   const scrollRef = useRef(null);
+
+  const [settings, setSettings] = useState(defaultSettings);
 
   const { messages, input, handleInputChange, handleSubmit, error, isLoading } =
     useChat({
@@ -20,6 +28,7 @@ export default function Chat({ initialMessages, userId, id }) {
         id,
         userId,
         newChat: pathname === '/chat',
+        settings: conversationSettings || settings,
       },
       onFinish: () => {
         if (pathname !== `/chat/${id}`) {
@@ -68,6 +77,9 @@ export default function Chat({ initialMessages, userId, id }) {
         handleSubmit={handleSubmit}
         inputRef={inputRef}
         isLoading={isLoading}
+        settings={settings}
+        setSettings={setSettings}
+        pathname={pathname}
       />
     </>
   );

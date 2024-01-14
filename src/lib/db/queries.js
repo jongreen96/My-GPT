@@ -1,10 +1,10 @@
 import prisma from '@/lib/db/prisma';
 
-export async function createConversation(id, userId) {
+export async function createConversation(id, userId, settings) {
   const result = await prisma.conversations.create({
     data: {
       id,
-      model: 'gpt-3.5-turbo',
+      settings,
       userId,
       subject: '',
     },

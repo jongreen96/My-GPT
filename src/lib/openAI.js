@@ -11,7 +11,7 @@ import OpenAI from 'openai';
 const openai = new OpenAI();
 
 export async function streamConversation(req) {
-  let { messages, id, userId, newChat } = await req.json();
+  let { messages, id, userId, newChat, settings } = await req.json();
   const reqTime = new Date().toISOString();
   let resTokens = 0;
 
@@ -21,9 +21,15 @@ export async function streamConversation(req) {
   }
 
   const response = await openai.chat.completions.create({
-    model: 'gpt-3.5-turbo',
+    model: settings.model,
+    temperature: settings.temperature,
+    max_tokens: settings.maxTokens || null,
+    response_format: settings.responseFormat
+      ? { type: 'json_object' }
+      : { type: 'text' },
     messages,
     stream: true,
+    user: userId,
   });
 
   const stream = new OpenAIStream(response, {
@@ -51,7 +57,7 @@ export async function streamConversation(req) {
       });
 
       if (newChat) {
-        await createConversation(id, userId);
+        await createConversation(id, userId, settings);
       }
       await createMessage({
         id,

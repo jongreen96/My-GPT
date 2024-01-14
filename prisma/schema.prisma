@@ -14,7 +14,7 @@ model Conversations {
   id        String     @id
   userId    String
   subject   String
-  model     String
+  settings  Json
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
   Messages  Messages[]
@@ -31,6 +31,7 @@ model Messages {
 }
 
 model Users {
-  id      String @id
-  credits Int
+  id              String @id
+  credits         Int
+  defaultSettings Json
 }

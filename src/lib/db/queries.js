@@ -12,6 +12,15 @@ export async function createConversation(id, userId, settings) {
   return result;
 }
 
+export async function getConversation(id) {
+  const conversation = await prisma.conversations.findUnique({
+    where: {
+      id,
+    },
+  });
+  return conversation;
+}
+
 export async function createMessage({
   id,
   messages,

@@ -69,6 +69,7 @@ export default function ConversationsSettings({ conversation }) {
                       )
                         .then(() => setGenerating(false))
                         .catch(() => setGenerating(false));
+                      setNewSubject('');
                     }}
                     className='absolute right-[85px]'
                   >
@@ -77,6 +78,7 @@ export default function ConversationsSettings({ conversation }) {
                   <LoadingButton
                     loading={updating}
                     onClick={async () => {
+                      if (newSubject === '') return;
                       setUpdating(true);
                       await updateConversationSubject(
                         conversation,
@@ -85,6 +87,7 @@ export default function ConversationsSettings({ conversation }) {
                       )
                         .then(() => setUpdating(false))
                         .catch(() => setUpdating(false));
+                      setNewSubject('');
                     }}
                   >
                     Save

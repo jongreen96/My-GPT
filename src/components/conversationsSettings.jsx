@@ -121,9 +121,7 @@ async function deleteConversation(conversation, router) {
       body: JSON.stringify({ conversationId: conversation.id }),
     });
     if (!res.ok) throw Error('Failed to delete conversation');
-    console.log('Conversation deleted');
     router.refresh();
-    console.log('Router refreshed');
   } catch (error) {
     console.error(error);
   }

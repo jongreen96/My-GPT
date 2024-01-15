@@ -16,17 +16,17 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <ClerkProvider>
-      <html lang='en'>
-        <body className={inter.className}>
-          <ThemeProvider attribute='class' defaultTheme='light'>
+    <html lang='en'>
+      <body className={inter.className}>
+        <ThemeProvider attribute='class' defaultTheme='light'>
+          <ClerkProvider>
             <Navbar />
             <div className='m-auto h-svh w-full pt-14 sm:pl-14 sm:pt-0'>
               {children}
             </div>
-          </ThemeProvider>
-        </body>
-      </html>
-    </ClerkProvider>
+          </ClerkProvider>
+        </ThemeProvider>
+      </body>
+    </html>
   );
 }

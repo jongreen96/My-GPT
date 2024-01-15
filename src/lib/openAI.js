@@ -1,6 +1,6 @@
 import {
   createConversation,
-  createMessage,
+  createMessages,
   getMessages,
   getUser,
   updateUser,
@@ -48,24 +48,9 @@ export async function streamConversation(req) {
       const { reqCost, resCost } = calculateCost(reqTokens, resTokens, model);
 
       await updateUser(userId, reqCost, resCost);
-      if (newChat) {
-        await createConversation(id, userId, settings);
-      }
-      await createMessage({
-        id,
-        messages,
-        role: 'user',
-        time: reqTime,
-        credits: reqCost,
-      });
-      await createMessage({
-        id,
-        messages,
-        role: 'assistant',
-        completion,
-        time: new Date().toISOString(),
-        credits: resCost,
-      });
+      if (newChat) await createConversation(id, userId, settings);
+
+      await createMessages(id, messages, completion, reqTime, reqCost, resCost);
     },
   });
 

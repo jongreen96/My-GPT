@@ -32,23 +32,52 @@ export async function getConversation(id) {
   return conversation;
 }
 
-export async function createMessage({
+// export async function createMessage({
+//   id,
+//   messages,
+//   role,
+//   completion,
+//   time,
+//   credits,
+// }) {
+//   const result = await prisma.messages.create({
+//     data: {
+//       conversationId: id,
+//       content:
+//         role === 'user' ? messages[messages.length - 1].content : completion,
+//       role,
+//       createdAt: time,
+//       credits,
+//     },
+//   });
+//   return result;
+// }
+
+export async function createMessages(
   id,
   messages,
-  role,
   completion,
-  time,
-  credits,
-}) {
-  const result = await prisma.messages.create({
-    data: {
-      conversationId: id,
-      content:
-        role === 'user' ? messages[messages.length - 1].content : completion,
-      role,
-      createdAt: time,
-      credits,
-    },
+  reqTime,
+  reqCost,
+  resCost,
+) {
+  const result = await prisma.messages.createMany({
+    data: [
+      {
+        conversationId: id,
+        content: messages[messages.length - 1].content,
+        role: 'user',
+        createdAt: reqTime,
+        credits: reqCost,
+      },
+      {
+        conversationId: id,
+        content: completion,
+        role: 'assistant',
+        createdAt: new Date(),
+        credits: resCost,
+      },
+    ],
   });
   return result;
 }

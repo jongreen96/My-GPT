@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbo",
-    "build": "npx prisma generate --no-engine && next build",
+    "build": "npx prisma generate && next build",
     "start": "next start",
     "lint": "next lint"
   },
@@ -15,7 +15,6 @@
     "@next/bundle-analyzer": "^14.0.4",
     "@pinecone-database/pinecone": "^1.1.2",
     "@prisma/client": "^5.8.0",
-    "@prisma/extension-accelerate": "^0.6.2",
     "@radix-ui/react-dialog": "^1.0.5",
     "@radix-ui/react-label": "^2.0.2",
     "@radix-ui/react-popover": "^1.0.7",

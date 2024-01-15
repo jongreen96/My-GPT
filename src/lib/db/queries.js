@@ -25,9 +25,6 @@ export async function getConversation(id) {
     where: {
       id,
     },
-    cacheStrategy: {
-      ttl: 60,
-    },
   });
   return conversation;
 }

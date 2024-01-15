@@ -9,7 +9,6 @@ import { OpenAIStream } from 'ai';
 import { getEncoding } from 'js-tiktoken';
 import OpenAI from 'openai';
 
-export const runtime = 'edge';
 const openai = new OpenAI();
 
 export async function streamConversation(req) {

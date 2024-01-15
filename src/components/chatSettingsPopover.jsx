@@ -25,7 +25,7 @@ export default function ChatSettingsPopover({ settings, setSettings }) {
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Button size='icon' variant='secondary'>
+        <Button size='icon' variant='secondary' className='self-end'>
           <Settings2 className='text-brand' />
         </Button>
       </PopoverTrigger>

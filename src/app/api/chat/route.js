@@ -1,7 +1,7 @@
 import { streamConversation } from '@/lib/openAI';
 import { StreamingTextResponse } from 'ai';
 
-export const maxDuration = 240;
+export const maxDuration = 300;
 
 export async function POST(req) {
   try {

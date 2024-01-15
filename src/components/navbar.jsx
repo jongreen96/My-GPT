@@ -80,7 +80,7 @@ function AuthUI({ userId }) {
     );
 
   return (
-    <div className='hidden w-full self-start sm:flex sm:justify-between'>
+    <div className='hidden w-full items-end self-start sm:flex sm:justify-between'>
       <UserButton afterSignOutUrl='/' appearance={userButtonAppearance} />
       <ThemeToggleButton className='hidden items-center justify-center group-hover:flex' />
     </div>

@@ -1,5 +1,7 @@
 import prisma from '@/lib/db/prisma';
 
+// ---------------------------------- Conversations ----------------------------------
+
 export async function createConversation(id, userId, settings) {
   const result = await prisma.conversations.create({
     data: {
@@ -29,26 +31,7 @@ export async function getConversation(id) {
   return conversation;
 }
 
-// export async function createMessage({
-//   id,
-//   messages,
-//   role,
-//   completion,
-//   time,
-//   credits,
-// }) {
-//   const result = await prisma.messages.create({
-//     data: {
-//       conversationId: id,
-//       content:
-//         role === 'user' ? messages[messages.length - 1].content : completion,
-//       role,
-//       createdAt: time,
-//       credits,
-//     },
-//   });
-//   return result;
-// }
+// ---------------------------------- Messages ----------------------------------
 
 export async function createMessages(
   id,
@@ -91,6 +74,8 @@ export async function getMessages(conversationId) {
   });
   return result;
 }
+
+// ---------------------------------- User ----------------------------------
 
 export async function getUser(id) {
   const user = await prisma.users.findUnique({

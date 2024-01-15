@@ -57,8 +57,8 @@ export default function Chat({
         ref={scrollRef}
       >
         <div className='flex w-full max-w-7xl flex-col gap-2 p-2'>
-          {messages.map((message) => (
-            <MessageBubble key={message.id} message={message} />
+          {messages.map((message, index) => (
+            <MessageBubble key={index} message={message} />
           ))}
           {error && (
             <MessageBubble

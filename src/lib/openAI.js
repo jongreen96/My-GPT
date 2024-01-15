@@ -25,7 +25,7 @@ export async function streamConversation(req) {
     model: settings.model,
     temperature: settings.temperature,
     max_tokens: settings.maxTokens || null,
-    response_format: settings.responseFormat
+    response_format: settings.response_format
       ? { type: 'json_object' }
       : { type: 'text' },
     messages,

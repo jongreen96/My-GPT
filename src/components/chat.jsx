@@ -84,3 +84,5 @@ export default function Chat({
     </>
   );
 }
+
+// TODO: Add Stop button to responses

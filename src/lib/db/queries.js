@@ -22,10 +22,11 @@ export async function getConversations(userId) {
   return conversations;
 }
 
-export async function getConversation(id) {
+export async function getConversation(id, userId) {
   const conversation = await prisma.conversations.findUnique({
     where: {
       id,
+      userId,
     },
   });
   return conversation;

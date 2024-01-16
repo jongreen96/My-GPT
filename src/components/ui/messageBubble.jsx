@@ -4,7 +4,7 @@ export default function MessageBubble({ message }) {
   return (
     <div
       className={cn(
-        'relative flex flex-col rounded-[20px] p-2 px-3',
+        'relative flex max-w-[90%] flex-col rounded-[20px] p-2 px-3',
         message.role === 'user' && 'self-end bg-primary',
         message.role === 'assistant' && 'w-fit bg-secondary',
       )}

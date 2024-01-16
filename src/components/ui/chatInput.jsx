@@ -13,14 +13,14 @@ export default function ChatInput({
   isLoading,
   settings,
   setSettings,
-  pathname,
+  started,
 }) {
   return (
     <form
       onSubmit={handleSubmit}
       className='sticky bottom-0 mx-auto flex w-full max-w-7xl gap-2 p-2 backdrop-blur'
     >
-      {pathname === '/chat' && (
+      {!started && (
         <ChatSettingsPopover settings={settings} setSettings={setSettings} />
       )}
       <TextAreaAuto

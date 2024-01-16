@@ -80,6 +80,7 @@ export default function Chat({
         settings={settings}
         setSettings={setSettings}
         pathname={pathname}
+        started={messages.length > 0}
       />
     </>
   );

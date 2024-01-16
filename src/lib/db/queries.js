@@ -71,6 +71,9 @@ export async function getMessages(conversationId) {
       role: true,
       content: true,
     },
+    orderBy: {
+      createdAt: 'asc',
+    },
   });
   return result;
 }

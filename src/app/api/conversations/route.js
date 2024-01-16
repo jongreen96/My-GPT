@@ -1,4 +1,5 @@
 import prisma from '@/lib/db/prisma';
+import { deleteConversation } from '@/lib/db/queries';
 import { generateSubject } from '@/lib/openAI';
 import { auth } from '@clerk/nextjs';
 
@@ -10,23 +11,7 @@ export async function DELETE(req) {
     if (!userId)
       return Response.json({ error: 'Unauthorized' }, { status: 401 });
 
-    const authenticated = await prisma.conversations.findUnique({
-      where: { id: conversationId, userId },
-    });
-    if (!authenticated)
-      return Response.json({ error: 'Unauthorized' }, { status: 401 });
-
-    await prisma.messages.deleteMany({
-      where: {
-        conversationId,
-      },
-    });
-
-    await prisma.conversations.delete({
-      where: {
-        id: conversationId,
-      },
-    });
+    await deleteConversation(conversationId, userId);
 
     return Response.json({ conversationId }, { status: 200 });
   } catch (error) {

@@ -31,6 +31,15 @@ export async function getConversation(id) {
   return conversation;
 }
 
+export async function deleteConversation(conversationId, userId) {
+  await prisma.conversations.delete({
+    where: {
+      id: conversationId,
+      userId,
+    },
+  });
+}
+
 // ---------------------------------- Messages ----------------------------------
 
 export async function createMessages(

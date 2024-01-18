@@ -1,6 +1,6 @@
 'use client';
 
-import ChatSettingsPopover from '@/components/chatSettingsPopover';
+import ChatSettingsPopover from '@/components/chatSettings';
 import LoadingButton from '@/components/ui/loadingButton';
 import { SendHorizonal } from 'lucide-react';
 import TextAreaAuto from 'react-textarea-autosize';

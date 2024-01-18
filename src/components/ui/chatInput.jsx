@@ -42,7 +42,7 @@ export default function ChatInput({
         loading={isLoading}
         size='icon'
         type='submit'
-        className='self-end text-white'
+        className='aspect-square self-end text-white'
       >
         <SendHorizonal />
       </LoadingButton>

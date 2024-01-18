@@ -87,7 +87,6 @@ export async function generateSubject(conversationId) {
 }
 
 function calculateCost(reqTokens, resTokens, model) {
-  console.log(openAIModels[model]);
   const reqCost = Math.ceil(
     reqTokens * openAIModels[model].reqTokens * process.env.PM,
   );

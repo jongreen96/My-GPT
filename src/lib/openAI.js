@@ -43,8 +43,11 @@ export async function streamConversation(req) {
         return acc + enc.encode(message.content).length;
       }, 0);
 
-      const model = 'gpt-3.5-turbo'; // TODO: get model from req
-      const { reqCost, resCost } = calculateCost(reqTokens, resTokens, model);
+      const { reqCost, resCost } = calculateCost(
+        reqTokens,
+        resTokens,
+        settings.model,
+      );
 
       await updateUser(userId, reqCost, resCost);
       if (newChat) await createConversation(id, userId, settings);
@@ -84,19 +87,12 @@ export async function generateSubject(conversationId) {
 }
 
 function calculateCost(reqTokens, resTokens, model) {
-  // TODO: Seperate this into a seperate file
-  const apiPrices = {
-    'gpt-3.5-turbo': {
-      reqTokens: 1,
-      resTokens: 2,
-    },
-  };
-
+  console.log(openAIModels[model]);
   const reqCost = Math.ceil(
-    reqTokens * apiPrices[model].reqTokens * process.env.PM,
+    reqTokens * openAIModels[model].reqTokens * process.env.PM,
   );
   const resCost = Math.ceil(
-    resTokens * apiPrices[model].resTokens * process.env.PM,
+    resTokens * openAIModels[model].resTokens * process.env.PM,
   );
 
   return {
@@ -104,3 +100,26 @@ function calculateCost(reqTokens, resTokens, model) {
     resCost,
   };
 }
+
+export const openAIModels = {
+  'gpt-4-vision-preview': {
+    reqTokens: 10,
+    resTokens: 30,
+  },
+  'gpt-4-1106-preview': {
+    reqTokens: 10,
+    resTokens: 30,
+  },
+  'gpt-4': {
+    reqTokens: 30,
+    resTokens: 60,
+  },
+  'gpt-4-32k': {
+    reqTokens: 60,
+    resTokens: 120,
+  },
+  'gpt-3.5-turbo': {
+    reqTokens: 1,
+    resTokens: 2,
+  },
+};

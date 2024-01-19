@@ -24,7 +24,7 @@ export async function streamConversation(req) {
   const response = await openai.chat.completions.create({
     model: settings.model,
     temperature: settings.temperature,
-    max_tokens: settings.maxTokens || null,
+    max_tokens: Number(settings.max_tokens) || null,
     response_format: settings.response_format
       ? { type: 'json_object' }
       : { type: 'text' },

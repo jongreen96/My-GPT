@@ -44,8 +44,8 @@ export default function ChatSettingsPopover({ settings, setSettings }) {
             <Settings2 className='text-brand' />
           </Button>
         </PopoverTrigger>
-        <PopoverContent className='mb-2 ml-16 w-fit p-2'>
-          <h2 className='mb-3 font-semibold'>Settings</h2>
+        <PopoverContent className='mb-2 ml-[68px] w-fit bg-background p-2'>
+          <h2 className='mb-3 font-semibold'>Chat Settings</h2>
           {innerContent(settings, setSettings)}
         </PopoverContent>
       </Popover>
@@ -65,7 +65,7 @@ export default function ChatSettingsPopover({ settings, setSettings }) {
       </DrawerTrigger>
       <DrawerContent className='p-2'>
         <DrawerHeader>
-          <DrawerTitle>Settings</DrawerTitle>
+          <DrawerTitle>Chat Settings</DrawerTitle>
         </DrawerHeader>
         {innerContent(settings, setSettings)}
       </DrawerContent>
@@ -109,16 +109,16 @@ function innerContent(settings, setSettings) {
 
       <div className='flex items-center justify-between gap-2'>
         <Label htmlFor='maxTokens' className='w-40'>
-          Max tokens:{' '}
+          Max tokens:
         </Label>
         <Input
           id='maxTokens'
           type='number'
-          value={settings.max_tokens}
+          min={0}
+          value={Number(settings.max_tokens) === 0 ? '' : settings.max_tokens}
+          placeholder='unlimited'
           onChange={(e) => {
-            e.target.value === '0' || e.target.value === ''
-              ? setSettings({ ...settings, max_tokens: null })
-              : setSettings({ ...settings, max_tokens: e.target.value });
+            setSettings({ ...settings, max_tokens: e.target.value });
           }}
         />
       </div>

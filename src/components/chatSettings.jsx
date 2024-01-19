@@ -38,12 +38,12 @@ export default function ChatSettingsPopover({ settings, setSettings }) {
           <Button
             size='icon'
             variant='secondary'
-            className='aspect-square self-end'
+            className='aspect-square self-end rounded-full'
           >
             <Settings2 className='text-brand' />
           </Button>
         </PopoverTrigger>
-        <PopoverContent className='mx-2 p-2'>
+        <PopoverContent className='mx-2 w-fit p-2'>
           <h2 className='mb-3 font-semibold'>Settings</h2>
           {innerContent(settings, setSettings)}
         </PopoverContent>
@@ -57,7 +57,7 @@ export default function ChatSettingsPopover({ settings, setSettings }) {
         <Button
           size='icon'
           variant='secondary'
-          className='aspect-square self-end'
+          className='aspect-square self-end rounded-full'
         >
           <Settings2 className='text-brand' />
         </Button>
@@ -76,7 +76,9 @@ function innerContent(settings, setSettings) {
   return (
     <div className='flex flex-col gap-2'>
       <div className='flex items-center justify-between gap-2'>
-        <Label htmlFor='model'>Model: </Label>
+        <Label htmlFor='model' className='w-40'>
+          Model:{' '}
+        </Label>
         <Select
           value={settings.model}
           onValueChange={(value) => setSettings({ ...settings, model: value })}
@@ -105,7 +107,9 @@ function innerContent(settings, setSettings) {
       </div>
 
       <div className='flex items-center justify-between gap-2'>
-        <Label htmlFor='maxTokens'>Max tokens: </Label>
+        <Label htmlFor='maxTokens' className='w-40'>
+          Max tokens:{' '}
+        </Label>
         <Input
           id='maxTokens'
           type='number'
@@ -119,7 +123,9 @@ function innerContent(settings, setSettings) {
       </div>
 
       <div className='flex items-center justify-between gap-2'>
-        <Label htmlFor='temperature'>Temperature: </Label>
+        <Label htmlFor='temperature' className='w-40'>
+          Temperature:{' '}
+        </Label>
         {settings.temperature}
         <Slider
           id='temperature'
@@ -134,7 +140,9 @@ function innerContent(settings, setSettings) {
       </div>
 
       <div className='flex items-center justify-between gap-2'>
-        <Label htmlFor='frequencyPenalty'>Frequency penalty: </Label>
+        <Label htmlFor='frequencyPenalty' className='w-40'>
+          Frequency penalty:{' '}
+        </Label>
         {settings.frequency_penalty}
         <Slider
           id='frequencyPenalty'
@@ -149,7 +157,9 @@ function innerContent(settings, setSettings) {
       </div>
 
       <div className='flex items-center justify-between gap-2'>
-        <Label htmlFor='responseFormat'>JSON response: </Label>
+        <Label htmlFor='responseFormat' className='w-40'>
+          JSON response:{' '}
+        </Label>
         <Switch
           id='responseFormat'
           checked={settings.response_format}

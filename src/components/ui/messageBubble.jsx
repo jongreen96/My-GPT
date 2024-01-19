@@ -1,4 +1,5 @@
 import { cn } from '@/lib/utils';
+import Markdown from 'react-markdown';
 
 export default function MessageBubble({ message }) {
   return (
@@ -12,10 +13,10 @@ export default function MessageBubble({ message }) {
       <span
         className={cn(
           message.role === 'user' && 'text-white',
-          message.role === 'assistant' && 'whitespace-pre-wrap',
+          message.role === 'assistant' && 'markdown whitespace-pre-wrap',
         )}
       >
-        {message.content}
+        <Markdown>{message.content}</Markdown>
       </span>
       <div
         className={cn(

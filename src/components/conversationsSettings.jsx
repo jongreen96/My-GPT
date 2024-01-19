@@ -36,9 +36,7 @@ export default function ConversationsSettings({ conversation }) {
           <DialogHeader>
             <DialogTitle>Conversation Settings</DialogTitle>
 
-            <DialogDescription>
-              <p>{conversation.subject}</p>
-            </DialogDescription>
+            <DialogDescription>{conversation.subject}</DialogDescription>
 
             <div className='flex flex-col gap-2'>
               <div>

@@ -16,6 +16,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { IsDesktop } from '@/lib/hooks';
 import { Settings2 } from 'lucide-react';
 import {
   Drawer,
@@ -29,7 +30,7 @@ import { Slider } from './ui/slider';
 import { Switch } from './ui/switch';
 
 export default function ChatSettingsPopover({ settings, setSettings }) {
-  const isDesktop = window.innerWidth > 768; // TODO: use useMediaQuery hook
+  const isDesktop = IsDesktop();
 
   if (isDesktop) {
     return (
@@ -43,7 +44,7 @@ export default function ChatSettingsPopover({ settings, setSettings }) {
             <Settings2 className='text-brand' />
           </Button>
         </PopoverTrigger>
-        <PopoverContent className='mx-2 w-fit p-2'>
+        <PopoverContent className='mb-2 ml-16 w-fit p-2'>
           <h2 className='mb-3 font-semibold'>Settings</h2>
           {innerContent(settings, setSettings)}
         </PopoverContent>

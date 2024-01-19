@@ -1,21 +1,25 @@
 import { useEffect, useState } from 'react';
 
 export function IsDesktop() {
-  'use client';
-
-  const [isDesktop, setIsDesktop] = useState(false);
+  const [isDesktop, setIsDesktop] = useState(
+    typeof window !== 'undefined'
+      ? window.matchMedia('(min-width: 640px)').matches
+      : false,
+  );
 
   useEffect(() => {
-    const handleResize = (e) => {
-      setIsDesktop(e.matches);
-    };
+    if (typeof window !== 'undefined') {
+      const handleResize = (e) => {
+        setIsDesktop(e.matches);
+      };
 
-    const mediaQuery = window.matchMedia('(min-width: 768px)');
-    mediaQuery.addEventListener('change', handleResize);
+      const mediaQuery = window.matchMedia('(min-width: 640px)');
+      mediaQuery.addEventListener('change', handleResize);
 
-    return () => {
-      mediaQuery.removeEventListener('change', handleResize);
-    };
+      return () => {
+        mediaQuery.removeEventListener('change', handleResize);
+      };
+    }
   }, []);
 
   return isDesktop;

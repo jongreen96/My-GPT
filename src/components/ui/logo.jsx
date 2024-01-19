@@ -8,15 +8,15 @@ export default function Logo() {
       <Image
         src='/logo-light.svg'
         alt='my-gpt logo'
-        width={38}
-        height={38}
+        width={40}
+        height={40}
         className='dark:hidden'
       />
       <Image
         src='/logo-dark.svg'
         alt='my-gpt logo'
-        width={38}
-        height={38}
+        width={40}
+        height={40}
         className='hidden dark:block'
       />
     </>

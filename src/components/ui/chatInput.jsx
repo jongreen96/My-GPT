@@ -18,7 +18,7 @@ export default function ChatInput({
   return (
     <form
       onSubmit={handleSubmit}
-      className='sticky bottom-0 mx-auto flex w-full max-w-7xl gap-2 p-2 backdrop-blur'
+      className='sticky bottom-0 mx-auto flex w-full max-w-7xl gap-2 p-2'
     >
       {!started && (
         <ChatSettingsPopover settings={settings} setSettings={setSettings} />

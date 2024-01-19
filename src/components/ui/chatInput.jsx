@@ -36,13 +36,13 @@ export default function ChatInput({
             if (!isLoading) handleSubmit(e);
           }
         }}
-        className='flex w-full resize-none self-end rounded-md border border-input bg-background px-3 py-2 shadow focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50'
+        className='flex w-full resize-none self-end rounded-[20px] border border-input bg-background px-3 py-2 shadow focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50'
       />
       <LoadingButton
         loading={isLoading}
         size='icon'
         type='submit'
-        className='aspect-square self-end text-white'
+        className='aspect-square self-end rounded-full text-white'
       >
         <SendHorizonal />
       </LoadingButton>

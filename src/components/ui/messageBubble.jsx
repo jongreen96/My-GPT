@@ -1,4 +1,4 @@
-import { cn } from '@/lib/utils';
+import { cn, markdownComponents } from '@/lib/utils';
 import Markdown from 'react-markdown';
 
 export default function MessageBubble({ message }) {
@@ -16,7 +16,7 @@ export default function MessageBubble({ message }) {
           message.role === 'assistant' && 'markdown whitespace-pre-wrap',
         )}
       >
-        <Markdown>{message.content}</Markdown>
+        <Markdown components={markdownComponents}>{message.content}</Markdown>
       </span>
       <div
         className={cn(

@@ -61,37 +61,32 @@
 }
 
 @layer utilities {
+  /* ----- Scrollbar ----- */
   .no-scrollbar::-webkit-scrollbar {
     width: 0px;
     height: 0px;
     background-color: transparent;
   }
 
-  /* Markdown formatting */
-  .markdown > ol {
-    display: flex;
-    flex-direction: column;
-    padding-left: 1rem;
-    gap: 1rem;
-    counter-reset: item;
-  }
-  .markdown > ol > li {
-    white-space: normal;
+  /* Firefox */
+  .horizontal-scroll {
+    scrollbar-width: thin;
+    scrollbar-color: #878787 #ffffff;
+    overflow-x: auto;
   }
 
-  .markdown > ol > li::before {
-    content: counter(item) '.';
-    counter-increment: item;
-    margin-right: 0.5rem;
-    color: var(--muted-foreground);
-    position: absolute;
-    left: 10px;
+  /* Chrome, Edge, and Safari */
+  .horizontal-scroll::-webkit-scrollbar {
+    height: 5px;
   }
 
-  .markdown pre {
-    padding: 0.5rem 1rem 1rem;
-    background-color: black;
-    color: white;
-    border-radius: var(--radius);
+  .horizontal-scroll::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .horizontal-scroll::-webkit-scrollbar-thumb {
+    background-color: #878787;
+    border-radius: 10px;
+    border: 0px none transparent;
   }
 }

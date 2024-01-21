@@ -33,7 +33,7 @@ export default function Chat({
       onFinish: () => {
         if (pathname !== `/chat/${id}`) {
           router.push(`/chat/${id}`);
-          router.refresh();
+          router.refresh(); // TODO: Find better way to revalidate route
         }
       },
     });

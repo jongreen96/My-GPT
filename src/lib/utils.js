@@ -45,6 +45,6 @@ export const markdownComponents = {
     />
   ),
   a: ({ node, ...props }) => (
-    <a {...props} className='text-primary hover:underline' />
+    <a {...props} target='_blank' className='text-primary hover:underline' />
   ),
 };

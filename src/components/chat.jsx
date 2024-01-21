@@ -1,6 +1,6 @@
 'use client';
 
-import ChatInput from '@/components/ui/chatInput';
+import ChatInput from '@/components/chatInput';
 import MessageBubble from '@/components/ui/messageBubble';
 import { useChat } from 'ai/react';
 import { usePathname, useRouter } from 'next/navigation';
@@ -33,7 +33,7 @@ export default function Chat({
       onFinish: () => {
         if (pathname !== `/chat/${id}`) {
           router.push(`/chat/${id}`);
-          router.refresh(); // TODO: Find better way to revalidate route
+          router.refresh();
         }
       },
     });

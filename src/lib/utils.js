@@ -35,7 +35,7 @@ export const markdownComponents = {
   code: ({ node, ...props }) => (
     <code
       {...props}
-      className='inline-block rounded bg-black px-2 text-white'
+      className='my-[1px] inline-block rounded bg-black px-2 text-white'
     />
   ),
   blockquote: ({ node, ...props }) => (

@@ -3,6 +3,14 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 });
 
 /** @type {import('next').NextConfig} */
-const nextConfig = {};
+const nextConfig = {
+  images: {
+    remotePatterns: [
+      {
+        hostname: 'placehold.co',
+      },
+    ],
+  },
+};
 
 module.exports = withBundleAnalyzer(nextConfig);

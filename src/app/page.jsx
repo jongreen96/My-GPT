@@ -19,7 +19,7 @@ export default function Home() {
 
   return (
     <main className='flex flex-col gap-24 pb-20'>
-      <section className='relative flex min-h-[calc(100svh-55px)] flex-col items-center justify-center gap-2 overflow-hidden border-b-4 border-secondary p-2 sm:min-h-svh'>
+      <section className='relative flex min-h-[calc(100svh-55px)] flex-col items-center justify-center gap-2 overflow-hidden border-b-4 border-secondary p-2 shadow-2xl shadow-secondary sm:min-h-svh'>
         <h1 className='flex text-center text-5xl font-bold tracking-tighter sm:text-6xl'>
           All GPT models,
           <br /> no monthly subscription
@@ -36,7 +36,7 @@ export default function Home() {
 
         <Logo
           width={450}
-          className='animate-slow-spin absolute -right-40 -top-20 -z-10 opacity-5 dark:opacity-10'
+          className='animate-slow-spin absolute -right-40 -top-20 -z-10 opacity-10'
         />
 
         <Button
@@ -59,7 +59,7 @@ export default function Home() {
           Features
         </h2>
         <div className='flex flex-wrap justify-center gap-2'>
-          <Card className='w-full md:max-w-80'>
+          <Card className='w-full text-center md:max-w-80'>
             <CardHeader>
               <CardTitle>GPT-4</CardTitle>
 
@@ -74,7 +74,7 @@ export default function Home() {
             </CardContent>
           </Card>
 
-          <Card className='w-full md:max-w-80'>
+          <Card className='w-full text-center md:max-w-80'>
             <CardHeader>
               <CardTitle>DALL·E 3</CardTitle>
 
@@ -89,7 +89,7 @@ export default function Home() {
             </CardContent>
           </Card>
 
-          <Card className='w-full md:max-w-80'>
+          <Card className='w-full text-center md:max-w-80'>
             <CardHeader>
               <CardTitle>Pay as you go</CardTitle>
 
@@ -104,24 +104,29 @@ export default function Home() {
         </div>
 
         <div className='flex flex-col items-center gap-2 sm:flex-row'>
-          <div className='space-y-4'>
+          <div className='space-y-4 text-center sm:text-left'>
             <h3 className='text-2xl font-bold tracking-tight'>
               Streamed Responses
             </h3>
             <p className='max-w-prose'>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique
-              incidunt aliquam iste nesciunt blanditiis aut alias consequuntur
-              voluptatem quod inventore, tempore voluptates nam placeat dolor
-              magnam. Perspiciatis accusantium ex fugiat!
+              Stream responses as they are tokenized, allowing you to see the
+              response as it&apos;s being generated. Guarenteeing the snappiest
+              responses OpenAI has to offer.
+              <br /> No more daily limits or wait lists.
             </p>
           </div>
-          <Image
-            src='https://placehold.co/400x300/png'
+          <video
             width={400}
             height={300}
-            alt='Placeholder'
+            playsInline
+            loop
+            autoPlay
+            muted
             className='w-full sm:w-2/5'
-          />
+          >
+            <source src='/my-gpt-response-stream.mp4' type='video/mp4' />
+            Your browser does not support video.
+          </video>
         </div>
 
         <div className='flex flex-col-reverse items-center gap-6 sm:flex-row'>
@@ -139,33 +144,33 @@ export default function Home() {
             alt='Chat Settings'
             className='hidden w-full dark:block sm:w-2/5'
           />
-          <div className='space-y-4'>
+          <div className='space-y-4 text-center sm:text-left'>
             <h3 className='text-2xl font-bold tracking-tight'>
-              Fine Tune Responses
+              Fine Tune Models
             </h3>
             <p className='max-w-prose'>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique
-              incidunt aliquam iste nesciunt blanditiis aut alias consequuntur
-              voluptatem quod inventore, tempore voluptates nam placeat dolor
-              magnam. Perspiciatis accusantium ex fugiat!
+              Customise your models to your needs, change the model,
+              temperature, top p, top k, frequency penalty, presence penalty and
+              more. Allowing you to get the best responses for your use case
+              without any restrictions.
             </p>
           </div>
         </div>
 
         <div className='flex flex-col items-center gap-2 sm:flex-row'>
-          <div className='space-y-4'>
+          <div className='space-y-4 text-center sm:text-left'>
             <h3 className='text-2xl font-bold tracking-tight'>
               Responsive Design
             </h3>
             <p className='max-w-prose'>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique
-              incidunt aliquam iste nesciunt blanditiis aut alias consequuntur
-              voluptatem quod inventore, tempore voluptates nam placeat dolor
-              magnam. Perspiciatis accusantium ex fugiat!
+              Chat on any device, with a responsive design that works on mobile,
+              tablet and desktop. Your conversations are synced across all your
+              devices, so you can chat on the go and pick up where you left off
+              on your desktop.
             </p>
           </div>
           <Image
-            src='https://placehold.co/400x300/png'
+            src='/responsive-design.png'
             width={400}
             height={300}
             alt='Placeholder'
@@ -174,10 +179,20 @@ export default function Home() {
         </div>
       </section>
 
-      <section className='flex flex-col items-center justify-center gap-2 p-2'>
-        <h2 className='text-center text-4xl font-bold tracking-tighter'>
-          Get Started
+      <section className='flex flex-col items-center justify-center gap-4 p-2'>
+        <h2 className='flex text-center text-4xl font-bold tracking-tighter sm:text-6xl'>
+          So, the question is... <br />
+          What are you waiting for?
         </h2>
+
+        <Button asChild className='w-3/4 max-w-96'>
+          <Link href='/sign-up'>Get Started</Link>
+        </Button>
+
+        <p className='max-w-prose text-center'>
+          Sign up now and get 100,000 tokens to use for free!
+          <br /> No card details required.
+        </p>
       </section>
     </main>
   );

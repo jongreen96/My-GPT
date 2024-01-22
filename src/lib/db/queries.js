@@ -15,7 +15,6 @@ export async function createConversation(id, userId, settings) {
 }
 
 export async function getConversations(userId) {
-  console.log('HERE');
   const conversations = await prisma.conversations.findMany({
     where: { userId },
     orderBy: { updatedAt: 'desc' },

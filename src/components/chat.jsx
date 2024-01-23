@@ -1,6 +1,6 @@
 'use client';
 
-import ChatInput from '@/components/ui/chatInput';
+import ChatInput from '@/components/chatInput';
 import MessageBubble from '@/components/ui/messageBubble';
 import { useChat } from 'ai/react';
 import { usePathname, useRouter } from 'next/navigation';

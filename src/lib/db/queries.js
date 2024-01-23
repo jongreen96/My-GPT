@@ -41,6 +41,22 @@ export async function deleteConversation(conversationId, userId) {
   });
 }
 
+export async function updateConversationSubject(
+  conversationId,
+  userId,
+  subject,
+) {
+  await prisma.conversations.update({
+    where: {
+      id: conversationId,
+      userId,
+    },
+    data: {
+      subject,
+    },
+  });
+}
+
 // ---------------------------------- Messages ----------------------------------
 
 export async function createMessages(

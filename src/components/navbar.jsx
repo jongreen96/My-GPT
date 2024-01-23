@@ -50,7 +50,7 @@ function AuthUI({ userId }) {
   if (!userId)
     return (
       <>
-        <div className='hidden flex-col gap-2 sm:group-hover:flex'>
+        <div className='hidden h-full flex-col gap-2 sm:group-hover:flex'>
           <Button asChild>
             <Link href='/sign-in'>
               <User className='mr-2' />
@@ -63,8 +63,9 @@ function AuthUI({ userId }) {
               Sign Up
             </Link>
           </Button>
+          <ThemeToggleButton className='mt-auto' />
         </div>
-        <div className='hidden flex-col gap-2 sm:flex sm:group-hover:hidden'>
+        <div className='hidden h-full flex-col gap-2 sm:flex sm:group-hover:hidden'>
           <Button asChild size='icon'>
             <Link href='/sign-in'>
               <User />
@@ -75,6 +76,7 @@ function AuthUI({ userId }) {
               <User />
             </Link>
           </Button>
+          <ThemeToggleButton className='mt-auto' />
         </div>
       </>
     );
@@ -90,7 +92,8 @@ function AuthUI({ userId }) {
 function AuthUIMobile({ userId }) {
   if (!userId)
     return (
-      <div className='flex gap-2 sm:hidden'>
+      <div className='flex items-center gap-2 sm:hidden'>
+        <ThemeToggleButton className='items-center justify-center' />
         <Button asChild size='sm'>
           <Link href='/sign-in'>Sign In</Link>
         </Button>

@@ -122,9 +122,21 @@ export default function Home() {
             loop
             autoPlay
             muted
-            className='w-full sm:w-2/5'
+            className='w-full dark:hidden sm:w-2/5'
           >
             <source src='/my-gpt-response-stream.mp4' type='video/mp4' />
+            Your browser does not support video.
+          </video>
+          <video
+            width={400}
+            height={300}
+            playsInline
+            loop
+            autoPlay
+            muted
+            className='hidden w-full dark:block sm:w-2/5'
+          >
+            <source src='/my-gpt-response-stream-dark.mp4' type='video/mp4' />
             Your browser does not support video.
           </video>
         </div>
@@ -173,8 +185,15 @@ export default function Home() {
             src='/responsive-design.png'
             width={400}
             height={300}
-            alt='Placeholder'
-            className='w-full sm:w-2/5'
+            alt='Chat Settings'
+            className='w-full dark:hidden sm:w-2/5'
+          />
+          <Image
+            src='/responsive-design-dark.png'
+            width={400}
+            height={300}
+            alt='Chat Settings'
+            className='hidden w-full dark:block sm:w-2/5'
           />
         </div>
       </section>

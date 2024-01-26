@@ -89,7 +89,7 @@ function innerContent(settings, setSettings) {
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>
-              <SelectLabel>GPT-4</SelectLabel>
+              <SelectLabel>GPT-4 Models</SelectLabel>
 
               <SelectItem value='gpt-4'>GPT-4</SelectItem>
               <SelectItem value='gpt-4-1106-preview'>GPT-4 Turbo</SelectItem>
@@ -99,7 +99,7 @@ function innerContent(settings, setSettings) {
             </SelectGroup>
 
             <SelectGroup>
-              <SelectLabel>GPT-3.5</SelectLabel>
+              <SelectLabel>GPT-3.5 Models</SelectLabel>
 
               <SelectItem value='gpt-3.5-turbo'>GPT-3.5 Turbo</SelectItem>
             </SelectGroup>

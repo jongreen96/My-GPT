@@ -4,6 +4,7 @@ import ChatSettingsPopover from '@/components/chatSettings';
 import { SendHorizonal, Square } from 'lucide-react';
 import TextAreaAuto from 'react-textarea-autosize';
 import { Button } from './ui/button';
+import LoadingButton from './ui/loadingButton';
 
 export default function ChatInput({
   input,
@@ -48,13 +49,14 @@ export default function ChatInput({
           <Square />
         </Button>
       ) : (
-        <Button
+        <LoadingButton
           size='icon'
           type='submit'
+          loading={isLoading}
           className='aspect-square self-end rounded-full'
         >
           <SendHorizonal />
-        </Button>
+        </LoadingButton>
       )}
     </form>
   );

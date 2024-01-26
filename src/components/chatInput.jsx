@@ -1,9 +1,9 @@
 'use client';
 
 import ChatSettingsPopover from '@/components/chatSettings';
-import LoadingButton from '@/components/ui/loadingButton';
-import { SendHorizonal } from 'lucide-react';
+import { SendHorizonal, Square } from 'lucide-react';
 import TextAreaAuto from 'react-textarea-autosize';
+import { Button } from './ui/button';
 
 export default function ChatInput({
   input,
@@ -11,6 +11,7 @@ export default function ChatInput({
   handleSubmit,
   inputRef,
   isLoading,
+  stop,
   settings,
   setSettings,
   started,
@@ -38,14 +39,23 @@ export default function ChatInput({
         }}
         className='flex w-full resize-none self-end rounded-[20px] border border-input bg-background px-3 py-2 shadow focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50'
       />
-      <LoadingButton
-        loading={isLoading}
-        size='icon'
-        type='submit'
-        className='aspect-square self-end rounded-full'
-      >
-        <SendHorizonal />
-      </LoadingButton>
+      {isLoading ? (
+        <Button
+          size='icon'
+          className='aspect-square self-end rounded-full'
+          onClick={stop}
+        >
+          <Square />
+        </Button>
+      ) : (
+        <Button
+          size='icon'
+          type='submit'
+          className='aspect-square self-end rounded-full'
+        >
+          <SendHorizonal />
+        </Button>
+      )}
     </form>
   );
 }

@@ -21,22 +21,29 @@ export default function Chat({
 
   const [settings, setSettings] = useState(defaultSettings);
 
-  const { messages, input, handleInputChange, handleSubmit, error, isLoading } =
-    useChat({
-      initialMessages,
-      body: {
-        id,
-        userId,
-        newChat: pathname === '/chat',
-        settings: conversationSettings || settings,
-      },
-      onFinish: () => {
-        if (pathname !== `/chat/${id}`) {
-          router.push(`/chat/${id}`);
-          router.refresh();
-        }
-      },
-    });
+  const {
+    messages,
+    input,
+    handleInputChange,
+    handleSubmit,
+    error,
+    isLoading,
+    stop,
+  } = useChat({
+    initialMessages,
+    body: {
+      id,
+      userId,
+      newChat: pathname === '/chat',
+      settings: conversationSettings || settings,
+    },
+    onFinish: () => {
+      if (pathname !== `/chat/${id}`) {
+        router.push(`/chat/${id}`);
+        router.refresh();
+      }
+    },
+  });
 
   useEffect(() => {
     if (scrollRef.current) {
@@ -77,6 +84,7 @@ export default function Chat({
         handleSubmit={handleSubmit}
         inputRef={inputRef}
         isLoading={isLoading}
+        stop={stop}
         settings={settings}
         setSettings={setSettings}
         pathname={pathname}

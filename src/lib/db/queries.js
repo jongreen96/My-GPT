@@ -173,6 +173,8 @@ export async function createUser(id) {
         temperature: 1,
         response_format: null,
         frequency_penalty: 0,
+        presence_penalty: 0,
+        top_p: 1,
       },
     },
   });

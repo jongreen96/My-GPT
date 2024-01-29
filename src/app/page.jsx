@@ -161,10 +161,10 @@ export default function Home() {
               Fine Tune Models
             </h3>
             <p className='max-w-prose'>
-              Customise your models to your needs, change the model,
-              temperature, top p, top k, frequency penalty, presence penalty and
-              more. Allowing you to get the best responses for your use case
-              without any restrictions.
+              Customise your models to your needs, change the model, max tokens,
+              temperature, top p, frequency penalty, presence penalty and more.
+              Allowing you to get the best responses for your use case without
+              any restrictions.
             </p>
           </div>
         </div>

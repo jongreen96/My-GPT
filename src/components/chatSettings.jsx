@@ -158,6 +158,40 @@ function innerContent(settings, setSettings) {
       </div>
 
       <div className='flex items-center justify-between gap-2'>
+        <Label htmlFor='presencePenalty' className='w-40'>
+          Presence penalty:{' '}
+        </Label>
+        {settings.presence_penalty}
+        <Slider
+          id='presencePenalty'
+          min={-2}
+          max={2}
+          defaultValue={[settings.presence_penalty]}
+          step={0.1}
+          onValueChange={(value) =>
+            setSettings({ ...settings, presence_penalty: value[0] })
+          }
+        />
+      </div>
+
+      <div className='flex items-center justify-between gap-2'>
+        <Label htmlFor='topP' className='w-40'>
+          Top P:{' '}
+        </Label>
+        {settings.top_p}
+        <Slider
+          id='topP'
+          min={0}
+          max={1}
+          defaultValue={[settings.top_p]}
+          step={0.01}
+          onValueChange={(value) =>
+            setSettings({ ...settings, top_p: value[0] })
+          }
+        />
+      </div>
+
+      <div className='flex items-center justify-between gap-2'>
         <Label htmlFor='responseFormat' className='w-40'>
           JSON response:{' '}
         </Label>

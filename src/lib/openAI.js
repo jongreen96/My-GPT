@@ -31,7 +31,10 @@ export async function streamConversation(req) {
     response_format: settings.response_format
       ? { type: 'json_object' }
       : { type: 'text' },
-    messages,
+    messages:
+      settings.system_message !== ''
+        ? [{ role: 'system', content: settings.system_message }, ...messages]
+        : messages,
     stream: true,
     user: userId,
   });

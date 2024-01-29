@@ -108,6 +108,20 @@ function innerContent(settings, setSettings) {
       </div>
 
       <div className='flex items-center justify-between gap-2'>
+        <Label htmlFor='systemMessage' className='w-40'>
+          System message:{' '}
+        </Label>
+        <Input
+          id='systemMessage'
+          value={settings.system_message}
+          placeholder='Type system message here...'
+          onChange={(e) =>
+            setSettings({ ...settings, system_message: e.target.value })
+          }
+        />
+      </div>
+
+      <div className='flex items-center justify-between gap-2'>
         <Label htmlFor='maxTokens' className='w-40'>
           Max tokens:
         </Label>

@@ -175,6 +175,7 @@ export async function createUser(id) {
         frequency_penalty: 0,
         presence_penalty: 0,
         top_p: 1,
+        system_message: '',
       },
     },
   });

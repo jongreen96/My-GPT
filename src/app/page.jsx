@@ -103,7 +103,7 @@ export default function Home() {
           </Card>
         </div>
 
-        <div className='flex flex-col items-center gap-2 sm:flex-row'>
+        <div className='flex flex-col items-center justify-center gap-2 sm:flex-row'>
           <div className='space-y-4 text-center sm:text-left'>
             <h3 className='text-2xl font-bold tracking-tight'>
               Streamed Responses
@@ -141,7 +141,7 @@ export default function Home() {
           </video>
         </div>
 
-        <div className='flex flex-col-reverse items-center gap-6 sm:flex-row'>
+        <div className='flex flex-col-reverse items-center justify-center gap-6 sm:flex-row'>
           <Image
             src='/chatSettings-light.png'
             width={400}
@@ -169,7 +169,7 @@ export default function Home() {
           </div>
         </div>
 
-        <div className='flex flex-col items-center gap-2 sm:flex-row'>
+        <div className='flex flex-col items-center justify-center gap-2 sm:flex-row'>
           <div className='space-y-4 text-center sm:text-left'>
             <h3 className='text-2xl font-bold tracking-tight'>
               Responsive Design

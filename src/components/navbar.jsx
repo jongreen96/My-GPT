@@ -20,11 +20,9 @@ export default function Navbar() {
           </span>
         </Link>
 
-        {userId && (
-          <AuthUIMobile userId={userId}>
-            <ConversationsMobile />
-          </AuthUIMobile>
-        )}
+        <AuthUIMobile userId={userId}>
+          <ConversationsMobile />
+        </AuthUIMobile>
       </div>
       <div className='hidden h-[calc(100%-46px)] flex-col justify-between gap-2 sm:flex'>
         {userId && (

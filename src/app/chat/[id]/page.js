@@ -3,6 +3,10 @@ import { getConversation, getMessages } from '@/lib/db/queries';
 import { auth } from '@clerk/nextjs';
 import { redirect } from 'next/navigation';
 
+export const metadata = {
+  title: 'Chat',
+};
+
 export default async function ChatPage({ params }) {
   const { userId } = auth();
   const conversation = await getConversation(params.id, userId);

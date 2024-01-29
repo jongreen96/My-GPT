@@ -1,4 +1,4 @@
-import Conversations from '@/components/conversationsDesktop';
+import ConversationsDesktop from '@/components/conversationsDesktop';
 import { auth } from '@clerk/nextjs';
 import Link from 'next/link';
 import AuthUI from './authUIDesktop';
@@ -20,14 +20,16 @@ export default function Navbar() {
           </span>
         </Link>
 
-        <AuthUIMobile userId={userId}>
-          <ConversationsMobile />
-        </AuthUIMobile>
+        {userId && (
+          <AuthUIMobile userId={userId}>
+            <ConversationsMobile />
+          </AuthUIMobile>
+        )}
       </div>
       <div className='hidden h-[calc(100%-46px)] flex-col justify-between gap-2 sm:flex'>
         {userId && (
           <div className='no-scrollbar hidden overflow-scroll sm:block'>
-            <Conversations />
+            <ConversationsDesktop />
           </div>
         )}
 

@@ -9,9 +9,9 @@ import { OpenAIStream } from 'ai';
 import { getEncoding } from 'js-tiktoken';
 import OpenAI from 'openai';
 
-const openai = new OpenAI();
-
 export async function streamConversation(req) {
+  const openai = new OpenAI();
+
   let { messages, id, userId, newChat, settings } = await req.json();
   const reqTime = new Date().toISOString();
   let resTokens = 0;
@@ -66,6 +66,8 @@ export async function streamConversation(req) {
 }
 
 export async function generateSubject(conversationId) {
+  const openai = new OpenAI();
+
   const messages = await getMessages(conversationId);
 
   const prompt = [
@@ -106,25 +108,86 @@ function calculateCost(reqTokens, resTokens, model) {
   };
 }
 
+// Models updated as of 30/01/2024
 export const openAIModels = {
-  'gpt-4-vision-preview': {
+  'gpt-4-0125-preview': {
+    type: 'chat',
+    reqTokens: 10,
+    resTokens: 30,
+  },
+  'gpt-4-turbo-preview': {
+    type: 'chat',
     reqTokens: 10,
     resTokens: 30,
   },
   'gpt-4-1106-preview': {
+    type: 'chat',
     reqTokens: 10,
     resTokens: 30,
   },
+  // 'gpt-4-vision-preview': {         Need to set up endpoint for this type
+  //   type: 'vision',
+  //   reqTokens: 10,
+  //   resTokens: 30,
+  // },
   'gpt-4': {
+    type: 'chat',
     reqTokens: 30,
     resTokens: 60,
   },
-  'gpt-4-32k': {
-    reqTokens: 60,
-    resTokens: 120,
+  'gpt-4-0613': {
+    type: 'chat',
+    reqTokens: 30,
+    resTokens: 60,
   },
-  'gpt-3.5-turbo': {
+  // 'gpt-4-32k': {                    Doesn't work because I don't have access to this model
+  //   type: 'chat',
+  //   reqTokens: 60,
+  //   resTokens: 120,
+  // },
+  // 'gpt-4-32k-0613': {               Doesn't work because I don't have access to this model
+  //   type: 'chat',
+  //   reqTokens: 60,
+  //   resTokens: 120,
+  // },
+  'gpt-3.5-turbo-1106': {
+    type: 'chat',
     reqTokens: 1,
     resTokens: 2,
   },
+  'gpt-3.5-turbo': {
+    type: 'chat',
+    reqTokens: 1,
+    resTokens: 2,
+  },
+  'gpt-3.5-turbo-16k': {
+    type: 'chat',
+    reqTokens: 1,
+    resTokens: 2,
+  },
+  // 'dall-e-3': {                      Need to set up endpoint for this type
+  //   type: 'image',
+  //   reqTokens: undefined,
+  //   resTokens: undefined,
+  // },
+  // 'dall-e-2': {                      Need to set up endpoint for this type
+  //   type: 'image',
+  //   reqTokens: undefined,
+  //   resTokens: undefined,
+  // },
+  // 'whisper-1': {                     Need to set up endpoint for this type
+  //   type: 'audio',
+  //   reqTokens: undefined,
+  //   resTokens: undefined,
+  // },
+  // 'tts-1': {                         Need to set up endpoint for this type
+  //   type: 'audio',
+  //   reqTokens: undefined,
+  //   resTokens: undefined,
+  // },
+  // 'tts-hd': {                        Need to set up endpoint for this type
+  //   type: 'audio',
+  //   reqTokens: undefined,
+  //   resTokens: undefined,
+  // },
 };

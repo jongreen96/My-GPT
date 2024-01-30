@@ -10,13 +10,12 @@ import {
 import {
   Select,
   SelectContent,
-  SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
 import { IsDesktop } from '@/lib/hooks';
+import { openAIModels } from '@/lib/openAI';
 import { Settings2 } from 'lucide-react';
 import {
   Drawer,
@@ -74,6 +73,8 @@ export default function ChatSettingsPopover({ settings, setSettings }) {
 }
 
 function innerContent(settings, setSettings) {
+  const models = Object.keys(openAIModels);
+
   return (
     <div className='flex flex-col gap-2'>
       <div className='flex items-center justify-between gap-2'>
@@ -88,21 +89,11 @@ function innerContent(settings, setSettings) {
             <SelectValue placeholder='Select a model'></SelectValue>
           </SelectTrigger>
           <SelectContent>
-            <SelectGroup>
-              <SelectLabel>GPT-4 Models</SelectLabel>
-
-              <SelectItem value='gpt-4'>GPT-4</SelectItem>
-              <SelectItem value='gpt-4-1106-preview'>GPT-4 Turbo</SelectItem>
-              <SelectItem value='gpt-4-vision-preview'>
-                GPT-4 Turbo with vision
+            {models.map((model) => (
+              <SelectItem key={model} value={model}>
+                {model}
               </SelectItem>
-            </SelectGroup>
-
-            <SelectGroup>
-              <SelectLabel>GPT-3.5 Models</SelectLabel>
-
-              <SelectItem value='gpt-3.5-turbo'>GPT-3.5 Turbo</SelectItem>
-            </SelectGroup>
+            ))}
           </SelectContent>
         </Select>
       </div>

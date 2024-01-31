@@ -5,6 +5,7 @@ import MessageBubble from '@/components/ui/messageBubble';
 import { useChat } from 'ai/react';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
+import ChatInfo from './chatInfo';
 
 export default function Chat({
   initialMessages,
@@ -19,7 +20,9 @@ export default function Chat({
   const inputRef = useRef(null);
   const scrollRef = useRef(null);
 
-  const [settings, setSettings] = useState(defaultSettings);
+  const [settings, setSettings] = useState(
+    conversationSettings || defaultSettings,
+  );
 
   const {
     messages,
@@ -64,6 +67,8 @@ export default function Chat({
         ref={scrollRef}
       >
         <div className='flex w-full max-w-7xl flex-col gap-2 p-2'>
+          <ChatInfo settings={settings} />
+
           {messages.map((message, index) => (
             <MessageBubble key={index} message={message} />
           ))}

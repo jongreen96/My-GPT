@@ -59,6 +59,7 @@ export default function ConversationsSettings({ conversation }) {
           <SaveButton />
         </div>
       </form>
+
       <ChatInfo settings={conversation.settings} />
 
       <form action={deleteConversationAction} className='mt-4 flex flex-col'>

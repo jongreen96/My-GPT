@@ -26,13 +26,12 @@ import { Label } from '@/components/ui/label';
 import LoadingButton from '@/components/ui/loadingButton';
 import { IsDesktop } from '@/lib/hooks';
 import { MoreVertical, Sparkles } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useFormStatus } from 'react-dom';
 import ChatInfo from './chatInfo';
 
 export default function ConversationsSettings({ conversation }) {
   const isDesktop = IsDesktop();
-  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     if (conversation.subject === '') {
@@ -65,7 +64,7 @@ export default function ConversationsSettings({ conversation }) {
       <form action={deleteConversationAction} className='mt-4 flex flex-col'>
         <input type='hidden' name='conversationId' value={conversation.id} />
         <Label htmlFor='subject'>Delete conversation:</Label>
-        <DeleteButton setOpen={setOpen} />
+        <DeleteButton />
       </form>
     </div>
   );
@@ -73,13 +72,9 @@ export default function ConversationsSettings({ conversation }) {
   if (isDesktop) {
     return (
       <div className='mt-[5px] sm:hidden sm:group-hover:block'>
-        <Dialog open={open} onOpenChange={setOpen}>
+        <Dialog>
           <DialogTrigger>
-            <MoreVertical
-              size={20}
-              className='text-brand'
-              onClick={() => setOpen(!open)}
-            />
+            <MoreVertical size={20} className='text-brand' />
           </DialogTrigger>
           <DialogContent>
             <DialogHeader>
@@ -98,7 +93,7 @@ export default function ConversationsSettings({ conversation }) {
   }
 
   return (
-    <Drawer open={open} onOpenChange={setOpen}>
+    <Drawer>
       <DrawerTrigger asChild>
         <MoreVertical size={20} className='shrink-0 text-brand' />
       </DrawerTrigger>
@@ -114,7 +109,7 @@ export default function ConversationsSettings({ conversation }) {
   );
 }
 
-function DeleteButton({ setOpen }) {
+function DeleteButton() {
   const { pending } = useFormStatus();
   return (
     <LoadingButton
@@ -122,7 +117,6 @@ function DeleteButton({ setOpen }) {
       type='submit'
       variant='destructive'
       className='mt-1'
-      onClick={() => setOpen(false)}
     >
       Delete
     </LoadingButton>

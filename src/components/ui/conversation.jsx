@@ -8,7 +8,7 @@ export default function Conversation({ conversation }) {
     <Button
       variant='secondary'
       asChild
-      className='justify-start group-hover:flex'
+      className='shrink-0 justify-start group-hover:flex'
     >
       <div className='flex'>
         <Link

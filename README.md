@@ -1,36 +1,34 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Welcome to My-GPT
+
+My-GPT offers you unrestricted access to all of OpenAI's models without the need for a monthly subscription. With our platform, you only pay for what you use, enabling access to the latest GPT models, including the groundbreaking GPT-4 and DALL·E 3, for your projects and experiments.
+
+## Features
+
+- **GPT-4 Access**: Get access to the latest GPT-4 model from OpenAI, which includes support for both text and image responses, ensuring you have the most advanced AI at your fingertips.
+- **DALL·E 3**: Harness the power of DALL·E 3 for state-of-the-art image generation directly from textual descriptions.
+- **Pay As You Go**: Enjoy our simple payment model where you are charged based on usage with no monthly fees. Plus, get started with 100,000 free tokens upon sign-up.
+- **Streamed Responses**: Experience real-time streamed responses for quicker and more interactive engagements with the AI.
+- **Fine-Tune Models**: Customize the AI models to suit your specific needs by adjusting settings such as the model type, max tokens, temperature, and penalties.
+- **Responsive Design**: Use our platform on any device with a responsive design that supports mobile, tablet, and desktop, ensuring a seamless user experience.
 
 ## Getting Started
 
-First, run the development server:
+To start using My-GPT:
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+1. Navigate to `/sign-up` on our platform.
+2. Complete the sign-up process to create your account. No credit card information is required.
+3. Upon completion, you'll receive 100,000 tokens for free to begin exploring the capabilities of our AI offering.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Usage
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+After signing up, you can immediately start using our platform to interact with the different GPT models. Visit our documentation to learn more about how to make the most out of your tokens and to understand the various settings you can configure for personalized AI responses.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Community and Support
 
-## Learn More
+Join our growing community of enthusiasts and developers leveraging GPT models for their projects. If you have any questions or need support, please reach out to us via our community channels or support email.
 
-To learn more about Next.js, take a look at the following resources:
+We can't wait to see what you'll create with unrestricted access to the world's leading AI models. So, what are you waiting for? [Get Started](/sign-up) today and elevate your projects with the power of AI!
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Contributing
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+We welcome contributions from the community, whether it's in the form of feedback, bug reports, or feature requests. Please refer to our contributing guidelines for more details on how you can contribute.

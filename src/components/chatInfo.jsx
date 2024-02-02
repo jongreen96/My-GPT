@@ -1,5 +1,3 @@
-const { Card, CardHeader, CardTitle, CardContent } = require('./ui/card');
-
 export default function ChatInfo({ settings }) {
   return (
     <div className='space-y-2'>

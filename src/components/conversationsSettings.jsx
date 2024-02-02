@@ -28,6 +28,7 @@ import { IsDesktop } from '@/lib/hooks';
 import { MoreVertical, Sparkles } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useFormStatus } from 'react-dom';
+import ChatInfo from './chatInfo';
 
 export default function ConversationsSettings({ conversation }) {
   const isDesktop = IsDesktop();
@@ -40,7 +41,7 @@ export default function ConversationsSettings({ conversation }) {
   }, [conversation.id, conversation.subject]);
 
   const innerContent = (
-    <div className='flex flex-col gap-2'>
+    <div className='mt-4 flex flex-col gap-4'>
       <form action={updateConversationSubjectAction}>
         <Label htmlFor='subject'>Change conversation subject:</Label>
         <div className='flex gap-2'>
@@ -58,6 +59,7 @@ export default function ConversationsSettings({ conversation }) {
           <SaveButton />
         </div>
       </form>
+      <ChatInfo settings={conversation.settings} />
 
       <form action={deleteConversationAction} className='mt-4 flex flex-col'>
         <input type='hidden' name='conversationId' value={conversation.id} />

@@ -66,7 +66,7 @@ export default function Chat({
         ref={scrollRef}
       >
         <div className='flex w-full max-w-7xl flex-col gap-2 p-2'>
-          <p className='select-none text-center font-bold uppercase text-brand'>
+          <p className='select-none text-center font-bold uppercase text-brand opacity-50'>
             {settings.model}
           </p>
 

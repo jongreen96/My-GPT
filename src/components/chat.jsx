@@ -1,10 +1,10 @@
 'use client';
 
 import ChatInput from '@/components/chatInput';
-import MessageBubble from '@/components/ui/messageBubble';
 import { useChat } from 'ai/react';
 import { usePathname, useRouter } from 'next/navigation';
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
+import Messages from './messages';
 
 export default function Chat({
   initialMessages,
@@ -17,7 +17,6 @@ export default function Chat({
   const pathname = usePathname();
 
   const inputRef = useRef(null);
-  const scrollRef = useRef(null);
 
   const [settings, setSettings] = useState(
     conversationSettings || defaultSettings,
@@ -47,43 +46,15 @@ export default function Chat({
     },
   });
 
-  useEffect(() => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
-    }
-  }, [messages]);
-
-  useEffect(() => {
-    if (inputRef.current) {
-      inputRef.current.focus();
-    }
-  }, []);
-
   return (
     <>
-      <section
-        className='no-scrollbar flex w-full flex-grow flex-col items-center gap-2 overflow-y-auto'
-        ref={scrollRef}
-      >
-        <div className='flex w-full max-w-7xl flex-col gap-2 p-2'>
-          <p className='select-none text-center font-bold uppercase text-brand opacity-50'>
-            {settings.model}
-          </p>
+      <Messages
+        messages={messages}
+        settings={settings}
+        error={error}
+        inputRef={inputRef}
+      />
 
-          {messages.map((message, index) => (
-            <MessageBubble key={index} message={message} />
-          ))}
-          {error && (
-            <MessageBubble
-              message={{
-                role: 'assistant',
-                content:
-                  'Sorry, something went wrong. Please refresh the page and try again.',
-              }}
-            />
-          )}
-        </div>
-      </section>
       <ChatInput
         input={input}
         handleInputChange={handleInputChange}

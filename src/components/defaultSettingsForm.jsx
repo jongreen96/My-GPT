@@ -47,8 +47,8 @@ export default function DefaultSettingsForm({ user }) {
           Image
         </TabsTrigger>
 
-        <TabsTrigger value='voice' className='w-full'>
-          Voice
+        <TabsTrigger value='audio' className='w-full'>
+          Audio
         </TabsTrigger>
       </TabsList>
 
@@ -193,7 +193,7 @@ export default function DefaultSettingsForm({ user }) {
       </TabsContent>
 
       <TabsContent value='image'>Coming soon...</TabsContent>
-      <TabsContent value='voice'>Coming soon...</TabsContent>
+      <TabsContent value='audio'>Coming soon...</TabsContent>
     </Tabs>
   );
 }

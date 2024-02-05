@@ -32,12 +32,12 @@ export default async function SettingsPage() {
           </CardHeader>
 
           <CardContent>
-            <div className='flex items-center gap-2'>
-              <p className='text-lg font-semibold'>Current credits:</p>
-              <p>{user.credits}</p>
+            <div className='flex items-baseline gap-2'>
+              <p className='text-2xl font-semibold'>{user.credits}</p>
+              <p>Credits</p>
             </div>
 
-            <div>
+            <div className='mt-6'>
               <p className='text-lg font-semibold'>Add credits</p>
               {/* Form */}
             </div>

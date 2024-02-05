@@ -1,6 +1,6 @@
 import { getConversations } from '@/lib/db/queries';
 import { UserButton, auth } from '@clerk/nextjs';
-import { User } from 'lucide-react';
+import { Settings, User } from 'lucide-react';
 import Link from 'next/link';
 import Conversations from './conversations';
 import { Button } from './ui/button';
@@ -25,17 +25,24 @@ export default async function Navbar() {
 
         <div className='flex items-center gap-2 sm:min-h-0 sm:w-full sm:grow sm:flex-col sm:items-start sm:justify-between'>
           <Conversations allConversations={allConversations} />
-          <UserButton
-            afterSignOutUrl='/'
-            appearance={{
-              elements: {
-                avatarBox: {
-                  width: 40,
-                  height: 40,
+          <div className='flex gap-2 sm:flex-col'>
+            <Button asChild size='icon' variant='shadow'>
+              <Link href='/settings'>
+                <Settings className='text-brand' />
+              </Link>
+            </Button>
+            <UserButton
+              afterSignOutUrl='/'
+              appearance={{
+                elements: {
+                  avatarBox: {
+                    width: 40,
+                    height: 40,
+                  },
                 },
-              },
-            }}
-          />
+              }}
+            />
+          </div>
         </div>
       </nav>
     );

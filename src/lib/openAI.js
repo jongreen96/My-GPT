@@ -150,6 +150,11 @@ export const openAIModels = {
   //   reqTokens: 60,
   //   resTokens: 120,
   // },
+  'gpt-3.5-turbo-0125': {
+    type: 'chat',
+    reqTokens: 1,
+    resTokens: 2,
+  },
   'gpt-3.5-turbo-1106': {
     type: 'chat',
     reqTokens: 1,

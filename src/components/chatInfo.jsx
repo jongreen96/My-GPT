@@ -25,7 +25,7 @@ export default function ChatInfo({ settings }) {
 
           <div className='flex justify-between gap-2'>
             <p className='font-semibold'>Response Format: </p>
-            <p className=''>{settings.response_format || 'text'}</p>
+            <p className=''>{settings.response_format ? 'JSON' : 'text'}</p>
           </div>
         </div>
 

@@ -128,6 +128,17 @@ export async function updateUser(userId, reqCost, resCost) {
   });
 }
 
+export async function updateDefaultChatSettings(userId, settings) {
+  await prisma.users.update({
+    where: {
+      id: userId,
+    },
+    data: {
+      defaultSettings: settings,
+    },
+  });
+}
+
 export async function deleteUser(id) {
   const deletedUser = await prisma.users.delete({
     where: {
@@ -168,7 +179,7 @@ export async function createUser(id) {
       id,
       credits: 100000,
       defaultSettings: {
-        model: 'gpt-3.5-turbo',
+        model: 'gpt-3.5-turbo-0125',
         max_tokens: null,
         temperature: 1,
         response_format: null,

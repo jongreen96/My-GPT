@@ -9,10 +9,10 @@ import { OpenAIStream } from 'ai';
 import { getEncoding } from 'js-tiktoken';
 import OpenAI from 'openai';
 
-export async function streamConversation(req) {
+export async function streamConversation(body) {
   const openai = new OpenAI();
 
-  let { messages, id, userId, newChat, settings, data } = await req.json();
+  let { messages, id, userId, newChat, settings, data } = body;
 
   const reqTime = new Date().toISOString();
   let resTokens = 0;
@@ -22,41 +22,69 @@ export async function streamConversation(req) {
     return 'Insufficient credits';
   }
 
-  if (data.image) {
-    messages[messages.length - 1].content = [
-      { type: 'text', text: messages[messages.length - 1].content },
-      { type: 'image_url', image_url: { url: data.image } },
-    ];
-  }
-
-  const response = await openai.chat.completions.create({
+  const responseSettings = {
     model: settings.model,
     temperature: settings.temperature,
-    // max_tokens: Number(settings.max_tokens) || null,
+    max_tokens: Number(settings.max_tokens) || null,
     frequency_penalty: settings.frequency_penalty,
     presence_penalty: settings.presence_penalty,
     top_p: settings.top_p,
-    // response_format: settings.response_format
-    //   ? { type: 'json_object' }
-    //   : { type: 'text' },
+    response_format: settings.response_format
+      ? { type: 'json_object' }
+      : { type: 'text' },
     messages:
       settings.system_message !== ''
         ? [{ role: 'system', content: settings.system_message }, ...messages]
         : messages,
     stream: true,
     user: userId,
+  };
+
+  // Hate this implementation, could do better
+  if (openAIModels[settings.model].type === 'vision') {
+    delete responseSettings.response_format;
+    delete responseSettings.temperature;
+    delete responseSettings.frequency_penalty;
+    delete responseSettings.presence_penalty;
+    delete responseSettings.top_p;
+
+    responseSettings.max_tokens = 4096;
+  }
+
+  if (data.images.length > 0) {
+    messages[messages.length - 1].content = [
+      { type: 'text', text: messages[messages.length - 1].content },
+      ...data.images.map((image) => ({
+        type: 'image_url',
+        image_url: { url: image },
+      })),
+    ];
+  }
+
+  const response = await openai.chat.completions.create({
+    ...responseSettings,
   });
 
   const stream = new OpenAIStream(response, {
     onToken: () => {
       resTokens++;
     },
-    onCompletion: async (completion) => {
+    onFinal: async (completion) => {
       const enc = getEncoding('cl100k_base');
-      //TODO: Improve this to work with images
       let reqTokens = messages.reduce((acc, message) => {
         if (typeof message.content === 'string') {
           return acc + enc.encode(message.content).length;
+        } else {
+          return (
+            acc +
+            message.content.reduce((acc, part) => {
+              if (part.type === 'text') {
+                return acc + enc.encode(part.text).length;
+              } else {
+                return acc;
+              }
+            }, 0)
+          );
         }
       }, 0);
 
@@ -96,7 +124,7 @@ export async function generateSubject(conversationId) {
   ];
 
   const response = await openai.chat.completions.create({
-    model: 'gpt-3.5-turbo',
+    model: 'gpt-3.5-turbo-0125',
     messages: prompt,
     temperature: 0.2,
     max_tokens: 10,

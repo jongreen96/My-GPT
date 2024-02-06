@@ -73,7 +73,10 @@ export default function DefaultSettingsForm({ user }) {
                 </SelectTrigger>
                 <SelectContent>
                   {models
-                    .filter((model) => model[1].type === 'chat')
+                    .filter(
+                      (model) =>
+                        model[1].type === 'chat' || model[1].type === 'vision',
+                    )
                     .map((model) => (
                       <SelectItem key={model[0]} value={model[0]}>
                         {model[0]}

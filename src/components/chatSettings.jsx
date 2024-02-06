@@ -28,7 +28,13 @@ import { Input } from './ui/input';
 import { Slider } from './ui/slider';
 import { Switch } from './ui/switch';
 
-export default function ChatSettingsPopover({ settings, setSettings }) {
+export default function ChatSettingsPopover({
+  settings,
+  setSettings,
+  started,
+}) {
+  if (started) return null;
+
   const isDesktop = IsDesktop();
 
   if (isDesktop) {

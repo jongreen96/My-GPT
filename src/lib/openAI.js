@@ -12,7 +12,8 @@ import OpenAI from 'openai';
 export async function streamConversation(req) {
   const openai = new OpenAI();
 
-  let { messages, id, userId, newChat, settings } = await req.json();
+  let { messages, id, userId, newChat, settings, data } = await req.json();
+
   const reqTime = new Date().toISOString();
   let resTokens = 0;
 
@@ -21,16 +22,23 @@ export async function streamConversation(req) {
     return 'Insufficient credits';
   }
 
+  if (data.image) {
+    messages[messages.length - 1].content = [
+      { type: 'text', text: messages[messages.length - 1].content },
+      { type: 'image_url', image_url: { url: data.image } },
+    ];
+  }
+
   const response = await openai.chat.completions.create({
     model: settings.model,
     temperature: settings.temperature,
-    max_tokens: Number(settings.max_tokens) || null,
+    // max_tokens: Number(settings.max_tokens) || null,
     frequency_penalty: settings.frequency_penalty,
     presence_penalty: settings.presence_penalty,
     top_p: settings.top_p,
-    response_format: settings.response_format
-      ? { type: 'json_object' }
-      : { type: 'text' },
+    // response_format: settings.response_format
+    //   ? { type: 'json_object' }
+    //   : { type: 'text' },
     messages:
       settings.system_message !== ''
         ? [{ role: 'system', content: settings.system_message }, ...messages]
@@ -45,8 +53,11 @@ export async function streamConversation(req) {
     },
     onCompletion: async (completion) => {
       const enc = getEncoding('cl100k_base');
+      //TODO: Improve this to work with images
       let reqTokens = messages.reduce((acc, message) => {
-        return acc + enc.encode(message.content).length;
+        if (typeof message.content === 'string') {
+          return acc + enc.encode(message.content).length;
+        }
       }, 0);
 
       const { reqCost, resCost } = calculateCost(
@@ -125,11 +136,11 @@ export const openAIModels = {
     reqTokens: 10,
     resTokens: 30,
   },
-  // 'gpt-4-vision-preview': {         Need to set up endpoint for this type
-  //   type: 'vision',
-  //   reqTokens: 10,
-  //   resTokens: 30,
-  // },
+  'gpt-4-vision-preview': {
+    type: 'vision',
+    reqTokens: 10,
+    resTokens: 30,
+  },
   'gpt-4': {
     type: 'chat',
     reqTokens: 30,

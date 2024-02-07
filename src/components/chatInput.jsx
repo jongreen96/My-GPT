@@ -23,7 +23,10 @@ export default function ChatInput({
 
   return (
     <form
-      onSubmit={(e) => handleSubmit(e, { data: { images } })}
+      onSubmit={(e) => {
+        handleSubmit(e, { data: { images } });
+        setImages([]);
+      }}
       className='sticky bottom-0 mx-auto flex w-full max-w-7xl gap-2 p-2'
     >
       <ChatSettingsPopover
@@ -48,6 +51,7 @@ export default function ChatInput({
                   images,
                 },
               });
+            setImages([]);
           }
         }}
         className='flex w-full resize-none self-end rounded-[20px] border border-input bg-background px-3 py-2 shadow focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50'

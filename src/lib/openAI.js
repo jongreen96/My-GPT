@@ -43,11 +43,6 @@ export async function streamConversation(body) {
   // Hate this implementation, could do better
   if (openAIModels[settings.model].type === 'vision') {
     delete responseSettings.response_format;
-    delete responseSettings.temperature;
-    delete responseSettings.frequency_penalty;
-    delete responseSettings.presence_penalty;
-    delete responseSettings.top_p;
-
     responseSettings.max_tokens = 4096;
   }
 
@@ -56,7 +51,7 @@ export async function streamConversation(body) {
       { type: 'text', text: messages[messages.length - 1].content },
       ...data.images.map((image) => ({
         type: 'image_url',
-        image_url: { url: image },
+        image_url: { url: image, detail: 'low' },
       })),
     ];
   }

@@ -45,13 +45,14 @@ export default function ChatInput({
         onKeyDown={(e) => {
           if (e.key === 'Enter' && !e.shiftKey) {
             e.preventDefault();
-            if (!isLoading)
+            if (!isLoading) {
               handleSubmit(e, {
                 data: {
                   images,
                 },
               });
-            setImages([]);
+              setImages([]);
+            }
           }
         }}
         className='flex w-full resize-none self-end rounded-[20px] border border-input bg-background px-3 py-2 shadow focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50'

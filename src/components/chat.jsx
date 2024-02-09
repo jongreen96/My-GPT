@@ -64,7 +64,6 @@ export default function Chat({
         stop={stop}
         settings={settings}
         setSettings={setSettings}
-        pathname={pathname}
         started={messages.length > 0}
       />
     </>

@@ -9,6 +9,9 @@ const nextConfig = {
       {
         hostname: 'placehold.co',
       },
+      {
+        hostname: 'mvhpymzmjszthsc0.public.blob.vercel-storage.com',
+      },
     ],
   },
 };

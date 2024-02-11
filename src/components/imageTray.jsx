@@ -24,7 +24,7 @@ export default function ImageTray({ images, setImages }) {
           </div>
         ))}
       </div>
-      <div className='mb-2 h-[1px] w-full bg-secondary'></div>
+      <div className='my-2 h-[1px] w-full bg-secondary'></div>
     </>
   );
 }

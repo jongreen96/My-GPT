@@ -1,108 +1,16 @@
-import {
-  createConversation,
-  createMessages,
-  getMessages,
-  getUser,
-  updateUser,
-} from '@/lib/db/queries';
-import { OpenAIStream } from 'ai';
-import { getEncoding } from 'js-tiktoken';
+import { getMessages } from '@/lib/db/queries';
 import OpenAI from 'openai';
-
-export async function streamConversation(body) {
-  const openai = new OpenAI();
-
-  let { messages, id, userId, newChat, settings, data } = body;
-
-  const reqTime = new Date().toISOString();
-  let resTokens = 0;
-
-  const user = await getUser(userId);
-  if (user.credits <= 0) {
-    return 'Insufficient credits';
-  }
-
-  const responseSettings = {
-    model: settings.model,
-    temperature: settings.temperature,
-    max_tokens: Number(settings.max_tokens) || null,
-    frequency_penalty: settings.frequency_penalty,
-    presence_penalty: settings.presence_penalty,
-    top_p: settings.top_p,
-    response_format: settings.response_format
-      ? { type: 'json_object' }
-      : { type: 'text' },
-    messages:
-      settings.system_message !== ''
-        ? [{ role: 'system', content: settings.system_message }, ...messages]
-        : messages,
-    stream: true,
-    user: userId,
-  };
-
-  // Hate this implementation, could do better
-  if (openAIModels[settings.model].type === 'vision') {
-    delete responseSettings.response_format;
-    responseSettings.max_tokens = 4096;
-  }
-
-  if (data.images.length > 0) {
-    messages[messages.length - 1].content = [
-      { type: 'text', text: messages[messages.length - 1].content },
-      ...data.images.map((image) => ({
-        type: 'image_url',
-        image_url: { url: image, detail: 'low' },
-      })),
-    ];
-  }
-
-  const response = await openai.chat.completions.create({
-    ...responseSettings,
-  });
-
-  const stream = new OpenAIStream(response, {
-    onToken: () => {
-      resTokens++;
-    },
-    onFinal: async (completion) => {
-      const enc = getEncoding('cl100k_base');
-      let reqTokens = messages.reduce((acc, message) => {
-        if (typeof message.content === 'string') {
-          return acc + enc.encode(message.content).length;
-        } else {
-          return (
-            acc +
-            message.content.reduce((acc, part) => {
-              if (part.type === 'text') {
-                return acc + enc.encode(part.text).length;
-              } else {
-                return acc;
-              }
-            }, 0)
-          );
-        }
-      }, 0);
-
-      const { reqCost, resCost } = calculateCost(
-        reqTokens,
-        resTokens,
-        settings.model,
-      );
-
-      await updateUser(userId, reqCost, resCost);
-      if (newChat) await createConversation(id, userId, settings);
-
-      await createMessages(id, messages, completion, reqTime, reqCost, resCost);
-    },
-  });
-
-  return stream;
-}
 
 export async function generateSubject(conversationId) {
   const openai = new OpenAI();
 
   const messages = await getMessages(conversationId);
+
+  messages.forEach((message) => {
+    delete message.id;
+    delete message.createdAt;
+    delete message.images;
+  });
 
   const prompt = [
     {
@@ -128,7 +36,7 @@ export async function generateSubject(conversationId) {
   return response.choices[0].message.content;
 }
 
-function calculateCost(reqTokens, resTokens, model) {
+export function calculateCost(reqTokens, resTokens, model) {
   const reqCost = Math.ceil(
     reqTokens * openAIModels[model].reqTokens * process.env.PM,
   );

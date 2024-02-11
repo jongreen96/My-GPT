@@ -32,6 +32,7 @@ export default function Chat({
     stop,
   } = useChat({
     initialMessages,
+    sendExtraMessageFields: true,
     body: {
       id,
       userId,

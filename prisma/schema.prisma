@@ -22,6 +22,7 @@ model Messages {
   conversationId String
   conversation   Conversations @relation(fields: [conversationId], references: [id])
   role           String
+  images         String[]
   content        String
   credits        Int
   createdAt      DateTime      @default(now())

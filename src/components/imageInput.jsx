@@ -1,10 +1,9 @@
 import { openAIModels } from '@/lib/openAI';
 import { ImageIcon } from 'lucide-react';
 import { useRef } from 'react';
-import ImageTray from './imageTray';
 import { Input } from './ui/input';
 
-export default function ImageInput({ images, setImages, settings }) {
+export default function ImageInput({ setImages, settings }) {
   const fileInputRef = useRef();
   if (openAIModels[settings.model].type !== 'vision') return null;
 
@@ -25,7 +24,6 @@ export default function ImageInput({ images, setImages, settings }) {
 
   return (
     <>
-      <ImageTray images={images} setImages={setImages} />
       <label
         htmlFor='fileInput'
         className='flex aspect-square h-10 w-10 cursor-pointer items-center justify-center self-end rounded-full bg-primary text-white'

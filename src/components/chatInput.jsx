@@ -2,9 +2,10 @@
 
 import ChatSettingsPopover from '@/components/chatSettings';
 import { SendHorizonal, Square } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import TextAreaAuto from 'react-textarea-autosize';
 import ImageInput from './imageInput';
+import ImageTray from './imageTray';
 import { Button } from './ui/button';
 import LoadingButton from './ui/loadingButton';
 
@@ -18,13 +19,22 @@ export default function ChatInput({
   settings,
   setSettings,
   started,
+  messages,
 }) {
   const [images, setImages] = useState([]);
+  const [tempImages, setTempImages] = useState([]);
+
+  useEffect(() => {
+    if (isLoading && messages[messages.length - 1]?.role === 'user') {
+      messages[messages.length - 1].images = tempImages;
+    }
+  }, [isLoading]);
 
   return (
     <form
       onSubmit={(e) => {
         handleSubmit(e, { data: { images } });
+        setTempImages(images);
         setImages([]);
       }}
       className='sticky bottom-0 mx-auto flex w-full max-w-7xl gap-2 p-2'
@@ -35,28 +45,33 @@ export default function ChatInput({
         started={started}
       />
 
-      <TextAreaAuto
-        autoFocus
-        maxRows={15}
-        ref={inputRef}
-        value={input}
-        placeholder='Say something...'
-        onChange={handleInputChange}
-        onKeyDown={(e) => {
-          if (e.key === 'Enter' && !e.shiftKey) {
-            e.preventDefault();
-            if (!isLoading) {
-              handleSubmit(e, {
-                data: {
-                  images,
-                },
-              });
-              setImages([]);
+      <div className='flex w-full flex-col rounded-[20px] border border-input bg-background px-3 py-2 shadow'>
+        <ImageTray images={images} setImages={setImages} />
+
+        <TextAreaAuto
+          autoFocus
+          maxRows={15}
+          ref={inputRef}
+          value={input}
+          placeholder='Say something...'
+          onChange={handleInputChange}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+              e.preventDefault();
+              if (!isLoading) {
+                handleSubmit(e, {
+                  data: {
+                    images,
+                  },
+                });
+                setTempImages(images);
+                setImages([]);
+              }
             }
-          }
-        }}
-        className='flex w-full resize-none self-end rounded-[20px] border border-input bg-background px-3 py-2 shadow focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50'
-      />
+          }}
+          className='w-full resize-none bg-background focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50'
+        />
+      </div>
 
       <ImageInput images={images} setImages={setImages} settings={settings} />
 

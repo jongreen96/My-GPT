@@ -6,7 +6,11 @@ import {
 } from '@/lib/db/queries';
 import { calculateCost, openAIModels } from '@/lib/openAI';
 import { put } from '@vercel/blob';
-import { OpenAIStream, StreamingTextResponse } from 'ai';
+import {
+  OpenAIStream,
+  StreamingTextResponse,
+  experimental_StreamData,
+} from 'ai';
 import { getEncoding } from 'js-tiktoken';
 import OpenAI from 'openai';
 
@@ -96,11 +100,14 @@ export async function POST(req) {
       ...responseSettings,
     });
 
+    const extraData = new experimental_StreamData();
     const stream = new OpenAIStream(response, {
+      onStart: () => {},
       onToken: () => {
         resTokens++;
       },
-      onFinal: async (completion) => {
+      onCompletion: async (completion) => {
+        extraData.append({ images: imageUrls });
         const enc = getEncoding('cl100k_base');
         let reqTokens = messages.reduce((acc, message) => {
           if (typeof message.content === 'string') {
@@ -138,9 +145,13 @@ export async function POST(req) {
           imageUrls,
         );
       },
+      onFinal: () => {
+        extraData.close();
+      },
+      experimental_streamData: true,
     });
 
-    return new StreamingTextResponse(stream);
+    return new StreamingTextResponse(stream, {}, extraData);
   } catch (error) {
     console.log(error);
   }

@@ -21,9 +21,10 @@ export async function POST(req) {
   try {
     const openai = new OpenAI();
     let { messages, id, userId, newChat, settings, data } = await req.json();
+    let resTokens = 0;
+    let images = [];
 
     const reqTime = new Date().toISOString();
-    let resTokens = 0;
 
     const user = await getUser(userId);
     if (user.credits <= 0) {
@@ -48,13 +49,12 @@ export async function POST(req) {
       user: userId,
     };
 
-    // VISION
+    // Format messages for OpenAI
     if (openAIModels[settings.model].type === 'vision') {
       delete responseSettings.response_format;
       responseSettings.max_tokens = 4096;
     }
 
-    // Format messages for OpenAI
     messages = messages.map((message) => {
       if (message.images?.length > 0) {
         message.content = [
@@ -73,7 +73,6 @@ export async function POST(req) {
     });
 
     // Upload images to Vercel Blob
-    let images = [];
     if (data.images.length > 0) {
       images = await Promise.all(
         data.images.map(async (image) => {
@@ -100,19 +99,21 @@ export async function POST(req) {
       ];
     }
 
+    // Send request to OpenAI
     const response = await openai.chat.completions.create({
       ...responseSettings,
     });
 
     const extraData = new experimental_StreamData();
     const stream = new OpenAIStream(response, {
-      onStart: () => {},
       onToken: () => {
         resTokens++;
       },
       onCompletion: async (completion) => {
         extraData.append({ images: images });
         const enc = getEncoding('cl100k_base');
+
+        // Calculate request cost
         let reqTokens = messages.reduce((acc, message) => {
           if (typeof message.content === 'string') {
             return acc + enc.encode(message.content).length;

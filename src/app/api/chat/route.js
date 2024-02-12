@@ -80,7 +80,6 @@ export async function POST(req) {
           const buffer = Buffer.from(image.split(',')[1], 'base64');
 
           const dimensions = sizeOf(buffer);
-          console.log(dimensions.width, dimensions.height);
 
           const blob = await put('chat-image.png', buffer, {
             contentType: 'image/png',

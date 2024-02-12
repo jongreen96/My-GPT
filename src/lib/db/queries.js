@@ -66,7 +66,7 @@ export async function createMessages(
   reqTime,
   reqCost,
   resCost,
-  imageUrls,
+  images,
 ) {
   const result = await prisma.messages.createMany({
     // TODO: Change schema to work with images
@@ -78,7 +78,7 @@ export async function createMessages(
             ? messages[messages.length - 1].content
             : messages[messages.length - 1].content[0].text,
         role: 'user',
-        images: imageUrls,
+        images: images.map((image) => image.url),
         createdAt: reqTime,
         credits: reqCost,
       },

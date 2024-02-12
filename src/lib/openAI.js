@@ -36,9 +36,13 @@ export async function generateSubject(conversationId) {
   return response.choices[0].message.content;
 }
 
-export function calculateCost(reqTokens, resTokens, model) {
+export function calculateCost(reqTokens, resTokens, model, images) {
+  // TODO: Add const for full quality images
+  const imageCost =
+    85 * images.length * openAIModels[model].reqTokens * process.env.PM;
+
   const reqCost = Math.ceil(
-    reqTokens * openAIModels[model].reqTokens * process.env.PM,
+    reqTokens * openAIModels[model].reqTokens * process.env.PM + imageCost,
   );
   const resCost = Math.ceil(
     resTokens * openAIModels[model].resTokens * process.env.PM,

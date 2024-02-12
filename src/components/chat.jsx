@@ -3,7 +3,7 @@
 import ChatInput from '@/components/chatInput';
 import { useChat } from 'ai/react';
 import { usePathname, useRouter } from 'next/navigation';
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import Messages from './messages';
 
 export default function Chat({
@@ -47,17 +47,6 @@ export default function Chat({
       }
     },
   });
-
-  /*
-    Absolutely despise this, but without it i'm a broken man
-    who couldnt see the light at the end of the tunnel :(
-  */
-  useEffect(() => {
-    if (data && data[data.length - 1]?.images.length > 0) {
-      messages[messages.length - 2].images = data[data.length - 1].images;
-    }
-    if (data) data.length = 0;
-  }, [data, messages]);
 
   return (
     <>

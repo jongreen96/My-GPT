@@ -11,6 +11,7 @@ import {
   StreamingTextResponse,
   experimental_StreamData,
 } from 'ai';
+import sizeOf from 'image-size';
 import { getEncoding } from 'js-tiktoken';
 import OpenAI from 'openai';
 
@@ -72,26 +73,30 @@ export async function POST(req) {
     });
 
     // Upload images to Vercel Blob
-    let imageUrls = [];
+    let images = [];
     if (data.images.length > 0) {
-      imageUrls = await Promise.all(
+      images = await Promise.all(
         data.images.map(async (image) => {
           const buffer = Buffer.from(image.split(',')[1], 'base64');
+
+          const dimensions = sizeOf(buffer);
+          console.log(dimensions.width, dimensions.height);
+
           const blob = await put('chat-image.png', buffer, {
             contentType: 'image/png',
             access: 'public',
           });
 
-          return blob.url;
+          return { url: blob.url, dimensions };
         }),
       );
 
       // Add images to last message
       messages[messages.length - 1].content = [
         { type: 'text', text: messages[messages.length - 1].content },
-        ...imageUrls.map((image) => ({
+        ...images.map((image) => ({
           type: 'image_url',
-          image_url: { url: image, detail: 'low' },
+          image_url: { url: image.url, detail: 'low' },
         })),
       ];
     }
@@ -107,7 +112,7 @@ export async function POST(req) {
         resTokens++;
       },
       onCompletion: async (completion) => {
-        extraData.append({ images: imageUrls });
+        extraData.append({ images: images });
         const enc = getEncoding('cl100k_base');
         let reqTokens = messages.reduce((acc, message) => {
           if (typeof message.content === 'string') {
@@ -130,6 +135,7 @@ export async function POST(req) {
           reqTokens,
           resTokens,
           settings.model,
+          images,
         );
 
         await updateUser(userId, reqCost, resCost);
@@ -142,7 +148,7 @@ export async function POST(req) {
           reqTime,
           reqCost,
           resCost,
-          imageUrls,
+          images,
         );
       },
       onFinal: () => {

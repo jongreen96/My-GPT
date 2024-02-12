@@ -45,7 +45,7 @@ export default function ChatInput({
         started={started}
       />
 
-      <div className='flex w-full flex-col rounded-[20px] border border-input bg-background px-3 py-2 shadow'>
+      <div className='flex w-full min-w-0 flex-col rounded-[20px] border border-input bg-background px-3 py-2 shadow'>
         <ImageTray images={images} setImages={setImages} />
 
         <div className='flex gap-2'>

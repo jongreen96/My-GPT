@@ -48,32 +48,37 @@ export default function ChatInput({
       <div className='flex w-full flex-col rounded-[20px] border border-input bg-background px-3 py-2 shadow'>
         <ImageTray images={images} setImages={setImages} />
 
-        <TextAreaAuto
-          autoFocus
-          maxRows={15}
-          ref={inputRef}
-          value={input}
-          placeholder='Say something...'
-          onChange={handleInputChange}
-          onKeyDown={(e) => {
-            if (e.key === 'Enter' && !e.shiftKey) {
-              e.preventDefault();
-              if (!isLoading) {
-                handleSubmit(e, {
-                  data: {
-                    images,
-                  },
-                });
-                setTempImages(images);
-                setImages([]);
+        <div className='flex gap-2'>
+          <TextAreaAuto
+            autoFocus
+            maxRows={15}
+            ref={inputRef}
+            value={input}
+            placeholder='Say something...'
+            onChange={handleInputChange}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                if (!isLoading) {
+                  handleSubmit(e, {
+                    data: {
+                      images,
+                    },
+                  });
+                  setTempImages(images);
+                  setImages([]);
+                }
               }
-            }
-          }}
-          className='w-full resize-none bg-background focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50'
-        />
+            }}
+            className='grow resize-none bg-background focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50'
+          />
+          <ImageInput
+            images={images}
+            setImages={setImages}
+            settings={settings}
+          />
+        </div>
       </div>
-
-      <ImageInput images={images} setImages={setImages} settings={settings} />
 
       {isLoading ? (
         <Button

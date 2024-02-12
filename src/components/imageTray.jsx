@@ -5,7 +5,7 @@ export default function ImageTray({ images, setImages }) {
   if (images.length === 0) return null;
   return (
     <>
-      <div className='relative flex gap-2 p-2'>
+      <div className='no-scrollbar relative flex items-center gap-2 overflow-scroll p-2'>
         {images.map((image, index) => (
           <div key={index} className='relative'>
             <XCircle
@@ -17,9 +17,9 @@ export default function ImageTray({ images, setImages }) {
             <Image
               src={image}
               alt='image'
-              width={50}
-              height={50}
-              className='w-20 shadow'
+              width={80}
+              height={80}
+              className='min-w-10 shadow'
             />
           </div>
         ))}

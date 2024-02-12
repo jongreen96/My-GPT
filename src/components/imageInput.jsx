@@ -26,7 +26,7 @@ export default function ImageInput({ setImages, settings }) {
     <>
       <label
         htmlFor='fileInput'
-        className='flex aspect-square h-10 w-10 cursor-pointer items-center justify-center self-end rounded-full bg-primary text-white'
+        className='flex aspect-square cursor-pointer items-center justify-center self-end rounded-full text-brand'
       >
         <span className='icon-button'>
           <ImageIcon size={24} />

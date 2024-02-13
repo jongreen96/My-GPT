@@ -113,18 +113,18 @@ export async function POST(req) {
         extraData.append({ images: images });
         const enc = getEncoding('cl100k_base');
 
-        // Calculate request cost
-        let reqTokens = messages.reduce((acc, message) => {
+        // Calculate cost
+        const reqTokens = messages.reduce((acc, message) => {
           if (typeof message.content === 'string') {
             return acc + enc.encode(message.content).length;
           } else {
             return (
               acc +
-              message.content.reduce((acc, part) => {
-                if (part.type === 'text') {
-                  return acc + enc.encode(part.text).length;
+              message.content.reduce((accu, content) => {
+                if (content.type === 'text') {
+                  return accu + enc.encode(content.text).length;
                 } else {
-                  return acc;
+                  return accu + 85;
                 }
               }, 0)
             );
@@ -135,7 +135,6 @@ export async function POST(req) {
           reqTokens,
           resTokens,
           settings.model,
-          images,
         );
 
         await updateUser(userId, reqCost, resCost);

@@ -69,7 +69,6 @@ export async function createMessages(
   images,
 ) {
   const result = await prisma.messages.createMany({
-    // TODO: Change schema to work with images
     data: [
       {
         conversationId: id,

@@ -16,7 +16,9 @@ export const metadata = {
   description: 'Change your settings',
 };
 
-const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY);
+const stripePromise = loadStripe(
+  process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY,
+);
 
 export default async function SettingsPage() {
   const { userId } = auth();

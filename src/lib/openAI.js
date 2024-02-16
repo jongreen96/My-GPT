@@ -67,11 +67,11 @@ export const openAIModels = {
     reqTokens: 10,
     resTokens: 30,
   },
-  'gpt-4-vision-preview': {
-    type: 'vision',
-    reqTokens: 10,
-    resTokens: 30,
-  },
+  // 'gpt-4-vision-preview': {
+  //   type: 'vision',
+  //   reqTokens: 10,
+  //   resTokens: 30,
+  // },
   'gpt-4': {
     type: 'chat',
     reqTokens: 30,

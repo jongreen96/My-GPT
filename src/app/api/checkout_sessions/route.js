@@ -12,8 +12,8 @@ export async function POST(req, res) {
         },
       ],
       mode: 'payment',
-      success_url: `https://my-gpt-next-one.vercel.app/settings?success=true`,
-      cancel_url: `https://my-gpt-next-one.vercel.app/settings/?canceled=true`,
+      success_url: `http://localhost:3000//settings?success=true`,
+      cancel_url: `http://localhost:3000//settings/?canceled=true`,
     });
 
     return NextResponse.redirect(session.url);

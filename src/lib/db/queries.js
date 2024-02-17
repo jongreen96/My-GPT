@@ -121,7 +121,7 @@ export async function getUser(id) {
   return user;
 }
 
-export async function updateUser(userId, reqCost, resCost) {
+export async function decreaseUserCredits(userId, reqCost, resCost) {
   await prisma.users.update({
     where: {
       id: userId,
@@ -129,6 +129,19 @@ export async function updateUser(userId, reqCost, resCost) {
     data: {
       credits: {
         decrement: reqCost + resCost,
+      },
+    },
+  });
+}
+
+export async function increaseUserCredits(userId, amount) {
+  await prisma.users.update({
+    where: {
+      id: userId,
+    },
+    data: {
+      credits: {
+        increment: amount * 10000,
       },
     },
   });
@@ -194,6 +207,19 @@ export async function createUser(id) {
         top_p: 1,
         system_message: '',
       },
+    },
+  });
+  return result;
+}
+
+// ---------------------------------- Transactions ----------------------------------
+
+export async function addTransaction(userId, total) {
+  const result = await prisma.transactions.create({
+    data: {
+      userId,
+      total,
+      credits: total * 10000,
     },
   });
   return result;

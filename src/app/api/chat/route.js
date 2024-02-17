@@ -1,8 +1,8 @@
 import {
   createConversation,
   createMessages,
+  decreaseUserCredits,
   getUser,
-  updateUser,
 } from '@/lib/db/queries';
 import { calculateCost, openAIModels } from '@/lib/openAI';
 import { put } from '@vercel/blob';
@@ -137,7 +137,7 @@ export async function POST(req) {
           settings.model,
         );
 
-        await updateUser(userId, reqCost, resCost);
+        await decreaseUserCredits(userId, reqCost, resCost);
         if (newChat) await createConversation(id, userId, settings);
 
         await createMessages(

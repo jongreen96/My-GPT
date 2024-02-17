@@ -1,8 +1,8 @@
+import { addTransaction, increaseUserCredits } from '@/lib/db/queries';
 import { headers } from 'next/headers';
 import Stripe from 'stripe';
 
 const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
-const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET;
 
 export async function POST(req) {
   const body = await req.text();
@@ -11,7 +11,11 @@ export async function POST(req) {
   let event;
 
   try {
-    event = stripe.webhooks.constructEvent(body, sig, endpointSecret);
+    event = stripe.webhooks.constructEvent(
+      body,
+      sig,
+      process.env.STRIPE_WEBHOOK_SECRET,
+    );
   } catch (err) {
     console.log(err);
     return new Response('Webhook Error', { status: 400 });
@@ -29,16 +33,14 @@ export async function POST(req) {
 
       await fulfillOrder(sessionWithLineItems);
       break;
-    default:
-      console.log(`Unhandled event type ${event.type}`);
   }
 
   return new Response('ok', { status: 200 });
 }
 
 async function fulfillOrder(session) {
-  const { amount_total, customer_details, line_items } = session;
-  console.log(`Fulfilling order for ${customer_details.email}`);
-  console.log(`Total: ${amount_total}`);
-  console.log('Line items:', line_items.data);
+  const { amount_total, client_reference_id } = session;
+
+  await increaseUserCredits(client_reference_id, amount_total);
+  await addTransaction(client_reference_id, amount_total);
 }

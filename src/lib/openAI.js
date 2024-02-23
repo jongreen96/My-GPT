@@ -138,3 +138,14 @@ export const openAIModels = {
   //   resTokens: undefined,
   // },
 };
+
+export const defaultSettings = {
+  model: 'gpt-3.5-turbo-0125',
+  max_tokens: null,
+  temperature: 1,
+  response_format: null,
+  frequency_penalty: 0,
+  presence_penalty: 0,
+  top_p: 1,
+  system_message: '',
+};

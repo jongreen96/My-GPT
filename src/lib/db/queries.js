@@ -1,4 +1,5 @@
 import prisma from '@/lib/db/prisma';
+import { defaultSettings } from '../openAI';
 
 // ---------------------------------- Conversations ----------------------------------
 
@@ -197,16 +198,7 @@ export async function createUser(id) {
     data: {
       id,
       credits: 100000,
-      defaultSettings: {
-        model: 'gpt-3.5-turbo-0125',
-        max_tokens: null,
-        temperature: 1,
-        response_format: null,
-        frequency_penalty: 0,
-        presence_penalty: 0,
-        top_p: 1,
-        system_message: '',
-      },
+      defaultSettings: defaultSettings,
     },
   });
   return result;

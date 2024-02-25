@@ -31,6 +31,11 @@ export async function POST(req) {
       return 'Insufficient credits';
     }
 
+    if (newChat) {
+      const subject = await generateSubject(null, messages);
+      await createConversation(id, userId, settings, subject);
+    }
+
     const responseSettings = {
       model: settings.model,
       temperature: settings.temperature,
@@ -138,10 +143,6 @@ export async function POST(req) {
         );
 
         await decreaseUserCredits(userId, reqCost, resCost);
-        if (newChat) {
-          const subject = await generateSubject(null, messages);
-          await createConversation(id, userId, settings, subject);
-        }
 
         await createMessages(
           id,

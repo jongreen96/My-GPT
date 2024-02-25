@@ -1,10 +1,12 @@
-import { getMessages } from '@/lib/db/queries';
 import OpenAI from 'openai';
+import { getMessages } from './db/queries';
 
-export async function generateSubject(conversationId) {
+export async function generateSubject(conversationId, messages) {
   const openai = new OpenAI();
 
-  const messages = await getMessages(conversationId);
+  if (!messages) {
+    messages = await getMessages(conversationId);
+  }
 
   messages.forEach((message) => {
     delete message.id;

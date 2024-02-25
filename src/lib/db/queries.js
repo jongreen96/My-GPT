@@ -3,13 +3,13 @@ import { defaultSettings } from '../openAI';
 
 // ---------------------------------- Conversations ----------------------------------
 
-export async function createConversation(id, userId, settings) {
+export async function createConversation(id, userId, settings, subject = '') {
   const result = await prisma.conversations.create({
     data: {
       id,
       settings,
       userId,
-      subject: '',
+      subject,
     },
   });
   return result;

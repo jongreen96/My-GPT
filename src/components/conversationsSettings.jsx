@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  createNewConversationSubject,
   deleteConversationAction,
   updateConversationSubjectAction,
 } from '@/app/actions';
@@ -26,18 +25,11 @@ import { Label } from '@/components/ui/label';
 import LoadingButton from '@/components/ui/loadingButton';
 import { IsDesktop } from '@/lib/hooks';
 import { MoreVertical, Sparkles } from 'lucide-react';
-import { useEffect } from 'react';
 import { useFormStatus } from 'react-dom';
 import ChatInfo from './chatInfo';
 
 export default function ConversationsSettings({ conversation }) {
   const isDesktop = IsDesktop();
-
-  useEffect(() => {
-    if (conversation.subject === '') {
-      createNewConversationSubject(conversation.id);
-    }
-  }, [conversation.id, conversation.subject]);
 
   const innerContent = (
     <div className='mt-4 flex flex-col gap-4'>

@@ -28,7 +28,10 @@ export async function POST(req) {
 
     const user = await getUser(userId);
     if (user.credits <= 0) {
-      return 'Insufficient credits';
+      return new Response(
+        'Insufficient credits, add more in the settings page.',
+        { status: 402 },
+      );
     }
 
     if (newChat) {

@@ -34,6 +34,7 @@ export default function Messages({ messages, settings, error, inputRef }) {
             message={{
               role: 'assistant',
               content:
+                error.message ||
                 'Sorry, something went wrong. Please refresh the page and try again.',
             }}
           />

@@ -94,7 +94,7 @@ function AfterPaymentMessage() {
     return (
       <div className='flex items-center gap-2 text-green-500'>
         <CheckCircleIcon size={24} />
-        <p>Payment Completed</p>
+        <p>Payment Successful </p>
       </div>
     );
   }

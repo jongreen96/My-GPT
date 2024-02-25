@@ -26,7 +26,7 @@ export default async function SettingsPage() {
       </h1>
 
       <section className='flex flex-col gap-2 sm:flex-row'>
-        <Card className='w-full'>
+        <Card className='h-fit w-full'>
           <CardHeader className='text-center sm:text-left'>
             <CardTitle>Credits</CardTitle>
             <CardDescription>Manage your credits</CardDescription>
@@ -37,7 +37,7 @@ export default async function SettingsPage() {
           </CardContent>
         </Card>
 
-        <Card className='w-full'>
+        <Card className='h-fit w-full'>
           <CardHeader className='text-center sm:text-left'>
             <CardTitle>Defaults</CardTitle>
             <CardDescription>Manage your default settings</CardDescription>

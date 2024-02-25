@@ -22,31 +22,23 @@ export default function Chat({
     conversationSettings || defaultSettings,
   );
 
-  const {
-    messages,
-    input,
-    handleInputChange,
-    handleSubmit,
-    error,
-    isLoading,
-    stop,
-    data,
-  } = useChat({
-    initialMessages,
-    sendExtraMessageFields: true,
-    body: {
-      id,
-      userId,
-      newChat: pathname === '/chat',
-      settings: conversationSettings || settings,
-    },
-    onFinish: () => {
-      if (pathname !== `/chat/${id}`) {
-        router.push(`/chat/${id}`);
-        router.refresh();
-      }
-    },
-  });
+  const { messages, input, handleInputChange, handleSubmit, error, isLoading } =
+    useChat({
+      initialMessages,
+      sendExtraMessageFields: true,
+      body: {
+        id,
+        userId,
+        newChat: pathname === '/chat',
+        settings: conversationSettings || settings,
+      },
+      onFinish: () => {
+        if (pathname !== `/chat/${id}`) {
+          router.push(`/chat/${id}`);
+          router.refresh();
+        }
+      },
+    });
 
   return (
     <>
@@ -63,7 +55,6 @@ export default function Chat({
         handleSubmit={handleSubmit}
         inputRef={inputRef}
         isLoading={isLoading}
-        stop={stop}
         settings={settings}
         setSettings={setSettings}
         started={messages.length > 0}

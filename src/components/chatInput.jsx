@@ -1,7 +1,7 @@
 'use client';
 
 import ChatSettingsPopover from '@/components/chatSettings';
-import { SendHorizonal, Square } from 'lucide-react';
+import { Loader2Icon, SendHorizonal } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import TextAreaAuto from 'react-textarea-autosize';
 import ImageInput from './imageInput';
@@ -15,7 +15,6 @@ export default function ChatInput({
   handleSubmit,
   inputRef,
   isLoading,
-  stop,
   settings,
   setSettings,
   started,
@@ -82,11 +81,11 @@ export default function ChatInput({
 
       {isLoading ? (
         <Button
+          disabled
           size='icon'
           className='aspect-square self-end rounded-full'
-          onClick={stop}
         >
-          <Square />
+          <Loader2Icon className='animate-spin' />
         </Button>
       ) : (
         <LoadingButton

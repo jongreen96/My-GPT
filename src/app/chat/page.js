@@ -2,6 +2,7 @@ import Chat from '@/components/chat';
 import { getUser } from '@/lib/db/queries';
 import { auth } from '@clerk/nextjs';
 import { nanoid } from 'nanoid';
+import { redirect } from 'next/navigation';
 
 export const metadata = {
   title: 'Chat',
@@ -10,6 +11,8 @@ export const metadata = {
 export default async function ChatPage() {
   const { userId } = auth();
   const user = await getUser(userId);
+  if (!user) redirect('/');
+
   const settings = user?.defaultSettings || {
     model: 'gpt-3.5-turbo-0125',
     max_tokens: null,

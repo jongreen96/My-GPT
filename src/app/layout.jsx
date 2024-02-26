@@ -1,6 +1,7 @@
 import Navbar from '@/components/navbar';
 import { ThemeProvider } from '@/components/themeProvider';
 import { ClerkProvider } from '@clerk/nextjs';
+import { Analytics } from '@vercel/analytics/react';
 import { Inter } from 'next/font/google';
 import './globals.css';
 
@@ -27,6 +28,7 @@ export default function RootLayout({ children }) {
             </div>
           </ClerkProvider>
         </ThemeProvider>
+        <Analytics />
       </body>
     </html>
   );

@@ -103,7 +103,7 @@ function AfterPaymentMessage() {
     return (
       <div className='flex items-center gap-2 text-destructive'>
         <AlertCircle size={24} />
-        <p>Payment Failed</p>
+        <p>Payment Unsuccessful</p>
       </div>
     );
   }

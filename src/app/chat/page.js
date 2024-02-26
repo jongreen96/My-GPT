@@ -10,7 +10,7 @@ export const metadata = {
 export default async function ChatPage() {
   const { userId } = auth();
   const user = await getUser(userId);
-  const settings = user.defaultSettings || {
+  const settings = user?.defaultSettings || {
     model: 'gpt-3.5-turbo-0125',
     max_tokens: null,
     temperature: 1,

@@ -23,13 +23,12 @@ export default function AddCreditsForm({ credits }) {
         <AfterPaymentMessage />
       </div>
 
-      <p className='text-lg font-semibold'>Add credits </p>
-
       <form
         action='/api/checkout_sessions'
         method='POST'
         className='flex flex-col gap-2'
       >
+        <p className='text-lg font-semibold'>Add credits </p>
         <RadioGroup defaultValue='500' className='flex w-full justify-between'>
           <ProductCard price={500} />
           <ProductCard price={1000} />

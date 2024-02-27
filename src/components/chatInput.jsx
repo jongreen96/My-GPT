@@ -1,7 +1,7 @@
 'use client';
 
 import ChatSettingsPopover from '@/components/chatSettings';
-import { Loader2Icon, SendHorizonal } from 'lucide-react';
+import { ArrowDown, Loader2Icon, SendHorizonal } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import TextAreaAuto from 'react-textarea-autosize';
 import ImageInput from './imageInput';
@@ -38,6 +38,8 @@ export default function ChatInput({
       }}
       className='sticky bottom-0 mx-auto flex w-full max-w-7xl gap-2 p-2'
     >
+      <ChatSettingsMessage input={input} started={started} />
+
       <ChatSettingsPopover
         settings={settings}
         setSettings={setSettings}
@@ -98,5 +100,15 @@ export default function ChatInput({
         </LoadingButton>
       )}
     </form>
+  );
+}
+
+function ChatSettingsMessage({ input, started }) {
+  if (input || started) return null;
+  return (
+    <div className='absolute -top-4 left-[18px] flex items-center gap-2 text-muted-foreground'>
+      <ArrowDown size={20} />
+      <p className='text-sm'>Change chat settings here</p>
+    </div>
   );
 }

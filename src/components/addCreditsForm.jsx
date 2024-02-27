@@ -4,7 +4,7 @@ import { loadStripe } from '@stripe/stripe-js';
 import { AlertCircle, CheckCircleIcon } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
 import { Button } from './ui/button';
-import { Input } from './ui/input';
+import ProductCard from './ui/productCard';
 import { RadioGroup } from './ui/radio-group';
 
 const stripePromise = loadStripe(
@@ -28,54 +28,12 @@ export default function AddCreditsForm({ credits }) {
       <form
         action='/api/checkout_sessions'
         method='POST'
-        className='flex flex-col'
+        className='flex flex-col gap-2'
       >
-        <RadioGroup
-          defaultValue='500'
-          className='flex w-full flex-wrap justify-between'
-        >
-          <div className='flex items-center gap-2'>
-            <Input
-              type='radio'
-              name='credits'
-              id='500'
-              value='500'
-              defaultChecked
-              required
-              className='w-fit'
-            />
-            <label htmlFor='500' className='whitespace-nowrap'>
-              5 million
-            </label>
-          </div>
-
-          <div className='flex items-center gap-2'>
-            <Input
-              type='radio'
-              name='credits'
-              id='1000'
-              value='1000'
-              required
-              className='w-fit'
-            />
-            <label htmlFor='1000' className='whitespace-nowrap'>
-              10 million
-            </label>
-          </div>
-
-          <div className='flex items-center gap-2'>
-            <Input
-              type='radio'
-              name='credits'
-              id='2000'
-              value='2000'
-              required
-              className='w-fit'
-            />
-            <label htmlFor='2000' className='whitespace-nowrap'>
-              20 million
-            </label>
-          </div>
+        <RadioGroup defaultValue='500' className='flex w-full justify-between'>
+          <ProductCard price={500} />
+          <ProductCard price={1000} />
+          <ProductCard price={2000} />
         </RadioGroup>
 
         {/* <Input type='number' name='credits' min='5' step='1' /> */}

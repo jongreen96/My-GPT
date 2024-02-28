@@ -52,7 +52,7 @@ export function calculateCost(reqTokens, resTokens, model) {
   };
 }
 
-// Models updated as of 30/01/2024
+// Models updated as of 28/02/2024
 export const openAIModels = {
   'gpt-4-0125-preview': {
     type: 'chat',
@@ -79,11 +79,6 @@ export const openAIModels = {
     reqTokens: 30,
     resTokens: 60,
   },
-  'gpt-4-0613': {
-    type: 'chat',
-    reqTokens: 30,
-    resTokens: 60,
-  },
   // 'gpt-4-32k': {                    Doesn't work because I don't have access to this model
   //   type: 'chat',
   //   reqTokens: 60,
@@ -96,23 +91,18 @@ export const openAIModels = {
   // },
   'gpt-3.5-turbo-0125': {
     type: 'chat',
-    reqTokens: 1,
-    resTokens: 2,
+    reqTokens: 0.5,
+    resTokens: 1.5,
   },
   'gpt-3.5-turbo-1106': {
     type: 'chat',
-    reqTokens: 1,
-    resTokens: 2,
+    reqTokens: 0.5,
+    resTokens: 1.5,
   },
   'gpt-3.5-turbo': {
     type: 'chat',
-    reqTokens: 1,
-    resTokens: 2,
-  },
-  'gpt-3.5-turbo-16k': {
-    type: 'chat',
-    reqTokens: 1,
-    resTokens: 2,
+    reqTokens: 0.5,
+    resTokens: 1.5,
   },
   // 'dall-e-3': {                      Need to set up endpoint for this type
   //   type: 'image',

@@ -6,11 +6,7 @@ import {
 } from '@/lib/db/queries';
 import { calculateCost, generateSubject, openAIModels } from '@/lib/openAI';
 import { put } from '@vercel/blob';
-import {
-  OpenAIStream,
-  StreamingTextResponse,
-  experimental_StreamData,
-} from 'ai';
+import { OpenAIStream, StreamingTextResponse } from 'ai';
 import sizeOf from 'image-size';
 import { getEncoding } from 'js-tiktoken';
 import OpenAI from 'openai';
@@ -20,13 +16,14 @@ export const maxDuration = 300;
 export async function POST(req) {
   try {
     const openai = new OpenAI();
+    const reqTime = new Date().toISOString();
+
     let { messages, id, userId, newChat, settings, data } = await req.json();
     let resTokens = 0;
     let images = [];
-
-    const reqTime = new Date().toISOString();
-
     const user = await getUser(userId);
+
+    // Check if user has enough credits
     if (user.credits <= 0) {
       return new Response(
         'Insufficient credits, add more in the settings page.',
@@ -34,35 +31,7 @@ export async function POST(req) {
       );
     }
 
-    if (newChat) {
-      const subject = await generateSubject(null, messages);
-      await createConversation(id, userId, settings, subject);
-    }
-
-    const responseSettings = {
-      model: settings.model,
-      temperature: settings.temperature,
-      max_tokens: Number(settings.max_tokens) || null,
-      frequency_penalty: settings.frequency_penalty,
-      presence_penalty: settings.presence_penalty,
-      top_p: settings.top_p,
-      response_format: settings.response_format
-        ? { type: 'json_object' }
-        : { type: 'text' },
-      messages:
-        settings.system_message !== ''
-          ? [{ role: 'system', content: settings.system_message }, ...messages]
-          : messages,
-      stream: true,
-      user: userId,
-    };
-
     // Format messages for OpenAI
-    if (openAIModels[settings.model].type === 'vision') {
-      delete responseSettings.response_format;
-      responseSettings.max_tokens = 4096;
-    }
-
     messages = messages.map((message) => {
       if (message.images?.length > 0) {
         message.content = [
@@ -73,10 +42,10 @@ export async function POST(req) {
           })),
         ];
       }
-
       delete message.images;
       delete message.id;
       delete message.createdAt;
+
       return message;
     });
 
@@ -107,38 +76,84 @@ export async function POST(req) {
       ];
     }
 
-    // Send request to OpenAI
-    const response = await openai.chat.completions.create({
-      ...responseSettings,
-    });
+    // Calculate request cost
+    const enc = getEncoding('cl100k_base');
+    const reqTokens = messages.reduce((acc, message) => {
+      if (typeof message.content === 'string') {
+        return acc + enc.encode(message.content).length;
+      } else {
+        return (
+          acc +
+          message.content.reduce((accu, content) => {
+            if (content.type === 'text') {
+              return accu + enc.encode(content.text).length;
+            } else {
+              return accu + 85;
+            }
+          }, 0)
+        );
+      }
+    }, 0);
 
-    const extraData = new experimental_StreamData();
+    const reqCost = Math.ceil(
+      reqTokens * openAIModels[settings.model].reqTokens * process.env.PM,
+    );
+
+    // Check if user has enough credits
+    if (user.credits < reqCost) {
+      return new Response(
+        'Insufficient credits, request cost is higher than available credits. Add more in the settings page.',
+        { status: 402 },
+      );
+    }
+
+    // Create conversation if new chat
+    if (newChat) {
+      const subject = await generateSubject(null, messages);
+      await createConversation(id, userId, settings, subject);
+    }
+
+    // Setup response settings for OpenAI
+    const responseSettings = {
+      model: settings.model,
+      messages:
+        settings.system_message !== ''
+          ? [{ role: 'system', content: settings.system_message }, ...messages]
+          : messages,
+      temperature: settings.temperature,
+      max_tokens: Math.min(settings.max_tokens, user.credits - reqCost), //This is not a perfect calculation
+      frequency_penalty: settings.frequency_penalty,
+      presence_penalty: settings.presence_penalty,
+      top_p: settings.top_p,
+      response_format: settings.response_format
+        ? { type: 'json_object' }
+        : { type: 'text' },
+      stream: true,
+      user: userId,
+    };
+
+    // Change settings for vision models
+    if (openAIModels[settings.model].type === 'vision') {
+      delete responseSettings.response_format;
+      responseSettings.max_tokens = Math.min(
+        4096,
+        settings.max_tokens,
+        user.credits - reqCost,
+      );
+    }
+
+    if (responseSettings.max_tokens === 0) responseSettings.max_tokens = null;
+    console.log(responseSettings);
+
+    // Send request to OpenAI
+    const response = await openai.chat.completions.create(responseSettings);
+
+    // Create stream
     const stream = new OpenAIStream(response, {
       onToken: () => {
         resTokens++;
       },
       onCompletion: async (completion) => {
-        extraData.append({ images: images });
-        const enc = getEncoding('cl100k_base');
-
-        // Calculate cost
-        const reqTokens = messages.reduce((acc, message) => {
-          if (typeof message.content === 'string') {
-            return acc + enc.encode(message.content).length;
-          } else {
-            return (
-              acc +
-              message.content.reduce((accu, content) => {
-                if (content.type === 'text') {
-                  return accu + enc.encode(content.text).length;
-                } else {
-                  return accu + 85;
-                }
-              }, 0)
-            );
-          }
-        }, 0);
-
         const { reqCost, resCost } = calculateCost(
           reqTokens,
           resTokens,
@@ -157,14 +172,14 @@ export async function POST(req) {
           images,
         );
       },
-      onFinal: () => {
-        extraData.close();
-      },
-      experimental_streamData: true,
     });
 
-    return new StreamingTextResponse(stream, {}, extraData);
+    return new StreamingTextResponse(stream);
   } catch (error) {
-    console.log(error);
+    console.error(error);
+    return new Response(
+      'An internal error occurred. Please refresh the page and try again.',
+      { status: 500 },
+    );
   }
 }

@@ -148,7 +148,6 @@ export async function POST(req) {
       responseSettings.max_tokens = Math.min(4096, user.credits - reqCost);
     }
 
-    console.log(responseSettings);
     // Send request to OpenAI
     const response = await openai.chat.completions.create(responseSettings);
 

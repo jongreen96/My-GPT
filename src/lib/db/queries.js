@@ -1,4 +1,5 @@
 import prisma from '@/lib/db/prisma';
+import { del } from '@vercel/blob';
 import { defaultSettings } from '../openAI';
 
 // ---------------------------------- Conversations ----------------------------------
@@ -34,6 +35,20 @@ export async function getConversation(id, userId) {
 }
 
 export async function deleteConversation(conversationId, userId) {
+  const messages = await prisma.messages.findMany({
+    where: {
+      conversationId,
+    },
+  });
+
+  messages.forEach((message) => {
+    if (message.images?.length > 0) {
+      message.images.forEach(async (image) => {
+        await del(image);
+      });
+    }
+  });
+
   await prisma.conversations.delete({
     where: {
       id: conversationId,

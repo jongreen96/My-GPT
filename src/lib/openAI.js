@@ -8,10 +8,13 @@ export async function generateSubject(conversationId, messages) {
     messages = await getMessages(conversationId);
   }
 
-  messages.forEach((message) => {
-    delete message.id;
-    delete message.createdAt;
-    delete message.images;
+  const formattedMessages = messages.map((message) => {
+    if (typeof message.content !== 'string') {
+      return {
+        role: message.role,
+        content: message.content[0].text,
+      };
+    }
   });
 
   const prompt = [
@@ -20,7 +23,7 @@ export async function generateSubject(conversationId, messages) {
       content:
         'Create a subject for this conversation. The subject should be a short sentence describing the topic of the conversation. MAXIMUM of 5 words',
     },
-    ...messages.slice(0, 4),
+    ...formattedMessages.slice(0, 4),
     {
       role: 'user',
       content:

@@ -5,7 +5,7 @@ import {
   getUser,
 } from '@/lib/db/queries';
 import { calculateCost, generateSubject, openAIModels } from '@/lib/openAI';
-import { put } from '@vercel/blob';
+import { del, put } from '@vercel/blob';
 import { OpenAIStream, StreamingTextResponse } from 'ai';
 import sizeOf from 'image-size';
 import { getEncoding } from 'js-tiktoken';
@@ -57,7 +57,7 @@ export async function POST(req) {
 
           const dimensions = sizeOf(buffer);
 
-          const blob = await put('chat-image.png', buffer, {
+          const blob = await put(`chat-images/${user.id}/image.png`, buffer, {
             contentType: 'image/png',
             access: 'public',
           });
@@ -101,6 +101,10 @@ export async function POST(req) {
 
     // Check if user has enough credits
     if (user.credits < reqCost) {
+      if (images.length > 0) {
+        await Promise.all(images.map((image) => del(image.url)));
+      }
+
       return new Response(
         'Insufficient credits, request cost is higher than available credits. Add more in the settings page.',
         { status: 402 },
@@ -136,18 +140,15 @@ export async function POST(req) {
       user: userId,
     };
 
+    if (responseSettings.max_tokens === 0) responseSettings.max_tokens = null;
+
     // Change settings for vision models
     if (openAIModels[settings.model].type === 'vision') {
       delete responseSettings.response_format;
-      responseSettings.max_tokens = Math.min(
-        4096,
-        settings.max_tokens,
-        user.credits - reqCost,
-      );
+      responseSettings.max_tokens = Math.min(4096, user.credits - reqCost);
     }
 
-    if (responseSettings.max_tokens === 0) responseSettings.max_tokens = null;
-
+    console.log(responseSettings);
     // Send request to OpenAI
     const response = await openai.chat.completions.create(responseSettings);
 

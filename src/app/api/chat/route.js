@@ -121,7 +121,11 @@ export async function POST(req) {
           ? [{ role: 'system', content: settings.system_message }, ...messages]
           : messages,
       temperature: settings.temperature,
-      max_tokens: Math.min(settings.max_tokens, user.credits - reqCost), //This is not a perfect calculation
+      max_tokens: Math.min(
+        settings.max_tokens,
+        user.credits - reqCost, //This is not a perfect calculation
+        openAIModels[settings.model].max_tokens - reqTokens,
+      ),
       frequency_penalty: settings.frequency_penalty,
       presence_penalty: settings.presence_penalty,
       top_p: settings.top_p,
@@ -143,7 +147,6 @@ export async function POST(req) {
     }
 
     if (responseSettings.max_tokens === 0) responseSettings.max_tokens = null;
-    console.log(responseSettings);
 
     // Send request to OpenAI
     const response = await openai.chat.completions.create(responseSettings);

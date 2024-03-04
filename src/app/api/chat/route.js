@@ -2,6 +2,7 @@ import {
   createConversation,
   createMessages,
   decreaseUserCredits,
+  deleteConversation,
   getUser,
 } from '@/lib/db/queries';
 import { calculateCost, generateSubject, openAIModels } from '@/lib/openAI';
@@ -100,7 +101,8 @@ export async function POST(req) {
     );
 
     // Check if user has enough credits
-    if (user.credits < reqCost) {
+    const remainingCredits = user.credits - reqCost;
+    if (remainingCredits < 1) {
       if (images.length > 0) {
         await Promise.all(images.map((image) => del(image.url)));
       }
@@ -118,6 +120,7 @@ export async function POST(req) {
     }
 
     // Setup response settings for OpenAI
+    if (!settings.max_tokens) settings.max_tokens = Infinity;
     const responseSettings = {
       model: settings.model,
       messages:
@@ -127,7 +130,11 @@ export async function POST(req) {
       temperature: settings.temperature,
       max_tokens: Math.min(
         settings.max_tokens,
-        user.credits - reqCost, //This is not a perfect calculation
+        Math.floor(
+          remainingCredits /
+            openAIModels[settings.model].resTokens /
+            process.env.PM,
+        ),
         openAIModels[settings.model].max_tokens - reqTokens,
       ),
       frequency_penalty: settings.frequency_penalty,
@@ -140,12 +147,22 @@ export async function POST(req) {
       user: userId,
     };
 
-    if (responseSettings.max_tokens === 0) responseSettings.max_tokens = null;
-
     // Change settings for vision models
-    if (openAIModels[settings.model].type === 'vision') {
+    if (openAIModels[settings.model].type === 'vision')
       delete responseSettings.response_format;
-      responseSettings.max_tokens = Math.min(4096, user.credits - reqCost);
+
+    // Final check if user has enough credits
+    if (responseSettings.max_tokens < 1) {
+      if (images.length > 0) {
+        await Promise.all(images.map((image) => del(image.url)));
+      }
+
+      await deleteConversation(id, userId);
+
+      return new Response(
+        'Insufficient credits, minimum response cost is higher than available credits. Add more in the settings page.',
+        { status: 402 },
+      );
     }
 
     // Send request to OpenAI

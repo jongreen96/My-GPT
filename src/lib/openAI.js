@@ -14,6 +14,11 @@ export async function generateSubject(conversationId, messages) {
         role: message.role,
         content: message.content[0].text,
       };
+    } else {
+      return {
+        role: message.role,
+        content: message.content,
+      };
     }
   });
 
@@ -61,25 +66,25 @@ export const openAIModels = {
     type: 'chat',
     reqTokens: 10,
     resTokens: 30,
-    max_tokens: 128000,
+    max_tokens: 4096,
   },
   'gpt-4-turbo-preview': {
     type: 'chat',
     reqTokens: 10,
     resTokens: 30,
-    max_tokens: 128000,
+    max_tokens: 4096,
   },
   'gpt-4-1106-preview': {
     type: 'chat',
     reqTokens: 10,
     resTokens: 30,
-    max_tokens: 128000,
+    max_tokens: 4096,
   },
   'gpt-4-vision-preview': {
     type: 'vision',
     reqTokens: 10,
     resTokens: 30,
-    max_tokens: 128000,
+    max_tokens: 4096,
   },
   'gpt-4': {
     type: 'chat',
@@ -103,19 +108,19 @@ export const openAIModels = {
     type: 'chat',
     reqTokens: 0.5,
     resTokens: 1.5,
-    max_tokens: 16385,
+    max_tokens: 4096,
   },
   'gpt-3.5-turbo-1106': {
     type: 'chat',
     reqTokens: 0.5,
     resTokens: 1.5,
-    max_tokens: 16385,
+    max_tokens: 4096,
   },
   'gpt-3.5-turbo': {
     type: 'chat',
     reqTokens: 0.5,
     resTokens: 1.5,
-    max_tokens: 16385,
+    max_tokens: 4096,
   },
   // 'dall-e-3': {                      Need to set up endpoint for this type
   //   type: 'image',

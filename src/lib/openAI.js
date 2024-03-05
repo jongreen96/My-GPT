@@ -32,7 +32,7 @@ export async function generateSubject(conversationId, messages) {
     {
       role: 'user',
       content:
-        'Summarize the conversation in a short sentence. MAXIMUM of 5 words',
+        'Summarize the conversation in a short sentence. MAXIMUM of 4 words',
     },
   ];
 

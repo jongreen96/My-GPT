@@ -1,19 +1,16 @@
-import Image from 'next/image';
-
 export default function ChatImages({ images }) {
   if (!images || images.length === 0) return null;
 
   return (
-    <div className='ml-auto flex max-w-[90%] flex-wrap justify-end gap-2'>
+    <div className='ml-auto flex w-full max-w-[90%] flex-wrap justify-end gap-2 rounded-lg'>
       {images.map((image) => {
         return (
-          <Image
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
             key={image}
             src={image}
-            width={350}
-            height={350}
             alt='user image'
-            className='h-min w-min rounded-lg'
+            className='max-h-625 h-min w-full self-center rounded-lg sm:w-[373px]'
           />
         );
       })}

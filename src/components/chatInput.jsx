@@ -27,7 +27,7 @@ export default function ChatInput({
     if (isLoading && messages[messages.length - 1]?.role === 'user') {
       messages[messages.length - 1].images = tempImages;
     }
-  }, [isLoading]);
+  }, [isLoading, messages, tempImages]);
 
   return (
     <form

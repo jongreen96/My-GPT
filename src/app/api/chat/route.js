@@ -6,7 +6,7 @@ import {
   getUser,
 } from '@/lib/db/queries';
 import { calculateCost, generateSubject, openAIModels } from '@/lib/openAI';
-import { del, put } from '@vercel/blob';
+import { createClient } from '@supabase/supabase-js';
 import { OpenAIStream, StreamingTextResponse } from 'ai';
 import sizeOf from 'image-size';
 import { getEncoding } from 'js-tiktoken';
@@ -17,6 +17,10 @@ export const maxDuration = 300;
 export async function POST(req) {
   try {
     const openai = new OpenAI();
+    const supabase = createClient(
+      process.env.SUPABASE_URL,
+      process.env.SUPABASE_SERVICE_KEY,
+    );
     const reqTime = new Date().toISOString();
 
     let { messages, id, userId, newChat, settings, data } = await req.json();
@@ -50,7 +54,7 @@ export async function POST(req) {
       return message;
     });
 
-    // Upload images to Vercel Blob
+    // Upload images to Supabase
     if (data.images.length > 0) {
       images = await Promise.all(
         data.images.map(async (image) => {
@@ -58,12 +62,19 @@ export async function POST(req) {
 
           const dimensions = sizeOf(buffer);
 
-          const blob = await put(`chat-images/${user.id}/image.png`, buffer, {
-            contentType: 'image/png',
-            access: 'public',
-          });
+          const storageObject = await supabase.storage
+            .from('my-gpt-storage')
+            .upload(`chat-images/${user.id}/image-${Date.now()}.png`, buffer);
 
-          return { url: blob.url, dimensions };
+          const storageUrl = supabase.storage
+            .from('my-gpt-storage')
+            .getPublicUrl(storageObject.data.path);
+
+          return {
+            url: storageUrl.data.publicUrl,
+            dimensions,
+            path: storageObject.data.path,
+          };
         }),
       );
 
@@ -104,7 +115,11 @@ export async function POST(req) {
     const remainingCredits = user.credits - reqCost;
     if (remainingCredits < 1) {
       if (images.length > 0) {
-        await Promise.all(images.map((image) => del(image.url)));
+        await Promise.all(
+          images.map((image) =>
+            supabase.storage.from('my-gpt-storage').remove(image.path),
+          ),
+        );
       }
 
       return new Response(
@@ -154,7 +169,11 @@ export async function POST(req) {
     // Final check if user has enough credits
     if (responseSettings.max_tokens < 1) {
       if (images.length > 0) {
-        await Promise.all(images.map((image) => del(image.url)));
+        await Promise.all(
+          images.map((image) =>
+            supabase.storage.from('my-gpt-storage').remove(image.path),
+          ),
+        );
       }
 
       await deleteConversation(id, userId);

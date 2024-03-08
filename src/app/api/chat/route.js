@@ -64,7 +64,7 @@ export async function POST(req) {
 
           const storageObject = await supabase.storage
             .from('my-gpt-storage')
-            .upload(`chat-images/${user.id}/image-${Date.now()}.png`, buffer);
+            .upload(`vision-images/${user.id}/image-${Date.now()}.png`, buffer);
 
           const storageUrl = supabase.storage
             .from('my-gpt-storage')
@@ -135,7 +135,8 @@ export async function POST(req) {
     }
 
     // Setup response settings for OpenAI
-    if (!settings.max_tokens) settings.max_tokens = Infinity;
+    if (!settings.max_tokens || settings.max_tokens == 0)
+      settings.max_tokens = Infinity;
     const responseSettings = {
       model: settings.model,
       messages:

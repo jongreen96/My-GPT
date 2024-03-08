@@ -49,7 +49,9 @@ export async function deleteConversation(conversationId, userId) {
   messages.forEach((message) => {
     if (message.images?.length > 0) {
       message.images.forEach(async (image) => {
-        // TODO: delete images from supabase
+        supabase.storage
+          .from('my-gpt-storage')
+          .remove([image.split('my-gpt-storage/')[1]]);
       });
     }
   });

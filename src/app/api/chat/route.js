@@ -10,6 +10,7 @@ import { createClient } from '@supabase/supabase-js';
 import { OpenAIStream, StreamingTextResponse } from 'ai';
 import sizeOf from 'image-size';
 import { getEncoding } from 'js-tiktoken';
+import { nanoid } from 'nanoid';
 import OpenAI from 'openai';
 
 export const maxDuration = 300;
@@ -64,7 +65,7 @@ export async function POST(req) {
 
           const storageObject = await supabase.storage
             .from('my-gpt-storage')
-            .upload(`vision-images/${user.id}/image-${Date.now()}.png`, buffer);
+            .upload(`vision-images/${user.id}/image-${nanoid(10)}.png`, buffer);
 
           const storageUrl = supabase.storage
             .from('my-gpt-storage')

@@ -16,8 +16,12 @@ export default function ChatImages({ images }) {
                 className='w-full self-center rounded-lg sm:w-[186px]'
               />
             </DialogTrigger>
-            <DialogContent className='w-fit max-w-[95dvh] overflow-hidden rounded-lg border-0 p-0'>
-              <img src={image} alt='user image' className='' />
+            <DialogContent className='max-h-[95%] w-max overflow-hidden border-0 p-0 sm:max-w-[95%] sm:rounded-lg'>
+              <img
+                src={image}
+                alt='user image'
+                className='max-h-[90dvh] max-w-[90dvw]'
+              />
             </DialogContent>
           </Dialog>
         );

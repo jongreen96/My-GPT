@@ -44,6 +44,13 @@ export default function ChatInfo({ settings }) {
             <p className='font-semibold'>Top P: </p>
             <p className=''>{settings.top_p}</p>
           </div>
+
+          <div className='flex justify-between gap-2'>
+            <p className='font-semibold'>High Res Vision: </p>
+            <p className=''>
+              {settings?.high_res_vision?.toString() || 'false'}
+            </p>
+          </div>
         </div>
       </div>
       <div className='flex flex-col'>

@@ -8,10 +8,18 @@ export async function generateSubject(conversationId, messages) {
     messages = await getMessages(conversationId);
   }
 
-  messages.forEach((message) => {
-    delete message.id;
-    delete message.createdAt;
-    delete message.images;
+  const formattedMessages = messages.map((message) => {
+    if (typeof message.content !== 'string') {
+      return {
+        role: message.role,
+        content: message.content[0].text,
+      };
+    } else {
+      return {
+        role: message.role,
+        content: message.content,
+      };
+    }
   });
 
   const prompt = [
@@ -20,11 +28,11 @@ export async function generateSubject(conversationId, messages) {
       content:
         'Create a subject for this conversation. The subject should be a short sentence describing the topic of the conversation. MAXIMUM of 5 words',
     },
-    ...messages.slice(0, 4),
+    ...formattedMessages.slice(0, 4),
     {
       role: 'user',
       content:
-        'Summarize the conversation in a short sentence. MAXIMUM of 5 words',
+        'Summarize the conversation in a short sentence. MAXIMUM of 4 words',
     },
   ];
 
@@ -52,57 +60,108 @@ export function calculateCost(reqTokens, resTokens, model) {
   };
 }
 
+export function calculateTiles(image) {
+  // Scale image to 2048x2048
+  let scaleFactor = Math.min(
+    2048 / image.dimensions.width,
+    2048 / image.dimensions.height,
+  );
+
+  const scaledDimensions =
+    scaleFactor > 1
+      ? {
+          width: image.dimensions.width,
+          height: image.dimensions.height,
+        }
+      : {
+          width: Math.floor(image.dimensions.width * scaleFactor),
+          height: Math.floor(image.dimensions.height * scaleFactor),
+        };
+
+  // Scale image so shorter side to 768px
+  scaleFactor = Math.max(
+    768 / scaledDimensions.width,
+    768 / scaledDimensions.height,
+  );
+
+  const finalDimensions =
+    scaleFactor > 1
+      ? scaledDimensions
+      : {
+          width: scaledDimensions.width * scaleFactor,
+          height: scaledDimensions.height * scaleFactor,
+        };
+
+  // Calculate number of tiles
+  const tiles =
+    Math.ceil(finalDimensions.width / 512) *
+    Math.ceil(finalDimensions.height / 512) *
+    170;
+
+  return tiles;
+}
+
 // Models updated as of 28/02/2024
 export const openAIModels = {
   'gpt-4-0125-preview': {
     type: 'chat',
     reqTokens: 10,
     resTokens: 30,
+    max_tokens: 4096,
   },
   'gpt-4-turbo-preview': {
     type: 'chat',
     reqTokens: 10,
     resTokens: 30,
+    max_tokens: 4096,
   },
   'gpt-4-1106-preview': {
     type: 'chat',
     reqTokens: 10,
     resTokens: 30,
+    max_tokens: 4096,
   },
-  // 'gpt-4-vision-preview': {
-  //   type: 'vision',
-  //   reqTokens: 10,
-  //   resTokens: 30,
-  // },
+  'gpt-4-vision-preview': {
+    type: 'vision',
+    reqTokens: 10,
+    resTokens: 30,
+    max_tokens: 4096,
+  },
   'gpt-4': {
     type: 'chat',
     reqTokens: 30,
     resTokens: 60,
+    max_tokens: 8192,
   },
   // 'gpt-4-32k': {                    Doesn't work because I don't have access to this model
   //   type: 'chat',
   //   reqTokens: 60,
   //   resTokens: 120,
+  //   max_tokens: 32768,
   // },
   // 'gpt-4-32k-0613': {               Doesn't work because I don't have access to this model
   //   type: 'chat',
   //   reqTokens: 60,
   //   resTokens: 120,
+  //   max_tokens: 32768,
   // },
   'gpt-3.5-turbo-0125': {
     type: 'chat',
     reqTokens: 0.5,
     resTokens: 1.5,
+    max_tokens: 4096,
   },
   'gpt-3.5-turbo-1106': {
     type: 'chat',
     reqTokens: 0.5,
     resTokens: 1.5,
+    max_tokens: 4096,
   },
   'gpt-3.5-turbo': {
     type: 'chat',
     reqTokens: 0.5,
     resTokens: 1.5,
+    max_tokens: 4096,
   },
   // 'dall-e-3': {                      Need to set up endpoint for this type
   //   type: 'image',
@@ -140,4 +199,5 @@ export const defaultSettings = {
   presence_penalty: 0,
   top_p: 1,
   system_message: '',
+  high_res_vision: false,
 };

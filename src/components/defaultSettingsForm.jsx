@@ -11,6 +11,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { openAIModels } from '@/lib/openAI';
+import { CogIcon } from 'lucide-react';
 import { useState } from 'react';
 import { useFormStatus } from 'react-dom';
 import LoadingButton from './ui/loadingButton';
@@ -27,6 +28,7 @@ export default function DefaultSettingsForm({ user }) {
     presence_penalty,
     frequency_penalty,
     response_format,
+    high_res_vision,
   } = user?.defaultSettings || {};
 
   const [formState, setFormState] = useState({
@@ -35,6 +37,7 @@ export default function DefaultSettingsForm({ user }) {
     presence_penalty,
     frequency_penalty,
     response_format,
+    high_res_vision,
   });
 
   return (
@@ -197,12 +200,37 @@ export default function DefaultSettingsForm({ user }) {
                 }
               />
             </div>
+
+            <div className='flex items-center justify-between'>
+              <Label htmlFor='high_res_vision'>High res vision:</Label>
+              <Switch
+                id='high_res_vision'
+                name='high_res_vision'
+                checked={formState.high_res_vision}
+                onCheckedChange={() =>
+                  setFormState({
+                    ...formState,
+                    high_res_vision: !formState.high_res_vision,
+                  })
+                }
+              />
+            </div>
             <SubmitButton />
           </form>
         </TabsContent>
 
-        <TabsContent value='image'>Coming soon...</TabsContent>
-        <TabsContent value='audio'>Coming soon...</TabsContent>
+        <TabsContent value='image'>
+          <div className='flex items-center justify-center gap-2 pt-2'>
+            <CogIcon className='h-6 w-6 animate-spin text-muted-foreground' />
+            <p>Coming soon...</p>
+          </div>
+        </TabsContent>
+        <TabsContent value='audio'>
+          <div className='flex items-center justify-center gap-2 pt-2'>
+            <CogIcon className='h-6 w-6 animate-spin text-muted-foreground' />
+            <p>Coming soon...</p>
+          </div>
+        </TabsContent>
       </Tabs>
     </>
   );

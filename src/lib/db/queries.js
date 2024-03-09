@@ -1,4 +1,5 @@
 import prisma from '@/lib/db/prisma';
+import { createClient } from '@supabase/supabase-js';
 import { defaultSettings } from '../openAI';
 
 // ---------------------------------- Conversations ----------------------------------
@@ -34,6 +35,27 @@ export async function getConversation(id, userId) {
 }
 
 export async function deleteConversation(conversationId, userId) {
+  const supabase = createClient(
+    process.env.SUPABASE_URL,
+    process.env.SUPABASE_SERVICE_KEY,
+  );
+
+  const messages = await prisma.messages.findMany({
+    where: {
+      conversationId,
+    },
+  });
+
+  messages.forEach((message) => {
+    if (message.images?.length > 0) {
+      message.images.forEach(async (image) => {
+        supabase.storage
+          .from('my-gpt-storage')
+          .remove([image.split('my-gpt-storage/')[1]]);
+      });
+    }
+  });
+
   await prisma.conversations.delete({
     where: {
       id: conversationId,

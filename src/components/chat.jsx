@@ -30,7 +30,7 @@ export default function Chat({
         id,
         userId,
         newChat: pathname === '/chat',
-        settings: conversationSettings || settings,
+        settings,
       },
       onFinish: () => {
         if (pathname !== `/chat/${id}`) {

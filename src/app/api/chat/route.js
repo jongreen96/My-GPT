@@ -5,7 +5,12 @@ import {
   deleteConversation,
   getUser,
 } from '@/lib/db/queries';
-import { calculateCost, generateSubject, openAIModels } from '@/lib/openAI';
+import {
+  calculateCost,
+  calculateTiles,
+  generateSubject,
+  openAIModels,
+} from '@/lib/openAI';
 import { createClient } from '@supabase/supabase-js';
 import { OpenAIStream, StreamingTextResponse } from 'ai';
 import sizeOf from 'image-size';
@@ -44,7 +49,10 @@ export async function POST(req) {
           { type: 'text', text: message.content },
           ...message.images.map((image) => ({
             type: 'image_url',
-            image_url: { url: image, detail: 'low' },
+            image_url: {
+              url: image,
+              detail: 'low',
+            },
           })),
         ];
       }
@@ -84,7 +92,10 @@ export async function POST(req) {
         { type: 'text', text: messages[messages.length - 1].content },
         ...images.map((image) => ({
           type: 'image_url',
-          image_url: { url: image.url, detail: 'low' },
+          image_url: {
+            url: image.url,
+            detail: settings.high_res_vision ? 'high' : 'low',
+          },
         })),
       ];
     }
@@ -101,7 +112,17 @@ export async function POST(req) {
             if (content.type === 'text') {
               return accu + enc.encode(content.text).length;
             } else {
-              return accu + 85;
+              if (content.image_url.detail === 'low') {
+                return accu + 85;
+              } else {
+                const image = images.find(
+                  (image) => image.url === content.image_url.url,
+                );
+
+                const tilesCost = calculateTiles(image);
+
+                return accu + 85 + tilesCost;
+              }
             }
           }, 0)
         );
@@ -185,6 +206,8 @@ export async function POST(req) {
         { status: 402 },
       );
     }
+
+    console.log(reqCost);
 
     // Send request to OpenAI
     const response = await openai.chat.completions.create(responseSettings);

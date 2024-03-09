@@ -57,6 +57,7 @@ export async function updateDefaultChatSettingsAction(formData) {
     temperature: parseFloat(formData.get('temperature')),
     presence_penalty: parseFloat(formData.get('presence_penalty')),
     frequency_penalty: parseFloat(formData.get('frequency_penalty')),
+    high_res_vision: formData.get('high_res_vision') === 'on' ? true : false,
   };
 
   await updateDefaultChatSettings(userId, settings);

@@ -60,6 +60,47 @@ export function calculateCost(reqTokens, resTokens, model) {
   };
 }
 
+export function calculateTiles(image) {
+  // Scale image to 2048x2048
+  let scaleFactor = Math.min(
+    2048 / image.dimensions.width,
+    2048 / image.dimensions.height,
+  );
+
+  const scaledDimensions =
+    scaleFactor > 1
+      ? {
+          width: image.dimensions.width,
+          height: image.dimensions.height,
+        }
+      : {
+          width: Math.floor(image.dimensions.width * scaleFactor),
+          height: Math.floor(image.dimensions.height * scaleFactor),
+        };
+
+  // Scale image so shorter side to 768px
+  scaleFactor = Math.max(
+    768 / scaledDimensions.width,
+    768 / scaledDimensions.height,
+  );
+
+  const finalDimensions =
+    scaleFactor > 1
+      ? scaledDimensions
+      : {
+          width: scaledDimensions.width * scaleFactor,
+          height: scaledDimensions.height * scaleFactor,
+        };
+
+  // Calculate number of tiles
+  const tiles =
+    Math.ceil(finalDimensions.width / 512) *
+    Math.ceil(finalDimensions.height / 512) *
+    170;
+
+  return tiles;
+}
+
 // Models updated as of 28/02/2024
 export const openAIModels = {
   'gpt-4-0125-preview': {
@@ -158,4 +199,5 @@ export const defaultSettings = {
   presence_penalty: 0,
   top_p: 1,
   system_message: '',
+  high_res_vision: false,
 };

@@ -207,8 +207,6 @@ export async function POST(req) {
       );
     }
 
-    console.log(reqCost);
-
     // Send request to OpenAI
     const response = await openai.chat.completions.create(responseSettings);
 

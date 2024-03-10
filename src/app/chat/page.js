@@ -3,17 +3,14 @@ import { getUser } from '@/lib/db/queries';
 import { defaultSettings } from '@/lib/openAI';
 import { auth } from '@clerk/nextjs';
 import { nanoid } from 'nanoid';
-import { useRouter } from 'next/navigation';
 
 export const metadata = {
   title: 'Chat',
 };
 
 export default async function ChatPage() {
-  const router = useRouter();
   const { userId } = auth();
   const user = await getUser(userId);
-  if (!user) router.refresh();
 
   const settings = user?.settings || defaultSettings;
 

@@ -32,6 +32,7 @@ export async function POST(req) {
   const eventType = evt.type;
 
   if (eventType === 'user.created') {
+    console.log('HERE');
     await createUser(id);
   } else if (eventType === 'user.deleted') {
     await deleteUser(id);

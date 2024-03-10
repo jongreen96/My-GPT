@@ -31,20 +31,20 @@ model Messages {
 model Users {
   id                String   @id
   credits           Int
-  model             String
-  imageModel        String
+  model             String?
+  imageModel        String?
   max_tokens        Int?
-  temperature       Float
-  response_format   Boolean
-  frequency_penalty Float
-  presence_penalty  Float
-  top_p             Float
-  system_message    String
-  high_res_vision   Boolean
-  n                 Int
-  size              String
-  style             String
-  quality           String
+  temperature       Float?
+  response_format   Boolean?
+  frequency_penalty Float?
+  presence_penalty  Float?
+  top_p             Float?
+  system_message    String?
+  high_res_vision   Boolean?
+  n                 Int?
+  size              String?
+  style             String?
+  quality           String?
   createdAt         DateTime @default(now())
 }
 

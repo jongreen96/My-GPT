@@ -22,23 +22,8 @@ import ThemeToggleButton from './ui/themeToggle';
 
 export default function DefaultSettingsForm({ user }) {
   const models = Object.entries(openAIModels);
-  const {
-    temperature,
-    top_p,
-    presence_penalty,
-    frequency_penalty,
-    response_format,
-    high_res_vision,
-  } = user?.defaultSettings || {};
 
-  const [formState, setFormState] = useState({
-    temperature,
-    top_p,
-    presence_penalty,
-    frequency_penalty,
-    response_format,
-    high_res_vision,
-  });
+  const [settings, setSettings] = useState(user?.settings || {});
 
   return (
     <>
@@ -68,11 +53,9 @@ export default function DefaultSettingsForm({ user }) {
           >
             <div>
               <Label htmlFor='default_model'>Default Model</Label>
-              <Select name='model' defaultValue={user?.defaultSettings.model}>
+              <Select name='model' defaultValue={settings.model}>
                 <SelectTrigger>
-                  <SelectValue
-                    placeholder={user?.defaultSettings.model}
-                  ></SelectValue>
+                  <SelectValue placeholder={settings.model}></SelectValue>
                 </SelectTrigger>
                 <SelectContent>
                   {models
@@ -94,7 +77,7 @@ export default function DefaultSettingsForm({ user }) {
               <Input
                 id='system_message'
                 name='system_message'
-                defaultValue={user?.defaultSettings.system_message}
+                defaultValue={settings.system_message}
               />
             </div>
 
@@ -106,9 +89,7 @@ export default function DefaultSettingsForm({ user }) {
                 type='number'
                 min={0}
                 defaultValue={
-                  Number(user?.defaultSettings.max_tokens) === 0
-                    ? ''
-                    : user.defaultSettings.max_tokens
+                  Number(settings.max_tokens) === 0 ? '' : settings.max_tokens
                 }
                 placeholder='unlimited'
               />
@@ -117,7 +98,7 @@ export default function DefaultSettingsForm({ user }) {
             <div>
               <div className='flex items-center justify-between'>
                 <Label htmlFor='temperature'>Temperature: </Label>
-                {formState.temperature}
+                {settings.temperature}
               </div>
               <Slider
                 id='temperature'
@@ -125,9 +106,9 @@ export default function DefaultSettingsForm({ user }) {
                 min={0}
                 max={2}
                 step={0.1}
-                value={[formState.temperature]}
+                value={[settings.temperature]}
                 onValueChange={(value) =>
-                  setFormState({ ...formState, temperature: value })
+                  setSettings({ ...settings, temperature: value })
                 }
               />
             </div>
@@ -135,7 +116,7 @@ export default function DefaultSettingsForm({ user }) {
             <div>
               <div className='flex items-center justify-between'>
                 <Label htmlFor='top_p'>Top P: </Label>
-                {formState.top_p}
+                {settings.top_p}
               </div>
               <Slider
                 id='top_p'
@@ -143,9 +124,9 @@ export default function DefaultSettingsForm({ user }) {
                 min={0}
                 max={1}
                 step={0.01}
-                value={[formState.top_p]}
+                value={[settings.top_p]}
                 onValueChange={(value) =>
-                  setFormState({ ...formState, top_p: value })
+                  setSettings({ ...settings, top_p: value })
                 }
               />
             </div>
@@ -153,7 +134,7 @@ export default function DefaultSettingsForm({ user }) {
             <div>
               <div className='flex items-center justify-between'>
                 <Label htmlFor='presence_penalty'>Presence penalty: </Label>
-                {formState.presence_penalty}
+                {settings.presence_penalty}
               </div>
               <Slider
                 id='presence_penalty'
@@ -161,9 +142,9 @@ export default function DefaultSettingsForm({ user }) {
                 min={-2}
                 max={2}
                 step={0.01}
-                value={[formState.presence_penalty]}
+                value={[settings.presence_penalty]}
                 onValueChange={(value) =>
-                  setFormState({ ...formState, presence_penalty: value })
+                  setSettings({ ...settings, presence_penalty: value })
                 }
               />
             </div>
@@ -171,7 +152,7 @@ export default function DefaultSettingsForm({ user }) {
             <div>
               <div className='flex items-center justify-between'>
                 <Label htmlFor='frequency_penalty'>Frequency penalty: </Label>
-                {formState.frequency_penalty}
+                {settings.frequency_penalty}
               </div>
               <Slider
                 id='frequency_penalty'
@@ -179,9 +160,9 @@ export default function DefaultSettingsForm({ user }) {
                 min={-2}
                 max={2}
                 step={0.01}
-                value={[formState.frequency_penalty]}
+                value={[settings.frequency_penalty]}
                 onValueChange={(value) =>
-                  setFormState({ ...formState, frequency_penalty: value })
+                  setSettings({ ...settings, frequency_penalty: value })
                 }
               />
             </div>
@@ -191,11 +172,11 @@ export default function DefaultSettingsForm({ user }) {
               <Switch
                 id='response_format'
                 name='response_format'
-                checked={formState.response_format}
+                checked={settings.response_format}
                 onCheckedChange={() =>
-                  setFormState({
-                    ...formState,
-                    response_format: !formState.response_format,
+                  setSettings({
+                    ...settings,
+                    response_format: !settings.response_format,
                   })
                 }
               />
@@ -206,11 +187,11 @@ export default function DefaultSettingsForm({ user }) {
               <Switch
                 id='high_res_vision'
                 name='high_res_vision'
-                checked={formState.high_res_vision}
+                checked={settings.high_res_vision}
                 onCheckedChange={() =>
-                  setFormState({
-                    ...formState,
-                    high_res_vision: !formState.high_res_vision,
+                  setSettings({
+                    ...settings,
+                    high_res_vision: !settings.high_res_vision,
                   })
                 }
               />

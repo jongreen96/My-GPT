@@ -3,7 +3,7 @@
 import {
   deleteConversation,
   updateConversationSubject,
-  updateDefaultChatSettings,
+  updateUserSettings,
 } from '@/lib/db/queries';
 import { generateSubject } from '@/lib/openAI';
 import { auth } from '@clerk/nextjs';
@@ -52,15 +52,14 @@ export async function updateDefaultChatSettingsAction(formData) {
     top_p: parseFloat(formData.get('top_p')),
     system_message: formData.get('system_message'),
     max_tokens: parseInt(formData.get('max_tokens')) || null,
-    response_format:
-      formData.get('response_format') === 'on' ? { type: 'json_object' } : null,
+    response_format: formData.get('response_format') === 'on',
     temperature: parseFloat(formData.get('temperature')),
     presence_penalty: parseFloat(formData.get('presence_penalty')),
     frequency_penalty: parseFloat(formData.get('frequency_penalty')),
     high_res_vision: formData.get('high_res_vision') === 'on' ? true : false,
   };
 
-  await updateDefaultChatSettings(userId, settings);
+  await updateUserSettings(userId, settings);
 
   revalidatePath('/settings');
 }

@@ -141,7 +141,29 @@ export async function getUser(id) {
       id,
     },
   });
-  return user;
+
+  const formattedUser = {
+    id: user.id,
+    credits: user.credits,
+    settings: {
+      model: user.model,
+      imageModel: user.imageModel,
+      max_tokens: user.max_tokens,
+      temperature: user.temperature,
+      response_format: user.response_format,
+      frequency_penalty: user.frequency_penalty,
+      presence_penalty: user.presence_penalty,
+      top_p: user.top_p,
+      system_message: user.system_message,
+      high_res_vision: user.high_res_vision,
+      n: user.n,
+      size: user.size,
+      style: user.style,
+      quality: user.quality,
+    },
+  };
+
+  return formattedUser;
 }
 
 export async function decreaseUserCredits(userId, reqCost, resCost) {
@@ -170,13 +192,25 @@ export async function increaseUserCredits(userId, amount) {
   });
 }
 
-export async function updateDefaultChatSettings(userId, settings) {
+export async function updateUserSettings(userId, settings) {
   await prisma.users.update({
     where: {
       id: userId,
     },
     data: {
-      defaultSettings: settings,
+      model: settings.model,
+      top_p: settings.top_p,
+      system_message: settings.system_message,
+      max_tokens: settings.max_tokens,
+      response_format: settings.response_format,
+      temperature: settings.temperature,
+      presence_penalty: settings.presence_penalty,
+      frequency_penalty: settings.frequency_penalty,
+      high_res_vision: settings.high_res_vision,
+      n: settings.n,
+      size: settings.size,
+      style: settings.style,
+      quality: settings.quality,
     },
   });
 }

@@ -14,6 +14,10 @@ export default async function ChatPage() {
 
   const settings = user?.settings || defaultSettings;
 
+  if (!user) {
+    return null;
+  }
+
   return (
     <div className='flex h-full flex-col justify-between'>
       <Chat userId={userId} id={nanoid(10)} defaultSettings={settings} />

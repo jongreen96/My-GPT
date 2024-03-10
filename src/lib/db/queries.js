@@ -134,35 +134,48 @@ export async function getMessages(conversationId) {
 
 // ---------------------------------- User ----------------------------------
 
-export async function getUser(id) {
-  const user = await prisma.users.findUnique({
-    where: {
-      id,
-    },
-  });
+export async function getUser(id, retryCount = 3) {
+  try {
+    const user = await prisma.users.findUnique({
+      where: {
+        id,
+      },
+    });
 
-  const formattedUser = {
-    id: user.id,
-    credits: user.credits,
-    settings: {
-      model: user.model,
-      imageModel: user.imageModel,
-      max_tokens: user.max_tokens,
-      temperature: user.temperature,
-      response_format: user.response_format,
-      frequency_penalty: user.frequency_penalty,
-      presence_penalty: user.presence_penalty,
-      top_p: user.top_p,
-      system_message: user.system_message,
-      high_res_vision: user.high_res_vision,
-      n: user.n,
-      size: user.size,
-      style: user.style,
-      quality: user.quality,
-    },
-  };
+    if (!user) {
+      throw new Error('User not found');
+    }
 
-  return formattedUser;
+    const formattedUser = {
+      id: user.id,
+      credits: user.credits,
+      settings: {
+        model: user.model,
+        imageModel: user.imageModel,
+        max_tokens: user.max_tokens,
+        temperature: user.temperature,
+        response_format: user.response_format,
+        frequency_penalty: user.frequency_penalty,
+        presence_penalty: user.presence_penalty,
+        top_p: user.top_p,
+        system_message: user.system_message,
+        high_res_vision: user.high_res_vision,
+        n: user.n,
+        size: user.size,
+        style: user.style,
+        quality: user.quality,
+      },
+    };
+
+    return formattedUser;
+  } catch (error) {
+    if (retryCount > 0) {
+      console.log(`User not found. Retrying... (${retryCount} attempts left)`);
+      return await getUser(id, retryCount - 1);
+    } else {
+      throw new Error('Maximum retry attempts reached. User not found.');
+    }
+  }
 }
 
 export async function decreaseUserCredits(userId, reqCost, resCost) {

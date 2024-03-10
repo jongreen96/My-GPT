@@ -20,6 +20,11 @@ export default async function ChatPage() {
     presence_penalty: 0,
     top_p: 1,
     system_message: '',
+    high_res_vision: false,
+    n: 1,
+    size: '1024x1024',
+    style: 'vivid',
+    quality: 'standard',
   };
 
   return (

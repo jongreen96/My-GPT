@@ -1,6 +1,5 @@
 import prisma from '@/lib/db/prisma';
 import { createClient } from '@supabase/supabase-js';
-import { defaultSettings } from '../openAI';
 
 // ---------------------------------- Conversations ----------------------------------
 
@@ -254,7 +253,6 @@ export async function createUser(id) {
     data: {
       id,
       credits: 100000,
-      defaultSettings: defaultSettings,
     },
   });
   return result;

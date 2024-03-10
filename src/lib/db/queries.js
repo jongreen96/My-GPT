@@ -249,7 +249,6 @@ export async function deleteUser(id) {
 }
 
 export async function createUser(id) {
-  console.log('Creating user:', id);
   const result = await prisma.users.create({
     data: {
       id,

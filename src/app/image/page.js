@@ -1,14 +1,14 @@
-import Chat from '@/components/chat';
+import Images from '@/components/imagePage';
 import { getUser } from '@/lib/db/queries';
 import { defaultSettings } from '@/lib/openAI';
 import { auth } from '@clerk/nextjs';
 import { nanoid } from 'nanoid';
 
 export const metadata = {
-  title: 'Chat',
+  title: 'Image',
 };
 
-export default async function ChatPage() {
+export default async function ImagePage() {
   const { userId } = auth();
   const user = await getUser(userId);
   if (!user) return null;
@@ -17,7 +17,7 @@ export default async function ChatPage() {
 
   return (
     <div className='flex h-full flex-col justify-between'>
-      <Chat userId={userId} id={nanoid(10)} defaultSettings={settings} />
+      <Images userId={userId} id={nanoid(10)} defaultSettings={settings} />
     </div>
   );
 }

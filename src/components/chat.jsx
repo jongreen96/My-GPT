@@ -44,7 +44,7 @@ export default function Chat({
     <>
       <Messages
         messages={messages}
-        settings={settings}
+        model={settings.model}
         error={error}
         inputRef={inputRef}
       />

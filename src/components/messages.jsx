@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import MessageBubble from './ui/messageBubble';
 
-export default function Messages({ messages, settings, error, inputRef }) {
+export default function Messages({ messages, model, error, inputRef }) {
   const scrollRef = useRef(null);
 
   useEffect(() => {
@@ -23,7 +23,7 @@ export default function Messages({ messages, settings, error, inputRef }) {
     >
       <div className='flex w-full max-w-7xl flex-col gap-2 p-2'>
         <p className='select-none text-center font-bold uppercase text-brand opacity-50'>
-          {settings.model}
+          {model}
         </p>
 
         {messages.map((message, index) => (

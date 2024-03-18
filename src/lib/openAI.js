@@ -60,6 +60,16 @@ export function calculateCost(reqTokens, resTokens, model) {
   };
 }
 
+export function calculateImageCost(settings) {
+  return (
+    settings.n *
+    openAIModels[settings.imageModel].resTokens[settings.quality][
+      settings.size
+    ] *
+    process.env.PM
+  );
+}
+
 export function calculateTiles(image) {
   // Scale image to 2048x2048
   let scaleFactor = Math.min(
@@ -163,16 +173,31 @@ export const openAIModels = {
     resTokens: 1.5,
     max_tokens: 4096,
   },
-  // 'dall-e-3': {                      Need to set up endpoint for this type
-  //   type: 'image',
-  //   reqTokens: undefined,
-  //   resTokens: undefined,
-  // },
-  // 'dall-e-2': {                      Need to set up endpoint for this type
-  //   type: 'image',
-  //   reqTokens: undefined,
-  //   resTokens: undefined,
-  // },
+  'dall-e-3': {
+    type: 'image',
+    resTokens: {
+      standard: {
+        '1024x1024': 40000,
+        '1024x1792': 80000,
+        '1792x1024': 80000,
+      },
+      hd: {
+        '1024x1024': 80000,
+        '1024x1792': 120000,
+        '1792x1024': 120000,
+      },
+    },
+  },
+  'dall-e-2': {
+    type: 'image',
+    resTokens: {
+      standard: {
+        '256x256': 16000,
+        '512x512': 18000,
+        '1024x1024': 20000,
+      },
+    },
+  },
   // 'whisper-1': {                     Need to set up endpoint for this type
   //   type: 'audio',
   //   reqTokens: undefined,

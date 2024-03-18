@@ -115,6 +115,28 @@ export async function createMessages(
   return result;
 }
 
+export async function createImageMessages(id, input, images, reqTime, resCost) {
+  const result = await prisma.messages.createMany({
+    data: [
+      {
+        conversationId: id,
+        content: input,
+        role: 'user',
+        createdAt: reqTime,
+        credits: 0,
+      },
+      {
+        conversationId: id,
+        content: '',
+        role: 'assistant',
+        images,
+        createdAt: new Date(),
+        credits: resCost,
+      },
+    ],
+  });
+}
+
 export async function getMessages(conversationId) {
   const result = await prisma.messages.findMany({
     where: {

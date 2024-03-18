@@ -17,7 +17,12 @@ export default async function ImagePage() {
 
   return (
     <div className='flex h-full flex-col justify-between'>
-      <Images userId={userId} id={nanoid(10)} defaultSettings={settings} />
+      <Images
+        userId={userId}
+        id={nanoid(10)}
+        defaultSettings={settings}
+        newChat={true}
+      />
     </div>
   );
 }

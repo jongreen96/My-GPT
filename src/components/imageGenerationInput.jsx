@@ -1,10 +1,14 @@
+import { Loader2Icon, SendHorizonal } from 'lucide-react';
 import TextAreaAuto from 'react-textarea-autosize';
+import { Button } from './ui/button';
+import LoadingButton from './ui/loadingButton';
 
 export default function ImageGenerationInput({
   input,
   setInput,
   inputRef,
   handleSubmit,
+  isLoading,
 }) {
   return (
     <form
@@ -27,6 +31,24 @@ export default function ImageGenerationInput({
           className='grow resize-none bg-background focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50'
         />
       </div>
+      {isLoading ? (
+        <Button
+          disabled
+          size='icon'
+          className='aspect-square self-end rounded-full'
+        >
+          <Loader2Icon className='animate-spin' />
+        </Button>
+      ) : (
+        <LoadingButton
+          size='icon'
+          type='submit'
+          loading={isLoading}
+          className='aspect-square self-end rounded-full'
+        >
+          <SendHorizonal />
+        </LoadingButton>
+      )}
     </form>
   );
 }

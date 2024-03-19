@@ -73,6 +73,9 @@ export default function Images({
         inputRef={inputRef}
         handleSubmit={handleSubmit}
         isLoading={isLoading}
+        started={messages.length > 0}
+        settings={settings}
+        setSettings={setSettings}
       />
     </>
   );

@@ -28,8 +28,6 @@ export default function DefaultSettingsForm({ user }) {
 
   const [settings, setSettings] = useState(user?.settings || {});
 
-  console.log(settings);
-
   return (
     <>
       <div className='mb-4 flex items-center'>

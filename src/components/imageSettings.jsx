@@ -85,7 +85,12 @@ function innerContent(settings, setSettings) {
         <Select
           value={settings.imageModel}
           onValueChange={(value) =>
-            setSettings({ ...settings, imageModel: value })
+            setSettings({
+              ...settings,
+              imageModel: value,
+              n: 1,
+              quality: 'standard',
+            })
           }
         >
           <SelectTrigger>
@@ -102,42 +107,115 @@ function innerContent(settings, setSettings) {
       </div>
 
       <div className='flex items-center justify-between gap-2'>
-        <Label htmlFor='model' className='w-40'>
+        <Label htmlFor='n' className='w-40'>
           Number of images:
         </Label>
         <Select
-          value={settings.n}
+          value={settings.imageModel === 'dall-e-3' ? 1 : settings.n}
           onValueChange={(value) => setSettings({ ...settings, n: value })}
         >
           <SelectTrigger>
-            <SelectValue placeholder='Select a model'></SelectValue>
+            <SelectValue placeholder='Select an amount'></SelectValue>
           </SelectTrigger>
           <SelectContent>
-            {Array.from({ length: 10 }, (_, index) => (
-              <SelectItem key={index + 1} value={index + 1}>
-                {index + 1}
+            {settings.imageModel === 'dall-e-3' ? (
+              <SelectItem key={1} value={1}>
+                1
+              </SelectItem>
+            ) : (
+              Array.from({ length: 10 }, (_, index) => (
+                <SelectItem key={index + 1} value={index + 1}>
+                  {index + 1}
+                </SelectItem>
+              ))
+            )}
+          </SelectContent>
+        </Select>
+      </div>
+
+      <div className='flex items-center justify-between gap-2'>
+        <Label htmlFor='quality' className='w-40'>
+          Quality:
+        </Label>
+        <Select
+          value={
+            openAIModels[settings.imageModel].resTokens[settings.quality]
+              ? settings.quality
+              : setSettings({ ...settings, quality: 'standard' })
+          }
+          onValueChange={(value) =>
+            setSettings({ ...settings, quality: value })
+          }
+        >
+          <SelectTrigger>
+            <SelectValue placeholder='Select a quality'></SelectValue>
+          </SelectTrigger>
+          <SelectContent>
+            {Object.keys(openAIModels[settings.imageModel].resTokens).map(
+              (quality) => (
+                <SelectItem key={quality} value={quality}>
+                  {quality}
+                </SelectItem>
+              ),
+            )}
+          </SelectContent>
+        </Select>
+      </div>
+
+      <div className='flex items-center justify-between gap-2'>
+        <Label htmlFor='size' className='w-40'>
+          Size:
+        </Label>
+        <Select
+          value={
+            openAIModels[settings.imageModel]?.resTokens[settings.quality][
+              settings.size
+            ]
+              ? settings.size
+              : setSettings({ ...settings, size: '1024x1024' })
+          }
+          onValueChange={(value) => setSettings({ ...settings, size: value })}
+        >
+          <SelectTrigger>
+            <SelectValue placeholder='Select a size'></SelectValue>
+          </SelectTrigger>
+          <SelectContent>
+            {Object.keys(
+              openAIModels[settings.imageModel].resTokens[settings.quality],
+            ).map((size) => (
+              <SelectItem key={size} value={size}>
+                {size}
               </SelectItem>
             ))}
           </SelectContent>
         </Select>
       </div>
 
+      {modelSpecificOptions(settings, setSettings)}
+    </div>
+  );
+}
+
+function modelSpecificOptions(settings, setSettings) {
+  if (settings.imageModel === 'dall-e-3')
+    return (
       <div className='flex items-center justify-between gap-2'>
-        <Label htmlFor='model' className='w-40'>
-          Size:
+        <Label htmlFor='style' className='w-40'>
+          Style:
         </Label>
         <Select
-          value={settings.size}
-          onValueChange={(value) => setSettings({ ...settings, size: value })}
+          disabled={settings.imageModel !== 'dall-e-3'}
+          value={settings.style}
+          onValueChange={(value) => setSettings({ ...settings, style: value })}
         >
           <SelectTrigger>
-            <SelectValue placeholder='Select a model'></SelectValue>
+            <SelectValue placeholder='Select a style'></SelectValue>
           </SelectTrigger>
           <SelectContent>
-            {/* TODO: Add model specific options */}
+            <SelectItem value='vivid'>Vivid</SelectItem>
+            <SelectItem value='natural'>Natural</SelectItem>
           </SelectContent>
         </Select>
       </div>
-    </div>
-  );
+    );
 }

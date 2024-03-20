@@ -233,6 +233,7 @@ export async function updateUserSettings(userId, settings) {
     },
     data: {
       model: settings.model,
+      imageModel: settings.imageModel,
       top_p: settings.top_p,
       system_message: settings.system_message,
       max_tokens: settings.max_tokens,

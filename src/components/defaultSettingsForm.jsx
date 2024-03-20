@@ -1,6 +1,9 @@
 'use client';
 
-import { updateDefaultChatSettingsAction } from '@/app/actions';
+import {
+  updateDefaultChatSettingsAction,
+  updateDefaultImageSettingsAction,
+} from '@/app/actions';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import {
@@ -201,11 +204,165 @@ export default function DefaultSettingsForm({ user }) {
         </TabsContent>
 
         <TabsContent value='image'>
-          <div className='flex items-center justify-center gap-2 pt-2'>
-            <CogIcon className='h-6 w-6 animate-spin text-muted-foreground' />
-            <p>Coming soon...</p>
-          </div>
+          <form
+            action={updateDefaultImageSettingsAction}
+            className='flex flex-col gap-2'
+          >
+            <div className='flex items-center justify-between gap-2'>
+              <Label htmlFor='model' className='w-40'>
+                Model:
+              </Label>
+              <Select
+                id='imageModel'
+                name='imageModel'
+                value={settings.imageModel}
+                onValueChange={(value) =>
+                  setSettings({
+                    ...settings,
+                    imageModel: value,
+                    n: 1,
+                    quality: 'standard',
+                  })
+                }
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder='Select a model'></SelectValue>
+                </SelectTrigger>
+                <SelectContent>
+                  {Object.keys(openAIModels)
+                    .filter((model) => openAIModels[model].type === 'image')
+                    .map((model) => (
+                      <SelectItem key={model} value={model}>
+                        {model}
+                      </SelectItem>
+                    ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className='flex items-center justify-between gap-2'>
+              <Label htmlFor='n' className='w-40'>
+                Number of images:
+              </Label>
+              <Select
+                id='n'
+                name='n'
+                value={settings.imageModel === 'dall-e-3' ? 1 : settings.n}
+                onValueChange={(value) =>
+                  setSettings({ ...settings, n: value })
+                }
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder='Select an amount'></SelectValue>
+                </SelectTrigger>
+                <SelectContent>
+                  {settings.imageModel === 'dall-e-3' ? (
+                    <SelectItem key={1} value={1}>
+                      1
+                    </SelectItem>
+                  ) : (
+                    Array.from({ length: 10 }, (_, index) => (
+                      <SelectItem key={index + 1} value={index + 1}>
+                        {index + 1}
+                      </SelectItem>
+                    ))
+                  )}
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className='flex items-center justify-between gap-2'>
+              <Label htmlFor='quality' className='w-40'>
+                Quality:
+              </Label>
+              <Select
+                id='quality'
+                name='quality'
+                value={
+                  openAIModels[settings.imageModel].resTokens[settings.quality]
+                    ? settings.quality
+                    : setSettings({ ...settings, quality: 'standard' })
+                }
+                onValueChange={(value) =>
+                  setSettings({ ...settings, quality: value })
+                }
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder='Select a quality'></SelectValue>
+                </SelectTrigger>
+                <SelectContent>
+                  {Object.keys(openAIModels[settings.imageModel].resTokens).map(
+                    (quality) => (
+                      <SelectItem key={quality} value={quality}>
+                        {quality}
+                      </SelectItem>
+                    ),
+                  )}
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className='flex items-center justify-between gap-2'>
+              <Label htmlFor='size' className='w-40'>
+                Size:
+              </Label>
+              <Select
+                id='size'
+                name='size'
+                value={
+                  openAIModels[settings.imageModel]?.resTokens[
+                    settings.quality
+                  ][settings.size]
+                    ? settings.size
+                    : setSettings({ ...settings, size: '1024x1024' })
+                }
+                onValueChange={(value) =>
+                  setSettings({ ...settings, size: value })
+                }
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder='Select a size'></SelectValue>
+                </SelectTrigger>
+                <SelectContent>
+                  {Object.keys(
+                    openAIModels[settings.imageModel].resTokens[
+                      settings.quality
+                    ],
+                  ).map((size) => (
+                    <SelectItem key={size} value={size}>
+                      {size}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className='flex items-center justify-between gap-2'>
+              <Label htmlFor='style' className='w-40'>
+                Style:
+              </Label>
+              <Select
+                id='style'
+                name='style'
+                value={settings.style}
+                onValueChange={(value) =>
+                  setSettings({ ...settings, style: value })
+                }
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder='Select a style'></SelectValue>
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value='vivid'>Vivid</SelectItem>
+                  <SelectItem value='natural'>Natural</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            <SubmitButton />
+          </form>
         </TabsContent>
+
         <TabsContent value='audio'>
           <div className='flex items-center justify-center gap-2 pt-2'>
             <CogIcon className='h-6 w-6 animate-spin text-muted-foreground' />

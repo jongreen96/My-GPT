@@ -28,6 +28,8 @@ export default function DefaultSettingsForm({ user }) {
 
   const [settings, setSettings] = useState(user?.settings || {});
 
+  console.log(settings);
+
   return (
     <>
       <div className='mb-4 flex items-center'>
@@ -220,13 +222,14 @@ export default function DefaultSettingsForm({ user }) {
                   setSettings({
                     ...settings,
                     imageModel: value,
-                    n: 1,
                     quality: 'standard',
                   })
                 }
               >
                 <SelectTrigger>
-                  <SelectValue placeholder='Select a model'></SelectValue>
+                  <SelectValue placeholder='Select a model'>
+                    {settings.imageModel}
+                  </SelectValue>
                 </SelectTrigger>
                 <SelectContent>
                   {Object.keys(openAIModels)
@@ -247,26 +250,22 @@ export default function DefaultSettingsForm({ user }) {
               <Select
                 id='n'
                 name='n'
-                value={settings.imageModel === 'dall-e-3' ? 1 : settings.n}
+                value={settings.n}
                 onValueChange={(value) =>
                   setSettings({ ...settings, n: value })
                 }
               >
                 <SelectTrigger>
-                  <SelectValue placeholder='Select an amount'></SelectValue>
+                  <SelectValue placeholder='Select an amount'>
+                    {settings.n}
+                  </SelectValue>
                 </SelectTrigger>
                 <SelectContent>
-                  {settings.imageModel === 'dall-e-3' ? (
-                    <SelectItem key={1} value={1}>
-                      1
+                  {Array.from({ length: 10 }, (_, index) => (
+                    <SelectItem key={index + 1} value={index + 1}>
+                      {index + 1}
                     </SelectItem>
-                  ) : (
-                    Array.from({ length: 10 }, (_, index) => (
-                      <SelectItem key={index + 1} value={index + 1}>
-                        {index + 1}
-                      </SelectItem>
-                    ))
-                  )}
+                  ))}
                 </SelectContent>
               </Select>
             </div>

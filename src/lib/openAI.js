@@ -17,7 +17,7 @@ export async function generateImageSubject(input) {
     {
       role: 'user',
       content:
-        'Summarize the conversation in a short sentence. MAXIMUM of 4 words, DO NOT use opening words like Discussing.',
+        'Summarize the conversation in a short sentence. MAXIMUM of 4 words, DO NOT use opening words like Discussing, and DO NOT use punctuation at the end.',
     },
   ];
 

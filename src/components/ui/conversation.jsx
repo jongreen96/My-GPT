@@ -12,7 +12,7 @@ export default function Conversation({ conversation }) {
     >
       <div className='flex'>
         <Link
-          href={`/chat/${conversation.id}`}
+          href={`/${conversation.type}/${conversation.id}`}
           className='flex grow overflow-clip'
         >
           {messageIcon(conversation.type)}

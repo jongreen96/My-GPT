@@ -4,7 +4,11 @@ import {
   decreaseUserCredits,
   getUser,
 } from '@/lib/db/queries';
-import { calculateImageCost, openAIModels } from '@/lib/openAI';
+import {
+  calculateImageCost,
+  generateImageSubject,
+  openAIModels,
+} from '@/lib/openAI';
 import { clamp } from '@/lib/utils';
 import { createClient } from '@supabase/supabase-js';
 import { nanoid } from 'nanoid';
@@ -31,7 +35,8 @@ export async function POST(req) {
   }
 
   if (newChat) {
-    await createConversation(id, userId, settings, 'Test Image Gen');
+    const subject = await generateImageSubject(input);
+    await createConversation(id, userId, settings, subject);
   }
 
   // Setup response settings for OpenAI

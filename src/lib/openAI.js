@@ -1,6 +1,36 @@
 import OpenAI from 'openai';
 import { getMessages } from './db/queries';
 
+export async function generateImageSubject(input) {
+  const openai = new OpenAI();
+
+  const prompt = [
+    {
+      role: 'system',
+      content:
+        'Create a subject for this conversation. The subject should be a short sentence describing the topic of the image. MAXIMUM of 5 words',
+    },
+    {
+      role: 'user',
+      content: input,
+    },
+    {
+      role: 'user',
+      content:
+        'Summarize the conversation in a short sentence. MAXIMUM of 4 words, DO NOT use opening words like Discussing.',
+    },
+  ];
+
+  const response = await openai.chat.completions.create({
+    model: 'gpt-3.5-turbo-0125',
+    messages: prompt,
+    temperature: 0.2,
+    max_tokens: 10,
+  });
+
+  return response.choices[0].message.content;
+}
+
 export async function generateSubject(conversationId, messages) {
   const openai = new OpenAI();
 

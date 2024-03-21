@@ -35,7 +35,7 @@ export default function Conversations({ allConversations }) {
           </Link>
         </Button>
 
-        <Button asChild className='shrink-0 group-hover:flex'>
+        <Button asChild className='shrink-0 justify-start group-hover:flex'>
           <Link href='/image'>
             <ImagePlusIcon size={20} className='group-hover:mr-2' />
             <p className='hidden group-hover:block'>New Image Generation</p>

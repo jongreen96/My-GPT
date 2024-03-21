@@ -3,13 +3,20 @@ import { createClient } from '@supabase/supabase-js';
 
 // ---------------------------------- Conversations ----------------------------------
 
-export async function createConversation(id, userId, settings, subject = '') {
+export async function createConversation(
+  id,
+  userId,
+  settings,
+  subject = '',
+  type = 'chat',
+) {
   const result = await prisma.conversations.create({
     data: {
       id,
       settings,
       userId,
       subject,
+      type,
     },
   });
   return result;

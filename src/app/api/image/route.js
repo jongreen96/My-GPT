@@ -36,7 +36,7 @@ export async function POST(req) {
 
   if (newChat) {
     const subject = await generateImageSubject(input);
-    await createConversation(id, userId, settings, subject);
+    await createConversation(id, userId, settings, subject, 'image');
   }
 
   // Setup response settings for OpenAI

@@ -51,7 +51,7 @@ export default function ConversationsSettings({ conversation }) {
         </div>
       </form>
 
-      <ChatInfo settings={conversation.settings} />
+      <ChatInfo type={conversation.type} settings={conversation.settings} />
 
       <form action={deleteConversationAction} className='mt-4 flex flex-col'>
         <input type='hidden' name='conversationId' value={conversation.id} />

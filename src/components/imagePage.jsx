@@ -29,6 +29,8 @@ export default function Images({
       ...prevMessages,
       { role: 'user', content: input },
     ]);
+    const prompt = input;
+    setInput('');
 
     // fetch image
     const response = await fetch('/api/image', {
@@ -37,12 +39,10 @@ export default function Images({
         userId,
         id,
         settings,
-        input,
+        prompt,
         newChat,
       }),
     });
-
-    setInput('');
 
     if (newChat) {
       router.push(`/image/${id}`);

@@ -22,7 +22,7 @@ export async function POST(req) {
   );
   const reqTime = new Date().toISOString();
 
-  const { userId, id, settings, input, newChat } = await req.json();
+  const { userId, id, settings, prompt, newChat } = await req.json();
   const user = await getUser(userId);
 
   // Check if user has enough credits
@@ -35,13 +35,13 @@ export async function POST(req) {
   }
 
   if (newChat) {
-    const subject = await generateImageSubject(input);
+    const subject = await generateImageSubject(prompt);
     await createConversation(id, userId, settings, subject, 'image');
   }
 
   // Setup response settings for OpenAI
   const responseSettings = {
-    prompt: input,
+    prompt,
     model: settings.imageModel,
     n: settings.model === 'dall-e-3' ? 1 : clamp(settings.n, 1, 10),
     response_format: 'b64_json',
@@ -68,7 +68,7 @@ export async function POST(req) {
   // Send request to OpenAI
   const image = await openai.images.generate({
     model: settings.imageModel,
-    prompt: input,
+    prompt,
     response_format: 'b64_json',
     size: settings.size,
     n: settings.n,
@@ -96,7 +96,7 @@ export async function POST(req) {
 
   await decreaseUserCredits(user.id, 0, creditsCost);
 
-  await createImageMessages(id, input, images, reqTime, creditsCost);
+  await createImageMessages(id, prompt, images, reqTime, creditsCost);
 
   return new Response(JSON.stringify({ images }), {
     status: 200,

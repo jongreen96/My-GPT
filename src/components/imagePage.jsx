@@ -24,6 +24,7 @@ export default function Images({
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (input.trim() === '') return;
     setIsLoading(true);
     setMessages((prevMessages) => [
       ...prevMessages,

@@ -34,6 +34,7 @@ export default function Images({
     setInput('');
 
     // fetch image
+
     const response = await fetch('/api/image', {
       method: 'POST',
       body: JSON.stringify({
@@ -44,6 +45,17 @@ export default function Images({
         newChat,
       }),
     });
+
+    if (!response.ok) {
+      const error = await response.text();
+
+      setIsLoading(false);
+      setMessages((prevMessages) => [
+        ...prevMessages,
+        { role: 'assistant', content: error },
+      ]);
+      return;
+    }
 
     if (newChat) {
       router.push(`/image/${id}`);

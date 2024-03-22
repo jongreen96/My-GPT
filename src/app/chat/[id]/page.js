@@ -12,6 +12,7 @@ export default async function ChatPage({ params }) {
   const conversation = await getConversation(params.id, userId);
   const initialMessages = await getMessages(params.id);
   if (!initialMessages.length || !conversation) redirect('/chat');
+  if (conversation.type === 'image') redirect(`/image/${params.id}`);
 
   return (
     <div className='flex h-full flex-col justify-between'>

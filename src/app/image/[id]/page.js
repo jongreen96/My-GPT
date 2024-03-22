@@ -8,6 +8,7 @@ export default async function ImagePage({ params }) {
   const conversation = await getConversation(params.id, userId);
   const initialMessages = await getMessages(params.id);
   if (!initialMessages.length || !conversation) redirect('/image');
+  if (conversation.type === 'chat') redirect(`/chat/${params.id}`);
 
   return (
     <div className='flex h-full flex-col justify-between'>

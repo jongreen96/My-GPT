@@ -14,6 +14,8 @@ import { createClient } from '@supabase/supabase-js';
 import { nanoid } from 'nanoid';
 import OpenAI from 'openai';
 
+export const maxDuration = 300;
+
 export async function POST(req) {
   const openai = new OpenAI();
   const supabase = createClient(

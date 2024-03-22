@@ -1,6 +1,36 @@
 import OpenAI from 'openai';
 import { getMessages } from './db/queries';
 
+export async function generateImageSubject(input) {
+  const openai = new OpenAI();
+
+  const prompt = [
+    {
+      role: 'system',
+      content:
+        'Create a subject for this conversation. The subject should be a short sentence describing the topic of the image. MAXIMUM of 5 words',
+    },
+    {
+      role: 'user',
+      content: input,
+    },
+    {
+      role: 'user',
+      content:
+        'Summarize the conversation in a short sentence. MAXIMUM of 4 words, DO NOT use opening words like Discussing, and DO NOT use punctuation at the end.',
+    },
+  ];
+
+  const response = await openai.chat.completions.create({
+    model: 'gpt-3.5-turbo-0125',
+    messages: prompt,
+    temperature: 0.2,
+    max_tokens: 10,
+  });
+
+  return response.choices[0].message.content;
+}
+
 export async function generateSubject(conversationId, messages) {
   const openai = new OpenAI();
 
@@ -58,6 +88,16 @@ export function calculateCost(reqTokens, resTokens, model) {
     reqCost,
     resCost,
   };
+}
+
+export function calculateImageCost(settings) {
+  return (
+    settings.n *
+    openAIModels[settings.imageModel].resTokens[settings.quality][
+      settings.size
+    ] *
+    process.env.PM
+  );
 }
 
 export function calculateTiles(image) {
@@ -163,16 +203,31 @@ export const openAIModels = {
     resTokens: 1.5,
     max_tokens: 4096,
   },
-  // 'dall-e-3': {                      Need to set up endpoint for this type
-  //   type: 'image',
-  //   reqTokens: undefined,
-  //   resTokens: undefined,
-  // },
-  // 'dall-e-2': {                      Need to set up endpoint for this type
-  //   type: 'image',
-  //   reqTokens: undefined,
-  //   resTokens: undefined,
-  // },
+  'dall-e-3': {
+    type: 'image',
+    resTokens: {
+      standard: {
+        '1024x1024': 40000,
+        '1024x1792': 80000,
+        '1792x1024': 80000,
+      },
+      hd: {
+        '1024x1024': 80000,
+        '1024x1792': 120000,
+        '1792x1024': 120000,
+      },
+    },
+  },
+  'dall-e-2': {
+    type: 'image',
+    resTokens: {
+      standard: {
+        '256x256': 16000,
+        '512x512': 18000,
+        '1024x1024': 20000,
+      },
+    },
+  },
   // 'whisper-1': {                     Need to set up endpoint for this type
   //   type: 'audio',
   //   reqTokens: undefined,

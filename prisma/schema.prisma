@@ -15,6 +15,7 @@ model Conversations {
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
   Messages  Messages[]
+  type      String
 }
 
 model Messages {

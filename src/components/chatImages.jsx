@@ -1,11 +1,18 @@
 /* eslint-disable @next/next/no-img-element */
+import { cn } from '@/lib/utils';
 import { Dialog, DialogContent, DialogTrigger } from './ui/dialog';
 
-export default function ChatImages({ images }) {
+export default function ChatImages({ images, role }) {
   if (!images || images.length === 0) return null;
 
   return (
-    <div className='ml-auto flex w-full max-w-[90%] flex-wrap justify-end gap-2 rounded-lg'>
+    <div
+      className={cn(
+        'flex w-full max-w-[90%] flex-wrap gap-2 rounded-lg',
+        role === 'user' && 'ml-auto justify-end ',
+        role === 'assistant' && 'mr-auto',
+      )}
+    >
       {images.map((image) => {
         return (
           <Dialog key={image}>

@@ -3,13 +3,20 @@ import { createClient } from '@supabase/supabase-js';
 
 // ---------------------------------- Conversations ----------------------------------
 
-export async function createConversation(id, userId, settings, subject = '') {
+export async function createConversation(
+  id,
+  userId,
+  settings,
+  subject = '',
+  type = 'chat',
+) {
   const result = await prisma.conversations.create({
     data: {
       id,
       settings,
       userId,
       subject,
+      type,
     },
   });
   return result;
@@ -115,6 +122,28 @@ export async function createMessages(
   return result;
 }
 
+export async function createImageMessages(id, input, images, reqTime, resCost) {
+  const result = await prisma.messages.createMany({
+    data: [
+      {
+        conversationId: id,
+        content: input,
+        role: 'user',
+        createdAt: reqTime,
+        credits: 0,
+      },
+      {
+        conversationId: id,
+        content: '',
+        role: 'assistant',
+        images,
+        createdAt: new Date(),
+        credits: resCost,
+      },
+    ],
+  });
+}
+
 export async function getMessages(conversationId) {
   const result = await prisma.messages.findMany({
     where: {
@@ -211,6 +240,7 @@ export async function updateUserSettings(userId, settings) {
     },
     data: {
       model: settings.model,
+      imageModel: settings.imageModel,
       top_p: settings.top_p,
       system_message: settings.system_message,
       max_tokens: settings.max_tokens,

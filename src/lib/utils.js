@@ -48,3 +48,5 @@ export const markdownComponents = {
     <a {...props} target='_blank' className='text-primary hover:underline' />
   ),
 };
+
+export const clamp = (value, min, max) => Math.min(Math.max(value, min), max);

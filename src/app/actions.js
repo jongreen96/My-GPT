@@ -63,3 +63,19 @@ export async function updateDefaultChatSettingsAction(formData) {
 
   revalidatePath('/settings');
 }
+
+export async function updateDefaultImageSettingsAction(formData) {
+  const { userId } = auth();
+
+  const settings = {
+    imageModel: formData.get('imageModel'),
+    size: formData.get('size'),
+    n: parseInt(formData.get('n')),
+    quality: formData.get('quality'),
+    style: formData.get('style'),
+  };
+
+  await updateUserSettings(userId, settings);
+
+  revalidatePath('/settings');
+}

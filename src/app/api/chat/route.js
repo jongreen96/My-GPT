@@ -153,7 +153,7 @@ export async function POST(req) {
     // Create conversation if new chat
     if (newChat) {
       const subject = await generateSubject(null, messages);
-      await createConversation(id, userId, settings, subject);
+      await createConversation(id, userId, settings, subject, 'chat');
     }
 
     // Setup response settings for OpenAI

@@ -1,7 +1,7 @@
 'use client';
 
 import { IsDesktop } from '@/lib/hooks';
-import { Plus } from 'lucide-react';
+import { ImagePlusIcon, MessageSquarePlusIcon } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -21,16 +21,24 @@ export default function Conversations({ allConversations }) {
   const pathname = usePathname();
 
   useEffect(() => {
-    if (pathname.includes('/chat')) setOpen(false);
+    if (pathname.includes('/chat') || pathname.includes('/image'))
+      setOpen(false);
   }, [pathname]);
 
   if (isDesktop) {
     return (
       <div className='flex min-h-0 flex-col gap-2'>
-        <Button asChild className='shrink-0 group-hover:flex'>
+        <Button asChild className='shrink-0 justify-start group-hover:flex'>
           <Link href='/chat'>
-            <Plus size={20} className='group-hover:mr-2' />
+            <MessageSquarePlusIcon size={20} className='group-hover:mr-2' />
             <p className='hidden group-hover:block'>New Conversation</p>
+          </Link>
+        </Button>
+
+        <Button asChild className='shrink-0 justify-start group-hover:flex'>
+          <Link href='/image'>
+            <ImagePlusIcon size={20} className='group-hover:mr-2' />
+            <p className='hidden group-hover:block'>New Image Generation</p>
           </Link>
         </Button>
 
@@ -53,10 +61,18 @@ export default function Conversations({ allConversations }) {
           <DrawerHeader>
             <DrawerTitle>Conversations</DrawerTitle>
           </DrawerHeader>
+
           <Button asChild className='flex'>
             <Link href='/chat'>
-              <Plus size={20} className='mr-2' />
+              <MessageSquarePlusIcon size={20} className='mr-2' />
               <p>New Conversation</p>
+            </Link>
+          </Button>
+
+          <Button asChild className='flex'>
+            <Link href='/image'>
+              <ImagePlusIcon size={20} className='mr-2' />
+              <p>New Image Generation</p>
             </Link>
           </Button>
 

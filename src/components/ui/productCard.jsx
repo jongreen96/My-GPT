@@ -26,7 +26,7 @@ export default function ProductCard({ price }) {
         <CardContent className='p-2'>
           <p>{price / 100} Million credits is equivalent to:</p>
 
-          <ul className='list-disc pl-6'>
+          <ul className='list-disc pl-6 text-sm'>
             <li>
               <p>
                 <strong>
@@ -97,10 +97,10 @@ export default function ProductCard({ price }) {
             </li>
           </ul>
 
-          <p className='text-sm text-muted-foreground'>
+          <p className='text-xs text-muted-foreground'>
             * Words based on 75% word to response token ratio
           </p>
-          <p className='text-sm text-muted-foreground'>
+          <p className='text-xs text-muted-foreground'>
             * Image numbers based on 1024x1024 resolution
           </p>
         </CardContent>

@@ -29,7 +29,7 @@ export default function AddCreditsForm({ credits }) {
         className='flex flex-col gap-2'
       >
         <p className='text-lg font-semibold'>Add credits </p>
-        <RadioGroup defaultValue='500' className='flex w-full justify-between'>
+        <RadioGroup defaultValue='500'>
           <ProductCard price={500} />
           <ProductCard price={1000} />
           <ProductCard price={2000} />

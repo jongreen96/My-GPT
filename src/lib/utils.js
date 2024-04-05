@@ -50,3 +50,7 @@ export const markdownComponents = {
 };
 
 export const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
+
+export function delay(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}

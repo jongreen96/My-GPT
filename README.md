@@ -25,10 +25,10 @@ After signing up, you can immediately start using our platform to interact with 
 
 ## Community and Support
 
-Join our growing community of enthusiasts and developers leveraging GPT models for their projects. If you have any questions or need support, please reach out to us via our community channels or support email.
+Join the growing community of enthusiasts and developers leveraging GPT models for their projects. If you have any questions or need support, please reach out to us via our community channels or support email.
 
-We can't wait to see what you'll create with unrestricted access to the world's leading AI models. So, what are you waiting for? [Get Started](/sign-up) today and elevate your projects with the power of AI!
+Can't wait to see what you'll create with unrestricted access to the world's leading AI models. So, what are you waiting for? [Get Started](/sign-up) today and elevate your projects with the power of AI!
 
 ## Contributing
 
-We welcome contributions from the community, whether it's in the form of feedback, bug reports, or feature requests. Please refer to our contributing guidelines for more details on how you can contribute.
+Contributions are welcome from the community, whether it's in the form of feedback, bug reports, or feature requests.

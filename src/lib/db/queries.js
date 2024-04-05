@@ -1,5 +1,6 @@
 import prisma from '@/lib/db/prisma';
 import { createClient } from '@supabase/supabase-js';
+import { delay } from '../utils';
 
 // ---------------------------------- Conversations ----------------------------------
 
@@ -162,8 +163,9 @@ export async function getMessages(conversationId) {
 }
 
 // ---------------------------------- User ----------------------------------
-
 export async function getUser(id, retryCount = 3) {
+  const baseDelay = 1000; // 1 second base delay
+
   try {
     const user = await prisma.users.findUnique({
       where: {
@@ -200,6 +202,7 @@ export async function getUser(id, retryCount = 3) {
   } catch (error) {
     if (retryCount > 0) {
       console.log(`User not found. Retrying... (${retryCount} attempts left)`);
+      await delay(baseDelay * (4 - retryCount)); // Increasing delay
       return await getUser(id, retryCount - 1);
     } else {
       throw new Error('Maximum retry attempts reached. User not found.');
@@ -295,7 +298,7 @@ export async function createUser(id) {
   const result = await prisma.users.create({
     data: {
       id,
-      credits: 100000,
+      credits: 110000,
     },
   });
   return result;

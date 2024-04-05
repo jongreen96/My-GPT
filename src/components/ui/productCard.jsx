@@ -41,7 +41,7 @@ export default function ProductCard({ price }) {
                 <strong>
                   <TextCalculation price={price} model='gpt-4-turbo-preview' />
                 </strong>{' '}
-                GPT-4 Turbo words
+                GPT-4 Turbo / Vision words
               </p>
             </li>
 

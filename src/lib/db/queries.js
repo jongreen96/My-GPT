@@ -298,7 +298,7 @@ export async function createUser(id) {
   const result = await prisma.users.create({
     data: {
       id,
-      credits: 110000,
+      credits: 100000,
     },
   });
   return result;

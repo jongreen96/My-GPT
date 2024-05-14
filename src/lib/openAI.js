@@ -143,6 +143,12 @@ export function calculateTiles(image) {
 
 // Models updated as of 28/02/2024
 export const openAIModels = {
+  'gpt-4o': {
+    type: 'vision',
+    reqTokens: 5,
+    resTokens: 15,
+    max_tokens: 4096,
+  },
   'gpt-4-0125-preview': {
     type: 'chat',
     reqTokens: 10,

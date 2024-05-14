@@ -61,7 +61,7 @@ export default function Home() {
         <div className='flex flex-wrap justify-center gap-2'>
           <Card className='w-full text-center md:max-w-80'>
             <CardHeader>
-              <CardTitle>GPT-4</CardTitle>
+              <CardTitle>GPT-4o</CardTitle>
 
               <CardDescription>
                 Access the latest GPT-4 model from OpenAI.
@@ -69,7 +69,8 @@ export default function Home() {
             </CardHeader>
             <CardContent>
               <p>
-                Up to date with the latest models, including GPT-4 with vision.
+                Up to date with the latest models, including GPT-4o,
+                OpenAI&apos;s new omni model!
               </p>
             </CardContent>
           </Card>

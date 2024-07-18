@@ -258,7 +258,7 @@ export const openAIModels = {
 };
 
 export const defaultSettings = {
-  model: 'gpt-3.5-turbo-0125',
+  model: 'gpt-4o-mini',
   max_tokens: null,
   temperature: 1,
   response_format: null,
